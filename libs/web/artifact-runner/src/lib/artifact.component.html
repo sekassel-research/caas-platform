@@ -1,0 +1,40 @@
+<aside class="sidenav">
+    <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+        <li class="uk-nav-header nav-item">General</li>
+        <li class="nav-item">
+            <a routerLink="/artifacts" routerLinkActive="uk-active">
+                <span class="uk-margin-small-right" uk-icon="icon: home"></span>
+                Overview
+            </a>
+        </li>
+        <li class="uk-nav-divider"></li>
+        <li class="uk-nav-header nav-item uk-margin-small-bottom">
+            Your artifacts
+            <div class="uk-float-right">
+                <a routerLink="/artifacts/new" routerLinkActive="uk-active" uk-tooltip="Add">
+                    <span class="uk-margin-small-right" uk-icon="icon: plus"></span>
+                </a>
+            </div>
+        </li>
+        <li *ngIf="isLoading" class="uk-overlay-default uk-position-cover">
+            <div class="uk-position-center">
+                <div uk-spinner="ratio: 2"></div>
+            </div>
+        </li>
+        <li class="nav-item" *ngFor="let artifact of artifacts">
+            <a routerLink="/artifacts/{{artifact.id}}" routerLinkActive="uk-active">
+                {{artifact.name}} - {{artifact.version}}
+                <div class="uk-float-right" *ngIf="artifact.certificate">
+                    <span class="success uk-margin-small-right" uk-icon="check"></span>
+                </div>
+                <div class="uk-float-right" *ngIf="!artifact.certificate">
+                    <span class="error uk-margin-small-right" uk-icon="warning" uk-tooltip="Uncertified"></span>
+                </div>
+            </a>
+        </li>
+    </ul>
+</aside>
+
+<div class="uk-container uk-position-top-center uk-margin-xlarge-top">
+    <router-outlet></router-outlet>
+</div>

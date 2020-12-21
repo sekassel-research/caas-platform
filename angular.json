@@ -1,34 +1,40 @@
 {
   "version": 1,
   "projects": {
-    "caas-platform-mono": {
+    "caas-platform-web": {
       "projectType": "application",
-      "root": "apps/caas-platform-mono",
-      "sourceRoot": "apps/caas-platform-mono/src",
-      "prefix": "caas-platform-mono",
+      "root": "apps/web/caas-platform-web",
+      "sourceRoot": "apps/web/caas-platform-web/src",
+      "prefix": "caas-platform-web",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/apps/caas-platform-mono",
-            "index": "apps/caas-platform-mono/src/index.html",
-            "main": "apps/caas-platform-mono/src/main.ts",
-            "polyfills": "apps/caas-platform-mono/src/polyfills.ts",
-            "tsConfig": "apps/caas-platform-mono/tsconfig.app.json",
+            "outputPath": "dist/apps/web/caas-platform-web",
+            "index": "apps/web/caas-platform-web/src/index.html",
+            "main": "apps/web/caas-platform-web/src/main.ts",
+            "polyfills": "apps/web/caas-platform-web/src/polyfills.ts",
+            "tsConfig": "apps/web/caas-platform-web/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "apps/caas-platform-mono/src/favicon.ico",
-              "apps/caas-platform-mono/src/assets"
+              "apps/web/caas-platform-web/src/favicon.ico",
+              "apps/web/caas-platform-web/src/assets"
             ],
-            "styles": ["apps/caas-platform-mono/src/styles.scss"],
-            "scripts": []
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/styles", "./node_modules/uikit/src/scss"]
+            },
+            "styles": ["apps/web/caas-platform-web/src/styles/styles.scss"],
+            "scripts": [
+              "./node_modules/uikit/dist/js/uikit.min.js",
+              "./node_modules/uikit/dist/js/uikit-icons.min.js"
+            ]
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/caas-platform-mono/src/environments/environment.ts",
-                  "with": "apps/caas-platform-mono/src/environments/environment.prod.ts"
+                  "replace": "apps/web/caas-platform-web/src/environments/environment.ts",
+                  "with": "apps/web/caas-platform-web/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -56,61 +62,136 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "caas-platform-mono:build"
+            "browserTarget": "caas-platform-web:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "caas-platform-mono:build:production"
+              "browserTarget": "caas-platform-web:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "caas-platform-mono:build"
+            "browserTarget": "caas-platform-web:build"
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "apps/caas-platform-mono/src/**/*.ts",
-              "apps/caas-platform-mono/src/**/*.html"
+              "apps/web/caas-platform-web/src/**/*.ts",
+              "apps/web/caas-platform-web/src/**/*.html"
             ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/caas-platform-mono"],
+          "outputs": ["coverage/apps/web/caas-platform-web"],
           "options": {
-            "jestConfig": "apps/caas-platform-mono/jest.config.js",
+            "jestConfig": "apps/web/caas-platform-web/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "caas-platform-mono-e2e": {
-      "root": "apps/caas-platform-mono-e2e",
-      "sourceRoot": "apps/caas-platform-mono-e2e/src",
+    "caas-platform-web-e2e": {
+      "root": "apps/web/caas-platform-web-e2e",
+      "sourceRoot": "apps/web/caas-platform-web-e2e/src",
       "projectType": "application",
       "architect": {
         "e2e": {
           "builder": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/caas-platform-mono-e2e/cypress.json",
-            "tsConfig": "apps/caas-platform-mono-e2e/tsconfig.e2e.json",
-            "devServerTarget": "caas-platform-mono:serve"
+            "cypressConfig": "apps/web/caas-platform-web-e2e/cypress.json",
+            "tsConfig": "apps/web/caas-platform-web-e2e/tsconfig.e2e.json",
+            "devServerTarget": "caas-platform-web:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "caas-platform-mono:serve:production"
+              "devServerTarget": "caas-platform-web:serve:production"
             }
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/caas-platform-mono-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": ["apps/web/caas-platform-web-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "web-artifact-runner": {
+      "projectType": "library",
+      "root": "libs/web/artifact-runner",
+      "sourceRoot": "libs/web/artifact-runner/src",
+      "prefix": "caas-platform-web",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/web/artifact-runner/src/**/*.ts",
+              "libs/web/artifact-runner/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/artifact-runner"],
+          "options": {
+            "jestConfig": "libs/web/artifact-runner/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "web-confirmance-test": {
+      "projectType": "library",
+      "root": "libs/web/confirmance-test",
+      "sourceRoot": "libs/web/confirmance-test/src",
+      "prefix": "caas-platform-web",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/web/confirmance-test/src/**/*.ts",
+              "libs/web/confirmance-test/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/confirmance-test"],
+          "options": {
+            "jestConfig": "libs/web/confirmance-test/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "web-auth": {
+      "projectType": "library",
+      "root": "libs/web/auth",
+      "sourceRoot": "libs/web/auth/src",
+      "prefix": "caas-platform-web",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/web/auth/src/**/*.ts",
+              "libs/web/auth/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/auth"],
+          "options": {
+            "jestConfig": "libs/web/auth/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
@@ -142,5 +223,5 @@
       "style": "scss"
     }
   },
-  "defaultProject": "caas-platform-mono"
+  "defaultProject": "caas-platform-web"
 }

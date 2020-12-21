@@ -1,5 +1,5 @@
 {
-  "npmScope": "caas-platform-mono",
+  "npmScope": "caas-platform-web",
   "affected": {
     "defaultBase": "master"
   },
@@ -23,12 +23,21 @@
     }
   },
   "projects": {
-    "caas-platform-mono": {
+    "caas-platform-web": {
       "tags": []
     },
-    "caas-platform-mono-e2e": {
+    "caas-platform-web-e2e": {
       "tags": [],
-      "implicitDependencies": ["caas-platform-mono"]
+      "implicitDependencies": ["caas-platform-web"]
+    },
+    "web-artifact-runner": {
+      "tags": []
+    },
+    "web-confirmance-test": {
+      "tags": []
+    },
+    "web-auth": {
+      "tags": []
     }
   }
 }

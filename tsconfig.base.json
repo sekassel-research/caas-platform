@@ -14,7 +14,18 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@caas-platform-web/web/env": [
+        "apps/web/caas-platform-web/src/environments/environment.ts"
+      ],
+      "@caas-platform-web/web/artifact-runner": [
+        "libs/web/artifact-runner/src/index.ts"
+      ],
+      "@caas-platform-web/web/confirmance-test": [
+        "libs/web/confirmance-test/src/index.ts"
+      ],
+      "@caas-platform-web/web/auth": ["libs/web/auth/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
