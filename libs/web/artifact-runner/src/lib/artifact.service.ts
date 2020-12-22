@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { environment } from '@caas-platform-web/web/env';
+// TODO: This need to be resolved, the env vars should be extracted into a shared module
+// https://github.com/nrwl/nx/issues/2570
+// eslint-disable-next-line
+import { environment } from '@caas/web/env';
 
 import { Observable } from 'rxjs';
 

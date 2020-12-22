@@ -16,7 +16,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "caas-platform-web",
+            "prefix": "caas",
             "style": "camelCase"
           }
         ],
@@ -24,7 +24,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "caas-platform-web",
+            "prefix": "caas",
             "style": "kebab-case"
           }
         ]

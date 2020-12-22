@@ -17,7 +17,7 @@ interface ArtifactForm {
 }
 
 @Component({
-  selector: 'app-artifact-runner-edit',
+  selector: 'caas-app-artifact-runner-edit',
   templateUrl: './artifact-edit.component.html',
   styleUrls: ['./artifact-edit.component.scss'],
 })

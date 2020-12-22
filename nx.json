@@ -1,5 +1,5 @@
 {
-  "npmScope": "caas-platform-web",
+  "npmScope": "caas",
   "affected": {
     "defaultBase": "master"
   },
@@ -23,12 +23,12 @@
     }
   },
   "projects": {
-    "caas-platform-web": {
+    "caas": {
       "tags": []
     },
-    "caas-platform-web-e2e": {
+    "caas-e2e": {
       "tags": [],
-      "implicitDependencies": ["caas-platform-web"]
+      "implicitDependencies": ["caas"]
     },
     "web-artifact-runner": {
       "tags": []
@@ -37,6 +37,24 @@
       "tags": []
     },
     "web-auth": {
+      "tags": []
+    },
+    "artifact-runner-service": {
+      "tags": []
+    },
+    "srv-auth": {
+      "tags": []
+    },
+    "srv-config": {
+      "tags": []
+    },
+    "srv-mongo": {
+      "tags": []
+    },
+    "test-suit-service": {
+      "tags": []
+    },
+    "certification-service": {
       "tags": []
     }
   }

@@ -11,7 +11,7 @@ import { ArtifactService } from './artifact.service';
 declare const UIkit: any;
 
 @Component({
-  selector: 'app-artifact-runner',
+  selector: 'caas-artifact-runner',
   templateUrl: './artifact.component.html',
   styleUrls: ['./artifact.component.scss'],
 })
