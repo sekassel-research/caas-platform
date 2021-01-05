@@ -23,6 +23,5 @@ Available services:
 ## Local dev
 
 The services can run locally, each backend service uses a different port, see `environment/environment.ts` of each service for more information. 
-You can use ether provide a `mongo db` in a docker container or use the `etc/local-docker/docker-compose.yml` to set up all needed infrastructure services.
+You can ether provide a `mongo db` in a docker container or use the `etc/local-docker/docker-compose.yml` to let set up all needed infrastructure services.
 You can also use the command `npm run infra`.   
-
