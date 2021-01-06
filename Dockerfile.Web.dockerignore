@@ -1,0 +1,6 @@
+*
+!Dockerfile.Web
+!decorator-angular-cli.js
+!apps/web
+!libs/web
+!*.json

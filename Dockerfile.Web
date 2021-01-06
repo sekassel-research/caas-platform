@@ -1,0 +1,15 @@
+FROM node:14-slim as builder
+ARG PROJECT
+WORKDIR /app
+COPY . .
+RUN npm install --quiet
+RUN npm run build ${PROJECT}
+
+FROM nginx:1.19-alpine
+ARG PROJECT
+WORKDIR /app
+RUN rm -rf /usr/share/nginx/html/*
+COPY --from=builder /app/dist/apps/web/${PROJECT} /usr/share/nginx/html
+COPY apps/web/${PROJECT}/src/nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

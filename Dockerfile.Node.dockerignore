@@ -1,0 +1,5 @@
+*
+!Dockerfile.Node
+!apps/srv
+!libs/srv
+!*.json

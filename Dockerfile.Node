@@ -1,0 +1,16 @@
+FROM node:14-slim as builder
+ARG PROJECT
+WORKDIR /app
+COPY . .
+RUN npm install --quiet
+RUN npm run build ${PROJECT}
+
+FROM node:14-slim
+ARG PROJECT
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=builder /app/dist/apps/srv/${PROJECT} ./
+COPY package.json package-lock.json ./
+RUN npm install --quiet
+EXPOSE 3000
+CMD node main
