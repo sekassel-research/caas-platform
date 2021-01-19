@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 
 import { RoleGuard, Roles } from '@caas/srv/auth';
-import { MongoIdPipe } from '@caas/srv/mongo';  
+import { MongoIdPipe } from '@caas/srv/mongo';
 
 import { Certificate } from "./certificate.schema";
 import { CertificatesService } from "./certificate.service";
@@ -20,7 +20,7 @@ import { CertificatesService } from "./certificate.service";
 @UseGuards(RoleGuard)
 @UsePipes(new ValidationPipe())
 export class CertificateController {
-    constructor(private certificatesService: CertificatesService) {}
+    constructor(private certificatesService: CertificatesService) { }
 
     @Get()
     @Roles('r')
@@ -41,7 +41,7 @@ export class CertificateController {
     async deleteOne(@Param('id', new MongoIdPipe()) id: string): Promise<Certificate> {
         const certificate = await this.certificatesService.getOne(id);
         if (!certificate) {
-        throw new NotFoundException('Could not find artifact with given ID.');
+            throw new NotFoundException('Could not find artifact with given ID.');
         }
         await this.certificatesService.deleteOne(certificate);
         return certificate;

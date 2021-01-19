@@ -126,7 +126,7 @@ describe('Artifacts', () => {
     done();
   });
 
-  it('A.4 should delete a specific artifact', async (done) => {
+  it('A.5 should delete a specific artifact', async (done) => {
     let res = await request(server).get('/artifacts').expect(HttpStatus.OK);
 
     let artifacts = res.body;
