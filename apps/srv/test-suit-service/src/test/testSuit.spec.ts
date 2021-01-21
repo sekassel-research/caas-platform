@@ -5,10 +5,10 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 
 import { MongoMemoryServer } from 'mongodb-memory-server'
 
+import { AuthMiddlewareMock } from '@caas/srv/auth';
 import { ConfigModule } from '@caas/srv/config';
 
 import { TestSuitsModule } from '../app/testSuit'
-import { AuthMiddlewareMock } from './auth.middleware.mock'
 
 import bodyParser = require('body-parser');
 import express = require('express');

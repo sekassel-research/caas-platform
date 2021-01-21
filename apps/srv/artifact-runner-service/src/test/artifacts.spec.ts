@@ -5,10 +5,11 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
+import { AuthMiddlewareMock } from '@caas/srv/auth';
 import { ConfigModule } from '@caas/srv/config';
+import { KafkaModule } from '@caas/srv/kafka';
 
 import { ArtifactsModule } from '../app/artifacts';
-import { AuthMiddlewareMock } from './auth.middleware.mock';
 
 import bodyParser = require('body-parser');
 import express = require('express');
@@ -46,6 +47,7 @@ describe('Artifacts', () => {
       imports: [
         ArtifactsModule,
         ConfigModule.forRoot(),
+        KafkaModule.forRootAsync(),
         MongooseModule.forRoot(mongoUri, {
           useCreateIndex: true,
           useFindAndModify: false,

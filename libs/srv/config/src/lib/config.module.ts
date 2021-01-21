@@ -4,7 +4,7 @@ import { ConfigService } from './config.service';
 @Global()
 @Module({})
 export class ConfigModule {
-  static forRoot(env: any = { mongo: {}, auth: {} }): DynamicModule {
+  static forRoot(env: any = { mongo: {}, auth: {}, kafka: {} }): DynamicModule {
     const configService = new ConfigService(env);
     const configProviders = [
       {
