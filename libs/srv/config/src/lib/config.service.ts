@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { AuthConfig, Config, MongoConfig } from './config.interface';
+import { AuthConfig, Config, KafkaConfig, MongoConfig } from './config.interface';
 
 @Injectable()
 export class ConfigService {
   private readonly config: Config;
 
-  constructor(env: any = { mongo: {}, auth: {} }) {
+  constructor(env: any = { mongo: {}, auth: {}, kafka: {} }) {
     // create auth config
     const auth: AuthConfig = {};
     auth.algorithms = ['RS256'];
@@ -26,11 +26,19 @@ export class ConfigService {
     const database = process.env.MONGO_DATABASE || env.mongo.database || '';
     mongo.uri = process.env.MONGO_URI || env.mongo.uri || `mongodb://${credentials}${mongoHost}:${mongoPort}/${database}`;
 
+    // create kafka config
+    const kafka: KafkaConfig = {};
+    kafka.clientId = process.env.KAFKA_CLIENT_ID || env.kafka.clientId || '';
+    const kafkaHost = process.env.KAFKA_HOST || env.kafka.host || 'localhost';
+    const kafkaPort = process.env.KAFKA_PORT || env.kafka.port || '9092';
+    kafka.brokerUris = [ `${kafkaHost}:${kafkaPort}` ];
+
     this.config = {
       port: +process.env.PORT || env.port || 3000,
       prefix: process.env.PREFIX || env.prefix || '/api',
       auth,
       mongo,
+      kafka,
     };
   }
 

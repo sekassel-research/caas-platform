@@ -3,4 +3,7 @@ export const environment = {
   port: 3100,
   auth: {},
   mongo: {},
+  kafka: {
+    clientId: 'test-suit-service'
+  },
 };

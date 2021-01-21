@@ -393,6 +393,27 @@
           }
         }
       }
+    },
+    "srv-kafka": {
+      "root": "libs/srv/kafka",
+      "sourceRoot": "libs/srv/kafka/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/srv/kafka/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/srv/kafka"],
+          "options": {
+            "jestConfig": "libs/srv/kafka/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

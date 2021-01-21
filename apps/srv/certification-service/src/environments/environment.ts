@@ -3,4 +3,7 @@ export const environment = {
   port: 3200,
   auth: {},
   mongo: {},
+  kafka: {
+    clientId: 'certification-service'
+  },
 };

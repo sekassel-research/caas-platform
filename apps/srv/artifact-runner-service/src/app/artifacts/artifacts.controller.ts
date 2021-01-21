@@ -4,44 +4,47 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   NotFoundException,
   Param,
   Post,
   Put,
   Query,
+  UseFilters,
   UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { ClientKafka, Payload } from '@nestjs/microservices';
 
 import { RoleGuard, Roles } from '@caas/srv/auth';
+import { KafkaExceptionFilter, KafkaTopic } from '@caas/srv/kafka';
 import { MongoIdPipe } from '@caas/srv/mongo';
 
 import { Artifact } from './artifacts.schema';
 import { ArtifactsService } from './artifacts.service';
 import { CreateArtifactDto, UpdateArtifactDto } from './dto';
+import { CertificateGrantedEvent } from './events';
 
 @Controller('artifacts')
 @UseGuards(RoleGuard)
+@UseFilters(KafkaExceptionFilter)
 @UsePipes(new ValidationPipe())
 export class ArtifactsController {
-  constructor(private artifactsService: ArtifactsService) {}
+  constructor(@Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka, private artifactsService: ArtifactsService) {}
 
+  // -----------REST-----------
   @Post()
   async create(@Body() dto: CreateArtifactDto): Promise<Artifact> {
     const oldArtifact = await this.artifactsService.getOneByName(dto.name);
     if (oldArtifact) {
-      throw new BadRequestException(
-        `Artifact with name ${dto.name} already exists.`
-      );
+      throw new BadRequestException(`Artifact with name ${dto.name} already exists.`);
     }
     if (!dto.version.match(/\d+\.\d+\.\d+/)) {
       throw new BadRequestException('Invalid format for version, use 1.0.0');
     }
     if (!dto.dockerImage.match(/([\w-]+\/)?([\w-]+:\d+\.\d+\.\d+)/)) {
-      throw new BadRequestException(
-        'Invalid format for docker tags, use mydock:1.0.0 or test/mydock:1.2.1'
-      );
+      throw new BadRequestException('Invalid format for docker tags, use mydock:1.0.0 or test/mydock:1.2.1');
     }
 
     return this.artifactsService.create(dto);
@@ -54,10 +57,7 @@ export class ArtifactsController {
   }
 
   @Get(':id')
-  async getOne(
-    @Param('id', new MongoIdPipe()) id: string,
-    @Query('populate') populate?: string
-  ): Promise<Artifact> {
+  async getOne(@Param('id', new MongoIdPipe()) id: string, @Query('populate') populate?: string): Promise<Artifact> {
     const artifact = await this.artifactsService.getOne(id, populate);
     if (!artifact) {
       throw new NotFoundException('Could not find artifact with given ID.');
@@ -67,10 +67,7 @@ export class ArtifactsController {
   }
 
   @Put(':id')
-  async updateOne(
-    @Param('id', new MongoIdPipe()) id: string,
-    @Body() dto: UpdateArtifactDto
-  ): Promise<Artifact> {
+  async updateOne(@Param('id', new MongoIdPipe()) id: string, @Body() dto: UpdateArtifactDto): Promise<Artifact> {
     const artifact = await this.artifactsService.getOne(id);
     if (!artifact) {
       throw new NotFoundException('Could not find artifact with given ID.');
@@ -82,18 +79,14 @@ export class ArtifactsController {
       throw new BadRequestException('Version needs to be increased');
     }
     if (!dto.dockerImage.match(/([\w-]+\/)?([\w-]+:\d\.\d\.\d)/)) {
-      throw new BadRequestException(
-        'Invalid format for docker tags, use mydock:1.0.0 or test/mydock:1.2.1'
-      );
+      throw new BadRequestException('Invalid format for docker tags, use mydock:1.0.0 or test/mydock:1.2.1');
     }
 
     return this.artifactsService.updateOne(dto, artifact);
   }
 
   @Delete(':id')
-  async deleteOne(
-    @Param('id', new MongoIdPipe()) id: string
-  ): Promise<Artifact> {
+  async deleteOne(@Param('id', new MongoIdPipe()) id: string): Promise<Artifact> {
     const artifact = await this.artifactsService.getOne(id);
     if (!artifact) {
       throw new NotFoundException('Could not find artifact with given ID.');
@@ -101,5 +94,15 @@ export class ArtifactsController {
 
     await this.artifactsService.deleteOne(artifact);
     return artifact;
+  }
+
+  // -----------KAFKA-----------
+  /**
+   * TEST_IMPLEMENTATION_FOR_TESTING_ONLY
+   * @param event 
+   */
+  @KafkaTopic('certification')
+  async onCertificateGranted(@Payload() event: CertificateGrantedEvent): Promise<void> {
+    console.log(event);
   }
 }

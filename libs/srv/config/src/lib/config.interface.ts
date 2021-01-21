@@ -3,6 +3,7 @@ export interface Config {
   prefix?: string;
   auth?: AuthConfig;
   mongo?: MongoConfig;
+  kafka?: KafkaConfig;
 }
 
 export interface AuthConfig {
@@ -15,4 +16,10 @@ export interface AuthConfig {
 
 export interface MongoConfig {
   uri?: string;
+}
+
+export interface KafkaConfig {
+  clientId?: string;
+  prefix?: string;
+  brokerUris?: string[];
 }

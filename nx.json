@@ -56,6 +56,9 @@
     },
     "certification-service": {
       "tags": []
+    },
+    "srv-kafka": {
+      "tags": []
     }
   }
 }

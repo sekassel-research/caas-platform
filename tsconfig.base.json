@@ -15,19 +15,14 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@caas/web/env": [
-        "apps/web/caas/src/environments/environment.ts"
-      ],
-      "@caas/web/artifact-runner": [
-        "libs/web/artifact-runner/src/index.ts"
-      ],
-      "@caas/web/confirmance-test": [
-        "libs/web/confirmance-test/src/index.ts"
-      ],
+      "@caas/web/env": ["apps/web/caas/src/environments/environment.ts"],
+      "@caas/web/artifact-runner": ["libs/web/artifact-runner/src/index.ts"],
+      "@caas/web/confirmance-test": ["libs/web/confirmance-test/src/index.ts"],
       "@caas/web/auth": ["libs/web/auth/src/index.ts"],
       "@caas/srv/auth": ["libs/srv/auth/src/index.ts"],
       "@caas/srv/config": ["libs/srv/config/src/index.ts"],
-      "@caas/srv/mongo": ["libs/srv/mongo/src/index.ts"]
+      "@caas/srv/mongo": ["libs/srv/mongo/src/index.ts"],
+      "@caas/srv/kafka": ["libs/srv/kafka/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

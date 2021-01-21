@@ -20,7 +20,10 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://localhost:9092,OUTSIDE://kafka:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
       KAFKA_PORT: 9092
   kafka-hq:
     image: tchiotludo/akhq:0.16.0
@@ -30,7 +33,7 @@ services:
           connections:
             docker-kafka-server:
               properties:
-                bootstrap.servers: "kafka:9092"
+                bootstrap.servers: "kafka:9093"
     ports:
       - 9090:8080
     depends_on:

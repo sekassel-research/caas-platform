@@ -3,4 +3,7 @@ export const environment = {
   port: 3000,
   auth: {},
   mongo: {},
+  kafka: {
+    clientId: 'artifact-runner-service'
+  },
 };

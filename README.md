@@ -20,8 +20,20 @@ Available services:
   - `test-suit-service`
   - `certification-service` 
 
+Events produces by services:
+Service         | Incoming Events                   | Outgoing Events
+-------         | ---------------                   | ---------------
+Artifact        | CertificateGranted                | ArtifactStarted
+Test-Suite      | ArtifactStarted                   | TestSuiteStarted
+Certification   | ArtifactStarted, TestSuiteStarted | CertificateGranted
+
 ## Local dev
 
 The services can run locally, each backend service uses a different port, see `environment/environment.ts` of each service for more information. 
 You can ether provide a `mongo db` in a docker container or use the `etc/local-docker/docker-compose.yml` to let set up all needed infrastructure services.
 You can also use the command `npm run infra`.   
+
+
+docker build --build-arg PROJECT=caas -f Dockerfile.Web -t caas:1.0.0 .
+
+docker build --build-arg PROJECT=artifact-runner-service -f Dockerfile.Node -t art:1.0.0 .
