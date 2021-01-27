@@ -25,13 +25,14 @@ import { Artifact } from './artifacts.schema';
 import { ArtifactsService } from './artifacts.service';
 import { CreateArtifactDto, UpdateArtifactDto } from './dto';
 import { CertificateGrantedEvent } from './events';
+import { DockerJob } from './jobs/validate-docker-image.job';
 
 @Controller('artifacts')
 @UseGuards(RoleGuard)
 @UseFilters(KafkaExceptionFilter)
 @UsePipes(new ValidationPipe())
 export class ArtifactsController {
-  constructor(@Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka, private artifactsService: ArtifactsService) {}
+  constructor(@Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka, private artifactsService: ArtifactsService, private dockerJob: DockerJob) {}
 
   // -----------REST-----------
   @Post()
@@ -104,5 +105,20 @@ export class ArtifactsController {
   @KafkaTopic('certification')
   async onCertificateGranted(@Payload() event: CertificateGrantedEvent): Promise<void> {
     console.log(event);
+  }
+
+  @KafkaTopic('dockerpull')
+  async pullImage(@Payload() event): Promise<void> {
+    this.dockerJob.pullImage(event.value);
+  }
+
+  @KafkaTopic('dockerstart')
+  async createAndStartContainer(@Payload() event): Promise<void> {
+    this.dockerJob.createAndStartContainer(event.value, null); // TODO extend options
+  }
+
+  @KafkaTopic('dockerlist')
+  async listRunningContainers(@Payload() event): Promise<void> {
+    this.dockerJob.listRunningContainers();
   }
 }
