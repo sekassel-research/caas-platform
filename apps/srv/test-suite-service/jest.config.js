@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'test-suit-service',
+  displayName: 'test-suite-service',
   preset: '../../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -10,5 +10,5 @@ module.exports = {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../coverage/apps/srv/test-suit-service',
+  coverageDirectory: '../../../coverage/apps/srv/test-suite-service',
 };

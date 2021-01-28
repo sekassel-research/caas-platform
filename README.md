@@ -17,7 +17,7 @@ For example, to start the `artifact-runner-service` use `nx serve artifact-runne
 
 Available services:
   - `artifact-runner-service`
-  - `test-suit-service`
+  - `test-suite-service`
   - `certification-service` 
 
 Events produces by services:

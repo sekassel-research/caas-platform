@@ -51,7 +51,7 @@
     "srv-mongo": {
       "tags": []
     },
-    "test-suit-service": {
+    "test-suite-service": {
       "tags": []
     },
     "certification-service": {
