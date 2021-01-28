@@ -11,5 +11,6 @@ module.exports = {
     '<rootDir>/apps/srv/test-suit-service',
     '<rootDir>/apps/srv/certification-service',
     '<rootDir>/libs/srv/kafka',
+    '<rootDir>/libs/srv/job-executor',
   ],
 };
