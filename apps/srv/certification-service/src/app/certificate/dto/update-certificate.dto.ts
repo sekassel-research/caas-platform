@@ -11,5 +11,5 @@ export class UpdateCertificateDto {
 
   @IsOptional()
   @IsString()
-  readonly signatur?: string;
+  readonly signature?: string;
 }

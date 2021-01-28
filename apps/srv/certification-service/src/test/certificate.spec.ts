@@ -17,19 +17,19 @@ import request = require('supertest');
 const certificate1 = {
     name: 'MyFirstCertificate',
     version: '1.0.0',
-    signatur: 'e225bcda-d912-469a-86bf-fcf98e67d51c'
+    signature: 'e225bcda-d912-469a-86bf-fcf98e67d51c'
 }
 
 const certificate2 = {
     name: 'MySecondCertificate',
     version: '1.0.2',
-    signatur: 'bd659468-c492-4948-ba4c-63208ee94b87'
+    signature: 'bd659468-c492-4948-ba4c-63208ee94b87'
 }
 
 const certificate3 = {
     name: 'MyThirdCertificate',
     version: '1.1.0',
-    signatur: '6eada95c-e228-4b8d-a980-3d11be2710f2'
+    signature: '6eada95c-e228-4b8d-a980-3d11be2710f2'
 }
 
 describe('Certificats', () => {

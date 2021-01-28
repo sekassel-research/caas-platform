@@ -11,5 +11,5 @@ export class CreateCertificateDto {
 
   @IsNotEmpty()
   @IsString()
-  readonly signatur: string;
+  readonly signature: string;
 }

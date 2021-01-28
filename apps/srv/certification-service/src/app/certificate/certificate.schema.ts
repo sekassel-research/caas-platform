@@ -12,7 +12,7 @@ export class Certificate extends Document {
     version: string;
 
     @Prop({ required: true })
-    signatur: string;
+    signature: string;
 }
 
 export const CertificateSchema = SchemaFactory.createForClass(Certificate);
