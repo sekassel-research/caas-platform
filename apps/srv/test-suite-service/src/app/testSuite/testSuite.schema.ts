@@ -4,7 +4,7 @@ import { Document } from 'mongoose';
 import * as toJson from '@meanie/mongoose-to-json';
 
 @Schema()
-export class TestSuit extends Document {
+export class TestSuite extends Document {
   @Prop({ required: true, unique: true })
   name: string;
 
@@ -15,6 +15,6 @@ export class TestSuit extends Document {
   dockerImage: string;
 }
 
-export const TestSuitSchema = SchemaFactory.createForClass(TestSuit);
+export const TestSuiteSchema = SchemaFactory.createForClass(TestSuite);
 
-TestSuitSchema.plugin(toJson);
+TestSuiteSchema.plugin(toJson);

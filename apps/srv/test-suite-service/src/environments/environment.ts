@@ -4,6 +4,6 @@ export const environment = {
   auth: {},
   mongo: {},
   kafka: {
-    clientId: 'test-suit-service'
+    clientId: 'test-suite-service',
   },
 };

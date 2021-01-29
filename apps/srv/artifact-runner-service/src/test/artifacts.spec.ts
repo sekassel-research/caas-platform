@@ -7,7 +7,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 
 import { AuthMiddlewareMock } from '@caas/srv/auth';
 import { ConfigModule } from '@caas/srv/config';
-import { KafkaModule } from '@caas/srv/kafka';
+import { KafkaModuleMock } from '@caas/srv/kafka';
 
 import { ArtifactsModule } from '../app/artifacts';
 
@@ -47,7 +47,7 @@ describe('Artifacts', () => {
       imports: [
         ArtifactsModule,
         ConfigModule.forRoot(),
-        KafkaModule.forRootAsync(),
+        KafkaModuleMock.forRootAsync(),
         MongooseModule.forRoot(mongoUri, {
           useCreateIndex: true,
           useFindAndModify: false,

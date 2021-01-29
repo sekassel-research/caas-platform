@@ -1,6 +1,6 @@
 import { IsOptional, IsString } from 'class-validator';
 
-export class UpdateTestsuitDto {
+export class UpdateTestsuiteDto {
   @IsOptional()
   @IsString()
   readonly name?: string;
