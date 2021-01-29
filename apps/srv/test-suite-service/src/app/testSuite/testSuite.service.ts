@@ -8,9 +8,7 @@ import { CreateTestSuiteDto, UpdateTestsuiteDto } from './dto';
 
 @Injectable()
 export class TestSuitesService {
-  constructor(
-    @InjectModel('testsuites') private readonly testSuitesModel: Model<TestSuite>,
-  ) {}
+  constructor(@InjectModel('testsuites') private readonly testSuitesModel: Model<TestSuite>) {}
 
   async create(dto: CreateTestSuiteDto): Promise<TestSuite> {
     return this.testSuitesModel.create(dto);
