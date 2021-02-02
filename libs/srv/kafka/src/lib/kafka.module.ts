@@ -19,20 +19,20 @@ export class KafkaModule {
               brokers: kafkaConfig.brokerUris,
             },
             consumer: {
-              groupId: `${kafkaConfig.clientId}-consumer`
+              groupId: `${kafkaConfig.clientId}-consumer`,
             },
-          }
+          },
         });
         await clientProxy.connect();
         return clientProxy;
       },
       inject: [ConfigService],
-    }    
+    };
 
     return {
       module: KafkaModule,
       providers: [kafkaProvider],
       exports: [kafkaProvider],
-    }
+    };
   }
 }

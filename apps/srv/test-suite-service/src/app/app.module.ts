@@ -5,11 +5,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@caas/srv/config';
 import { AuthMiddleware } from '@caas/srv/auth';
 
-import { TestSuitsModule } from './testSuit';
+import { TestSuitesModule } from './testSuite';
 
 @Module({
   imports: [
-    TestSuitsModule,
+    TestSuitesModule,
     ConfigModule.forRoot(),
     JwtModule.registerAsync({
       inject: [ConfigService],

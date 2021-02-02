@@ -8,7 +8,7 @@ module.exports = {
     '<rootDir>/libs/srv/auth',
     '<rootDir>/libs/srv/config',
     '<rootDir>/libs/srv/mongo',
-    '<rootDir>/apps/srv/test-suit-service',
+    '<rootDir>/apps/srv/test-suite-service',
     '<rootDir>/apps/srv/certification-service',
     '<rootDir>/libs/srv/kafka',
     '<rootDir>/libs/srv/job-executor',

@@ -292,20 +292,20 @@
         }
       }
     },
-    "test-suit-service": {
-      "root": "apps/srv/test-suit-service",
-      "sourceRoot": "apps/srv/test-suit-service/src",
+    "test-suite-service": {
+      "root": "apps/srv/test-suite-service",
+      "sourceRoot": "apps/srv/test-suite-service/src",
       "projectType": "application",
-      "prefix": "test-suit-service",
+      "prefix": "test-suite-service",
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/srv/test-suit-service",
-            "main": "apps/srv/test-suit-service/src/main.ts",
-            "tsConfig": "apps/srv/test-suit-service/tsconfig.app.json",
-            "assets": ["apps/srv/test-suit-service/src/assets"]
+            "outputPath": "dist/apps/srv/test-suite-service",
+            "main": "apps/srv/test-suite-service/src/main.ts",
+            "tsConfig": "apps/srv/test-suite-service/tsconfig.app.json",
+            "assets": ["apps/srv/test-suite-service/src/assets"]
           },
           "configurations": {
             "production": {
@@ -314,8 +314,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/srv/test-suit-service/src/environments/environment.ts",
-                  "with": "apps/srv/test-suit-service/src/environments/environment.prod.ts"
+                  "replace": "apps/srv/test-suite-service/src/environments/environment.ts",
+                  "with": "apps/srv/test-suite-service/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -324,20 +324,20 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "test-suit-service:build"
+            "buildTarget": "test-suite-service:build"
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/srv/test-suit-service/**/*.ts"]
+            "lintFilePatterns": ["apps/srv/test-suite-service/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/srv/test-suit-service"],
+          "outputs": ["coverage/apps/srv/test-suite-service"],
           "options": {
-            "jestConfig": "apps/srv/test-suit-service/jest.config.js",
+            "jestConfig": "apps/srv/test-suite-service/jest.config.js",
             "passWithNoTests": true
           }
         }

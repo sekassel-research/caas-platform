@@ -1,4 +1,4 @@
-import { IsArray, isArray, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class UpdateArtifactDto {
   @IsOptional()
@@ -12,7 +12,7 @@ export class UpdateArtifactDto {
   @IsOptional()
   @IsString()
   readonly dockerImage?: string;
-  
+
   @IsOptional()
   @IsString()
   readonly certificate: string;
