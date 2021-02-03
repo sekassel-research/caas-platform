@@ -1,8 +1,8 @@
 import * as Docker from 'dockerode';
 
 export class DockerJob {
-    
-    private docker = new Docker({host: 'http://127.0.0.1', port: 2375});
+  
+  private docker = new Docker({socketPath: '/var/run/docker.sock'});
     
     constructor() {}
 

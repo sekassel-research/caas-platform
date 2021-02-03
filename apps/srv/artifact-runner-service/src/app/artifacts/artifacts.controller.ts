@@ -109,6 +109,7 @@ export class ArtifactsController {
 
   @KafkaTopic('dockerpull')
   async pullImage(@Payload() event): Promise<void> {
+    console.log(event.value)
     this.dockerJob.pullImage(event.value);
   }
 
