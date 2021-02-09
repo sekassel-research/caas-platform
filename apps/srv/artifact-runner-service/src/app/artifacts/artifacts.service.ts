@@ -1,17 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { JobExecutorService, JobState } from '@caas/srv/job-executor';
 
 import { Model } from 'mongoose';
 
 import { Artifact, HistoryArtifact } from './artifacts.schema';
 import { CreateArtifactDto, UpdateArtifactDto } from './dto';
+import { ValidateDockerJob } from './jobs/validate-docker.job';
+import { PullDockerImageJob } from './jobs/pull-docker-image.job';
 
 @Injectable()
 export class ArtifactsService {
   constructor(
     @InjectModel('artifacts') private readonly artifactsModel: Model<Artifact>,
     @InjectModel('historyArtifacts') private readonly historyModel: Model<HistoryArtifact>,
-  ) {}
+    private readonly jobExecutorService: JobExecutorService
+  ) { }
 
   async create(dto: CreateArtifactDto): Promise<Artifact> {
     const dtoWithHistory = dto as Artifact;
@@ -62,5 +66,22 @@ export class ArtifactsService {
     await this.artifactsModel.deleteOne({ _id: artifact.id }).exec();
 
     return artifact.id;
+  }
+
+  async validateDockerImage() {
+    const job = new ValidateDockerJob();
+
+    if (this.jobExecutorService.executeJob(job)) {
+      // TODO
+      this.pullDockerImage();
+    }
+  }
+
+  async pullDockerImage() {
+    const job = new PullDockerImageJob();
+
+    if (this.jobExecutorService.executeJob(job)) {
+      // TODO
+    }
   }
 }
