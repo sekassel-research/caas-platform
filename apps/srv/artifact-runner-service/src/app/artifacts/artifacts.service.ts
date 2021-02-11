@@ -71,17 +71,21 @@ export class ArtifactsService {
   async validateDockerImage() {
     const job = new ValidateDockerJob();
 
-    if (this.jobExecutorService.executeJob(job)) {
-      // TODO
+
+    this.jobExecutorService.executeJob(job).then((result) => {
       this.pullDockerImage();
-    }
+    }).catch((error) => {
+      console.error(error)
+    })
   }
 
   async pullDockerImage() {
     const job = new PullDockerImageJob();
 
-    if (this.jobExecutorService.executeJob(job)) {
-      // TODO
-    }
+    this.jobExecutorService.executeJob(job).then((result) => {
+      console.log("PullDockerImage: " + job.state)
+    }).catch((error) => {
+      console.error(error)
+    })
   }
 }
