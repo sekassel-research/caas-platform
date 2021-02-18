@@ -25,6 +25,10 @@ export class JobExecutorService {
       });
 
       execute.on('close', (code) => {
+        if(job.state == JobState.ERROR){
+            resolve(false);
+            return;
+        }
         job.state = JobState.DONE;
         console.log('JobStatus: ' + JobState[job.state]);
         console.log('Execute ' + job.constructor.name + ' with PID: ' + execute.pid + ' successfully');
