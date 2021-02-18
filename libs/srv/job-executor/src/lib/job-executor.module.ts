@@ -6,4 +6,4 @@ import { JobExecutorService } from './job-executor.service';
   providers: [JobExecutorService],
   exports: [JobExecutorService],
 })
-export class JobExecutorModule { }
+export class JobExecutorModule {}

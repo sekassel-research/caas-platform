@@ -1,32 +1,35 @@
-import { Job, JobState } from './job.event'
-import { Injectable } from '@nestjs/common'
-import { fork } from 'child_process'
+import { Job, JobState } from './job.event';
+import { Injectable } from '@nestjs/common';
+import { exec } from 'child_process';
 
 @Injectable()
 export class JobExecutorService {
+  async executeJob(job: Job): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const execute = exec(job.arg);
 
-    async executeJob(job: Job): Promise<boolean> {
-        return new Promise((resolve, reject) => {
-            const child = fork('libs/srv/job-executor/src/lib/child.ts');
+      console.log('Executed new Job with PID: ' + execute.pid);
 
-            job.state = JobState.RUNNING;
-            child.send(job);
+      job.state = JobState.RUNNING;
 
-            child.on('message', (message: String) => {
-                console.log(message);
-            });
+      execute.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+      });
 
-            child.on('disconnect', () => {
-                job.state = JobState.DONE;
-                console.log("JobStatus:" + job.state);
-                resolve(true);
-            })
+      execute.stderr.on('data', (data) => {
+        job.state = JobState.ERROR;
+        job.errorMessage = data;
+        const logMessage = 'Execute ' + job.constructor.name + ' with PID: ' + execute.pid + ' failed with: ' + job.errorMessage;
+        console.log(logMessage);
+        reject(logMessage);
+      });
 
-            child.on('error', () => {
-                job.state = JobState.ERROR;
-                console.log("JobStatus:" + job.state);
-                reject("Execute " + job.constructor.name + "failed with: " + job.errorMessage);
-            })
-        });
-    }
+      execute.on('close', (code) => {
+        job.state = JobState.DONE;
+        console.log('JobStatus: ' + JobState[job.state]);
+        console.log('Execute ' + job.constructor.name + ' with PID: ' + execute.pid + ' successfully');
+        resolve(true);
+      });
+    });
+  }
 }

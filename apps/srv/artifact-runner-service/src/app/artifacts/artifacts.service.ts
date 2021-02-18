@@ -8,14 +8,15 @@ import { Artifact, HistoryArtifact } from './artifacts.schema';
 import { CreateArtifactDto, UpdateArtifactDto } from './dto';
 import { ValidateDockerJob } from './jobs/validate-docker.job';
 import { PullDockerImageJob } from './jobs/pull-docker-image.job';
+import { RunDockerImage } from './jobs/run-docker-image.job';
 
 @Injectable()
 export class ArtifactsService {
   constructor(
     @InjectModel('artifacts') private readonly artifactsModel: Model<Artifact>,
     @InjectModel('historyArtifacts') private readonly historyModel: Model<HistoryArtifact>,
-    private readonly jobExecutorService: JobExecutorService
-  ) { }
+    private readonly jobExecutorService: JobExecutorService,
+  ) {}
 
   async create(dto: CreateArtifactDto): Promise<Artifact> {
     const dtoWithHistory = dto as Artifact;
@@ -71,21 +72,39 @@ export class ArtifactsService {
   async validateDockerImage() {
     const job = new ValidateDockerJob();
 
-
-    this.jobExecutorService.executeJob(job).then((result) => {
-      this.pullDockerImage();
-    }).catch((error) => {
-      console.error(error)
-    })
+    this.jobExecutorService
+      .executeJob(job)
+      .then((result) => {
+        // TODO
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
-  async pullDockerImage() {
-    const job = new PullDockerImageJob();
+  async pullDockerImage(dockerTag: string) {
+    const job = new PullDockerImageJob(dockerTag);
 
-    this.jobExecutorService.executeJob(job).then((result) => {
-      console.log("PullDockerImage: " + job.state)
-    }).catch((error) => {
-      console.error(error)
-    })
+    this.jobExecutorService
+      .executeJob(job)
+      .then((result) => {
+        console.log('PullDockerImage: ' + JobState[job.state]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  async runDockerImage(dockerTag: string, name: string) {
+    const job = new RunDockerImage(dockerTag, name);
+
+    this.jobExecutorService
+      .executeJob(job)
+      .then((result) => {
+        // TODO
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 }
