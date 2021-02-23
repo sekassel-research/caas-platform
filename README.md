@@ -20,6 +20,7 @@ Available services:
 - `artifact-runner-service`
 - `test-suite-service`
 - `certification-service`
+- `job-executor-service`
 
 Events produces by services:
 Service | Incoming Events | Outgoing Events
@@ -27,6 +28,7 @@ Service | Incoming Events | Outgoing Events
 Artifact | CertificateGranted | ArtifactStarted
 Test-Suite | ArtifactStarted | TestSuiteStarted
 Certification | ArtifactStarted, TestSuiteStarted | CertificateGranted
+Job-Executor | ? | ?
 
 ## Local dev
 

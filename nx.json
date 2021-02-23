@@ -60,7 +60,7 @@
     "srv-kafka": {
       "tags": []
     },
-    "srv-job-executor": {
+    "job-executor-service": {
       "tags": []
     }
   }

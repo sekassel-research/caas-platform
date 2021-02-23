@@ -415,22 +415,52 @@
         }
       }
     },
-    "srv-job-executor": {
-      "root": "libs/srv/job-executor",
-      "sourceRoot": "libs/srv/job-executor/src",
-      "projectType": "library",
+    "job-executor-service": {
+      "root": "apps/srv/job-executor-service",
+      "sourceRoot": "apps/srv/job-executor-service/src",
+      "projectType": "application",
+      "prefix": "job-executor-service",
       "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/srv/job-executor-service",
+            "main": "apps/srv/job-executor-service/src/main.ts",
+            "tsConfig": "apps/srv/job-executor-service/tsconfig.app.json",
+            "assets": ["apps/srv/job-executor-service/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/srv/job-executor-service/src/environments/environment.ts",
+                  "with": "apps/srv/job-executor-service/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "job-executor-service:build"
+          }
+        },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/srv/job-executor/**/*.ts"]
+            "lintFilePatterns": ["apps/srv/job-executor-service/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/srv/job-executor"],
+          "outputs": ["coverage/apps/srv/job-executor-service"],
           "options": {
-            "jestConfig": "libs/srv/job-executor/jest.config.js",
+            "jestConfig": "apps/srv/job-executor-service/jest.config.js",
             "passWithNoTests": true
           }
         }
