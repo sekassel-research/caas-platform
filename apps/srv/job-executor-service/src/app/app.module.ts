@@ -8,11 +8,12 @@ import { KafkaModule } from '@caas/srv/kafka';
 import { JobExecutorModule } from './job-executor';
 import { JobExecutorController } from './job-executor/jobExecutor.controller';
 import { JobExecutorService } from './job-executor/jobExecutor.service';
+import { environment } from '../environments/environment';
 
 @Module({
   imports: [
     JobExecutorModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot(environment),
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({

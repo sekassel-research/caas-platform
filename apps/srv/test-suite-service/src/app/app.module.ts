@@ -6,11 +6,12 @@ import { ConfigModule, ConfigService } from '@caas/srv/config';
 import { AuthMiddleware } from '@caas/srv/auth';
 
 import { TestSuitesModule } from './testSuite';
+import { environment } from '../environments/environment';
 
 @Module({
   imports: [
     TestSuitesModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot(environment),
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
