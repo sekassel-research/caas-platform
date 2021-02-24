@@ -12,10 +12,4 @@ describe('JobExecutorService', () => {
 
     service = app.get<JobExecutorService>(JobExecutorService);
   });
-
-  describe('getData', () => {
-    it('should return "Welcome to srv/job-executor-service!"', () => {
-      expect(service.getData()).toEqual({ message: 'Welcome to srv/job-executor-service!' });
-    });
-  });
 });

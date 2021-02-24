@@ -11,11 +11,4 @@ describe('JobExecutorController', () => {
       providers: [JobExecutorService],
     }).compile();
   });
-
-  describe('getData', () => {
-    it('should return "Welcome to srv/job-executor-service!"', () => {
-      const jobExecutorController = app.get<JobExecutorController>(JobExecutorController);
-      expect(jobExecutorController.getData()).toEqual({ message: 'Welcome to srv/job-executor-service!' });
-    });
-  });
 });

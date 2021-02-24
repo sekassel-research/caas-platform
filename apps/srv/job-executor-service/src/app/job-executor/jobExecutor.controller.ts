@@ -9,11 +9,6 @@ import { KafkaTopic } from '@caas/srv/kafka';
 export class JobExecutorController {
   constructor(private readonly jobExecutorService: JobExecutorService) {}
 
-  @Get()
-  getData() {
-    return this.jobExecutorService.getData();
-  }
-
   // -----------KAFKA-----------
   /**
    * TEST_IMPLEMENTATION_FOR_TESTING_ONLY

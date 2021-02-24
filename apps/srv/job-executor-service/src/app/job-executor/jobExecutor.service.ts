@@ -7,10 +7,6 @@ import { JobEvent, JobState } from './events/job.event';
 export class JobExecutorService {
   constructor(@Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka) {}
 
-  getData(): { message: string } {
-    return { message: 'Welcome to srv/job-executor-service!' };
-  }
-
   async executeJob(jobEvent: JobEvent) {
     const jobEventJson = JSON.parse(JSON.stringify(jobEvent));
 
