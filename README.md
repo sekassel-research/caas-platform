@@ -28,7 +28,7 @@ Service | Incoming Events | Outgoing Events
 Artifact | CertificateGranted | ArtifactStarted
 Test-Suite | ArtifactStarted | TestSuiteStarted
 Certification | ArtifactStarted, TestSuiteStarted | CertificateGranted
-Job-Executor | ? | ?
+Job-Executor | JobEvent | JobEvent
 
 ## Local dev
 

@@ -18,7 +18,7 @@ export class JobExecutorController {
   /**
    * TEST_IMPLEMENTATION_FOR_TESTING_ONLY
    */
-  @KafkaTopic('jobexec')
+  @KafkaTopic('jobexecute')
   async onCertificateGranted(@Payload() jobEvent: JobEvent): Promise<void> {
     this.jobExecutorService.executeJob(jobEvent);
   }

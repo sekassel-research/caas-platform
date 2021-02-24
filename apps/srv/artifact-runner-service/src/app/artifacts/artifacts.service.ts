@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 
 import { Artifact, HistoryArtifact } from './artifacts.schema';
 import { CreateArtifactDto, UpdateArtifactDto } from './dto';
+import { JobEvent } from 'apps/srv/job-executor-service/src/app/job-executor/events/job.event';
 
 @Injectable()
 export class ArtifactsService {
@@ -66,15 +67,13 @@ export class ArtifactsService {
     return artifact.id;
   }
 
-  async validateDockerImage() {
-    // TODO emit
-  }
-
   async pullDockerImage(dockerTag: string) {
-    // TODO emit
+    const jobevent = new JobEvent('docker pull', dockerTag, '', '');
+    this.kafkaClient.emit<string>('jobexecute', JSON.stringify(jobevent));
   }
 
   async runDockerImage(dockerTag: string, name: string) {
-    // TODO emit
+    const jobevent = new JobEvent('docker run', dockerTag, `--name ${name}`, '');
+    this.kafkaClient.emit<string>('jobexecute', JSON.stringify(jobevent));
   }
 }
