@@ -28,7 +28,7 @@ import { CertificateGrantedEvent } from './events';
 
 @Controller('artifacts')
 @UseGuards(RoleGuard)
-@UseFilters(KafkaExceptionFilter)
+// @UseFilters(KafkaExceptionFilter)
 @UsePipes(new ValidationPipe())
 export class ArtifactsController {
   constructor(@Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka, private artifactsService: ArtifactsService) {}
