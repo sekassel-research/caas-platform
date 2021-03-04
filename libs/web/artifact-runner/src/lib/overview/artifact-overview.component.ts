@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './artifact-overview.component.html',
   styleUrls: ['./artifact-overview.component.scss'],
 })
-export class ArtifactOverviewComponent {
-  constructor() {}
-}
+export class ArtifactOverviewComponent {}

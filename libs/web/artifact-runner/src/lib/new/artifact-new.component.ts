@@ -62,7 +62,7 @@ export class ArtifactNewComponent {
     };
 
     this.artifactService.create(artifactDto).subscribe(
-      (data) => this.isSaving = false,
+      () => this.isSaving = false,
       (error) => {
         UIkit.notification(`Error while saving Artifacts: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
         this.isSaving = false;

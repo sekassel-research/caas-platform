@@ -68,7 +68,7 @@ export class ArtifactEditComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.pipe(
       switchMap((params: Params) => this.artifactService.getOne(params.id)),
-      tap((val) => this.isLoading = false)
+      tap(() => this.isLoading = false)
     ).subscribe(
       (data) => {
         this.currentArtifact = data;
@@ -98,8 +98,8 @@ export class ArtifactEditComponent implements OnInit {
       dockerImage: value.dockerImage,
     };
 
-    this.artifactService.updateOne(this.currentArtifact.id!, artifactDto).subscribe(
-      (data) => this.isSaving = false,
+    this.artifactService.updateOne(this.currentArtifact.id, artifactDto).subscribe(
+      () => this.isSaving = false,
       (error) => {
         UIkit.notification(`Error while updating Artifacts: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
         this.isSaving = false;
@@ -120,15 +120,15 @@ export class ArtifactEditComponent implements OnInit {
     UIkit.modal.confirm(`Are you sure to delete the Artifact: "${this.currentArtifact.name}"?`)
     .then(() => {
       this.isLoading = true;
-      this.artifactService.deleteOne(this.currentArtifact.id!).subscribe(
-        (data) => this.isLoading = false,
+      this.artifactService.deleteOne(this.currentArtifact.id).subscribe(
+        () => this.isLoading = false,
         (error) => {
           UIkit.notification(`Error while updating Artifacts: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
           this.isLoading = false;
         },
         () => this.router.navigate(['../'], { relativeTo: this.route })
       );
-    }, () => {});
+    });
   }
 
   private validateForm(): boolean {
