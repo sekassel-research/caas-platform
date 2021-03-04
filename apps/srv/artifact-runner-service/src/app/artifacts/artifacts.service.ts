@@ -1,7 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientKafka } from '@nestjs/microservices';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Model } from 'mongoose';
+
+import { JobEvent } from '@caas/srv/kafka';
 
 import { Artifact, HistoryArtifact } from './artifacts.schema';
 import { CreateArtifactDto, UpdateArtifactDto } from './dto';
@@ -11,6 +14,7 @@ export class ArtifactsService {
   constructor(
     @InjectModel('artifacts') private readonly artifactsModel: Model<Artifact>,
     @InjectModel('historyArtifacts') private readonly historyModel: Model<HistoryArtifact>,
+    @Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka,
   ) {}
 
   async create(dto: CreateArtifactDto): Promise<Artifact> {
@@ -33,7 +37,6 @@ export class ArtifactsService {
     return this.artifactsModel.findOne({ name }).exec();
   }
 
-  // TODO: Remove deprecation warning
   async updateOne(dto: UpdateArtifactDto, oldArtifact: Artifact): Promise<Artifact> {
     const updateId = oldArtifact.id;
     const dtoWithHistory = dto as Artifact;
@@ -62,5 +65,15 @@ export class ArtifactsService {
     await this.artifactsModel.deleteOne({ _id: artifact.id }).exec();
 
     return artifact.id;
+  }
+
+  async pullDockerImage(dockerTag: string) {
+    const jobevent = new JobEvent('docker pull', dockerTag, '', '');
+    this.kafkaClient.emit<string>('jobexecute', JSON.stringify(jobevent));
+  }
+
+  async runDockerImage(dockerTag: string, name: string) {
+    const jobevent = new JobEvent('docker run', dockerTag, `--name ${name}`, '');
+    this.kafkaClient.emit<string>('jobexecute', JSON.stringify(jobevent));
   }
 }

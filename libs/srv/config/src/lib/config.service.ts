@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
+
 import { AuthConfig, Config, KafkaConfig, MongoConfig } from './config.interface';
+import { Environment } from './environment.interface';
 
 @Injectable()
 export class ConfigService {
   private readonly config: Config;
 
-  constructor(env: any = { mongo: {}, auth: {}, kafka: {} }) {
+  constructor(env: Environment = { mongo: {}, auth: {}, kafka: {} }) {
     // create auth config
     const auth: AuthConfig = {};
     auth.algorithms = ['RS256'];
@@ -13,7 +15,8 @@ export class ConfigService {
     auth.realm = process.env.AUTH_REALM || env.auth.realm || 'InterconnectEU';
     auth.resource = process.env.AUTH_RESOURCE || env.auth.resource || 'artifact-runner-service';
     auth.publicKey =
-      process.env.PUBLIC_KEY || env.auth.publicKey ||
+      process.env.PUBLIC_KEY ||
+      env.auth.publicKey ||
       '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyRyUXMLVQaDfRQrjIJlGs3+KsiOanLTWDhGoQkXO6Q1oumDfulr78NyyK/TC521di5E2qBDXm5V8qhTdxCigArNaDFTc/3HlbQ3NcYDn00Ob3qJmo0eMusLCrrRf0kTJJbZTRNt97DZnn+Ipn54Py30G2lp6gQxeBsiOBrH5fI9eDnyhuBE6hmSXBK9+g3dV+lA1TSfsAGAGPwsV//uw6rXTsCpYEAn+wruP3FwkPVEbpFu5S/dOOE5QJpuaOglDkBO7d0iCgYetMOIhzJEzGfFx127vVrfHN8XhAz6ef79uZYucIdxwKSfjeJOqYtcri0hU8ImoF0R4n26EIz5yiQIDAQAB\n-----END PUBLIC KEY-----';
 
     // create mongo config
@@ -31,7 +34,7 @@ export class ConfigService {
     kafka.clientId = process.env.KAFKA_CLIENT_ID || env.kafka.clientId || '';
     const kafkaHost = process.env.KAFKA_HOST || env.kafka.host || 'localhost';
     const kafkaPort = process.env.KAFKA_PORT || env.kafka.port || '9092';
-    kafka.brokerUris = [ `${kafkaHost}:${kafkaPort}` ];
+    kafka.brokerUris = [`${kafkaHost}:${kafkaPort}`];
 
     this.config = {
       port: +process.env.PORT || env.port || 3000,
