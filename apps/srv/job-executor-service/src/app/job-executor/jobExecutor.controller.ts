@@ -1,9 +1,9 @@
-import { Controller, Get, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
+import { Payload } from '@nestjs/microservices';
+
+import { KafkaTopic, JobEvent } from '@caas/srv/kafka';
 
 import { JobExecutorService } from './jobExecutor.service';
-import { JobEvent } from './events/job.event';
-import { Payload } from '@nestjs/microservices';
-import { KafkaTopic } from '@caas/srv/kafka';
 
 @Controller()
 export class JobExecutorController {

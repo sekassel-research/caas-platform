@@ -2,16 +2,17 @@ import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ClientProxy, ReadPacket, WritePacket } from '@nestjs/microservices';
 
 class KafkaProxyMock extends ClientProxy {
-  connect(): Promise<any> {
+  connect(): Promise<void> {
     return;
   }
-  close(): any {
+  close(): void {
     return;
   }
-  publish(packet: ReadPacket, callback: (packet: WritePacket) => void): any {
+  publish(packet: ReadPacket, callback: (packet: WritePacket) => void): () => void {
+    callback({});
     return;
   }
-  dispatchEvent<T = any>(packet: ReadPacket): Promise<T> {
+  dispatchEvent<T = unknown>(): Promise<T> {
     return;
   }
 }

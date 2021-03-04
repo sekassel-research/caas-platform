@@ -1,6 +1,7 @@
 import { Inject, Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
+import { Algorithm } from 'jsonwebtoken';
 import { NextFunction } from 'express';
 
 import { Config } from '@caas/srv/config';
@@ -14,7 +15,7 @@ export class AuthMiddleware implements NestMiddleware {
   constructor(@Inject('CONFIG') private config: Config, private jwtService: JwtService) {}
 
   use(req: ExtendedRequest, res: Response, next: NextFunction): void {
-    const algorithms = this.config.auth.algorithms as any[];
+    const algorithms = (this.config.auth.algorithms as unknown) as Algorithm[];
     const issuer = this.config.auth.issuer;
     const authHeader: string[] = req.headers.authorization ? req.headers.authorization.split(' ') : [''];
     if (authHeader[0] === this.AUTH_SCHEMA) {

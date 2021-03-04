@@ -1,10 +1,12 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
+
 import { ConfigService } from './config.service';
+import { Environment } from './environment.interface';
 
 @Global()
 @Module({})
 export class ConfigModule {
-  static forRoot(env: any = { mongo: {}, auth: {}, kafka: {} }): DynamicModule {
+  static forRoot(env: Environment = { mongo: {}, auth: {}, kafka: {} }): DynamicModule {
     const configService = new ConfigService(env);
     const configProviders = [
       {

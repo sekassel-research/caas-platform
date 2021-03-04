@@ -12,6 +12,7 @@
     "test": "ng test",
     "test-all": "npm test artifact-runner-service && npm test certification-service && npm test job-executor-service && npm test test-suite-service",
     "lint": "nx workspace-lint && ng lint",
+    "lint-all": "npm run lint artifact-runner-service && npm run lint certification-service && npm run lint job-executor-service && npm run lint test-suite-service && npm run lint srv-auth && npm run lint srv-config && npm run lint srv-kafka && npm run lint srv-mongo",
     "e2e": "ng e2e",
     "affected:apps": "nx affected:apps",
     "affected:libs": "nx affected:libs",
