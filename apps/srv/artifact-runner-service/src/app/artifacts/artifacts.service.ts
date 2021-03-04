@@ -4,9 +4,10 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import { Model } from 'mongoose';
 
+import { JobEvent } from '@caas/srv/kafka';
+
 import { Artifact, HistoryArtifact } from './artifacts.schema';
 import { CreateArtifactDto, UpdateArtifactDto } from './dto';
-import { JobEvent } from 'apps/srv/job-executor-service/src/app/job-executor/events/job.event';
 
 @Injectable()
 export class ArtifactsService {
@@ -36,7 +37,6 @@ export class ArtifactsService {
     return this.artifactsModel.findOne({ name }).exec();
   }
 
-  // TODO: Remove deprecation warning
   async updateOne(dto: UpdateArtifactDto, oldArtifact: Artifact): Promise<Artifact> {
     const updateId = oldArtifact.id;
     const dtoWithHistory = dto as Artifact;

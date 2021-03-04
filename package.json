@@ -10,6 +10,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
+    "test-all": "npm test artifact-runner-service && npm test certification-service && npm test job-executor-service && npm test test-suite-service",
     "lint": "nx workspace-lint && ng lint",
     "e2e": "ng e2e",
     "affected:apps": "nx affected:apps",
