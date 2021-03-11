@@ -154,21 +154,21 @@ describe('TestSuites', () => {
   });
 
   // Negative error testing of endpoints
-  it('T.6 shouldn\'t create new testSuites', async (done) => {
+  it('T.6 should not create new testSuites', async (done) => {
     await request(server).post('/testSuites').send(brokentestSuite1).expect(HttpStatus.BAD_REQUEST);
     await request(server).post('/testSuites').send(brokentestSuite2).expect(HttpStatus.BAD_REQUEST);
 
     done();
   });
 
-  it('T.7 shouldn\'t create duplicate testSuites', async (done) => {
+  it('T.7 should not create duplicate testSuites', async (done) => {
     await request(server).post('/testSuites').send(testSuite1).expect(HttpStatus.CREATED);
     await request(server).post('/testSuites').send(testSuite1).expect(HttpStatus.BAD_REQUEST);
 
     done();
   });
 
-  it('T.8 shouldn\'t find a specific testSuite', async (done) => {
+  it('T.8 should not find a specific testSuite', async (done) => {
     await request(server).get('/testSuites/do-i-exist').expect(HttpStatus.BAD_REQUEST);
     await request(server)
       .get('/testSuites/' + '139937c5b75b7f8bedee08ad')
@@ -177,7 +177,7 @@ describe('TestSuites', () => {
     done();
   });
 
-  it('T.9 shouldn\'t update testSuite', async (done) => {
+  it('T.9 should not update testSuite', async (done) => {
     await request(server).put('/testSuites/where-am-i').expect(HttpStatus.BAD_REQUEST);
 
     await request(server)
@@ -206,7 +206,7 @@ describe('TestSuites', () => {
     done();
   });
 
-  it('T.10 shouldn\'t delete testSuite', async (done) => {
+  it('T.10 should not delete testSuite', async (done) => {
     await request(server).del('/testSuites/hide-and-seek').expect(HttpStatus.BAD_REQUEST);
     await request(server)
       .get('/testSuites/' + '424242c5b75b7f8bedee08ad')

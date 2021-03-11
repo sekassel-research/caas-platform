@@ -128,7 +128,7 @@ describe('Certificats', () => {
   });
 
   // Negative error testing of endpoints
-  it('C.5 shouldn\'t get a specific certificate', async (done) => {
+  it('C.5 should not get a specific certificate', async (done) => {
     let res = await request(server).get('/certificates').expect(HttpStatus.OK);
 
     const certificates = res.body;
@@ -141,7 +141,7 @@ describe('Certificats', () => {
     done();
   });
 
-  it('C.6 shouldn\'t delete a specific certificate', async (done) => {
+  it('C.6 should not delete a specific certificate', async (done) => {
     let res = await request(server).get('/certificates').expect(HttpStatus.OK);
 
     let certificates = res.body;
