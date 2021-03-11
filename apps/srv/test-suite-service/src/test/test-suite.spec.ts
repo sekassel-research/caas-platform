@@ -179,7 +179,30 @@ describe('TestSuites', () => {
 
   it('T.9 shouldn\'t update testSuite', async (done) => {
     await request(server).put('/testSuites/where-am-i').expect(HttpStatus.BAD_REQUEST);
-    
+
+    await request(server)
+      .get('/testSuites/' + '133742c5b75b7f8bedee08ad')
+      .expect(HttpStatus.NOT_FOUND);
+
+    let res = await request(server).get('/testSuites').expect(HttpStatus.OK);
+    const testSuites = res.body;
+    expect(testSuites.length).toBe(3);
+
+    res = await request(server)
+      .put('/testSuites/' + testSuites[0].id)
+      .send({ ...testSuite1, name: 'updatedName', version: testSuites[0].version })
+      .expect(HttpStatus.BAD_REQUEST);
+
+    res = await request(server)
+      .put('/testSuites/' + testSuites[0].id)
+      .send({ ...testSuite1, name: 'updatedName', version: '1asd!.1.0' })
+      .expect(HttpStatus.BAD_REQUEST);
+
+    res = await request(server)
+      .put('/testSuites/' + testSuites[0].id)
+      .send({ ...testSuite1, name: 'updatedName', dockerImage: 'reg///bRK!' })
+      .expect(HttpStatus.BAD_REQUEST);
+
     done();
   });
 

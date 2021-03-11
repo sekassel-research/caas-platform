@@ -188,7 +188,25 @@ describe('Artifacts', () => {
     await request(server)
       .get('/artifacts/' + '133742c5b75b7f8bedee08ad')
       .expect(HttpStatus.NOT_FOUND);
-    // TODO implement BadRequestExceptions
+
+    let res = await request(server).get('/artifacts').expect(HttpStatus.OK);
+    const artifacts = res.body;
+    expect(artifacts.length).toBe(3);
+
+    res = await request(server)
+      .put('/artifacts/' + artifacts[0].id)
+      .send({ ...artifact1, name: 'updatedName', version: artifacts[0].version })
+      .expect(HttpStatus.BAD_REQUEST);
+
+    res = await request(server)
+      .put('/artifacts/' + artifacts[0].id)
+      .send({ ...artifact1, name: 'updatedName', version: '1asd!.1.0' })
+      .expect(HttpStatus.BAD_REQUEST);
+
+    res = await request(server)
+      .put('/artifacts/' + artifacts[0].id)
+      .send({ ...artifact1, name: 'updatedName', dockerImage: 'reg///bRK!' })
+      .expect(HttpStatus.BAD_REQUEST);
 
     done();
   });
