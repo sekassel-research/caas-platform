@@ -6,7 +6,7 @@ import { MongoIdPipe } from '@caas/srv/mongo';
 import { Certificate } from './certificate.schema';
 import { CertificatesService } from './certificate.service';
 
-@Controller('certificate')
+@Controller('certificates')
 @UseGuards(RoleGuard)
 export class CertificateController {
   constructor(private certificatesService: CertificatesService) {}

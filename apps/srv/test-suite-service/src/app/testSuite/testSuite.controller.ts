@@ -7,7 +7,7 @@ import { TestSuite } from './testSuite.schema';
 import { TestSuitesService } from './testSuite.service';
 import { CreateTestSuiteDto, UpdateTestsuiteDto } from './dto';
 
-@Controller('testSuite')
+@Controller('testSuites')
 @UseGuards(RoleGuard)
 export class TestSuitesController {
   constructor(private testSuitesService: TestSuitesService) {}

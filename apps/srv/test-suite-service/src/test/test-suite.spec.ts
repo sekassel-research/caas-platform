@@ -79,15 +79,15 @@ describe('TestSuites', () => {
 
   // Positive base testing of endpoints
   it('T.1 should create new testSuites', async (done) => {
-    await request(server).post('/testSuite').send(testSuite1).expect(HttpStatus.CREATED);
-    await request(server).post('/testSuite').send(testSuite2).expect(HttpStatus.CREATED);
-    await request(server).post('/testSuite').send(testSuite3).expect(HttpStatus.CREATED);
+    await request(server).post('/testSuites').send(testSuite1).expect(HttpStatus.CREATED);
+    await request(server).post('/testSuites').send(testSuite2).expect(HttpStatus.CREATED);
+    await request(server).post('/testSuites').send(testSuite3).expect(HttpStatus.CREATED);
 
     done();
   });
 
   it('T.2 should get a list of all testSuites', async (done) => {
-    const res = await request(server).get('/testSuite').expect(HttpStatus.OK);
+    const res = await request(server).get('/testSuites').expect(HttpStatus.OK);
 
     const testSuites = res.body;
     expect(testSuites.length).toBe(3);
@@ -99,13 +99,13 @@ describe('TestSuites', () => {
   });
 
   it('T.3 should get a specific testSuite', async (done) => {
-    let res = await request(server).get('/testSuite').expect(HttpStatus.OK);
+    let res = await request(server).get('/testSuites').expect(HttpStatus.OK);
 
     const testSuites = res.body;
     expect(testSuites.length).toBe(3);
 
     res = await request(server)
-      .get('/testSuite/' + testSuites[0].id)
+      .get('/testSuites/' + testSuites[0].id)
       .expect(HttpStatus.OK);
 
     const testSuite = res.body;
@@ -115,7 +115,7 @@ describe('TestSuites', () => {
   });
 
   it('T.4 should update a specific testSuite', async (done) => {
-    let res = await request(server).get('/testSuite').expect(HttpStatus.OK);
+    let res = await request(server).get('/testSuites').expect(HttpStatus.OK);
 
     const testSuites = res.body;
     expect(testSuites.length).toBe(3);
@@ -123,7 +123,7 @@ describe('TestSuites', () => {
     const previousTestSuite = testSuites[0];
 
     res = await request(server)
-      .put('/testSuite/' + testSuites[0].id)
+      .put('/testSuites/' + testSuites[0].id)
       .send({ ...testSuite1, name: 'updatedName', version: '1.1.0' })
       .expect(HttpStatus.OK);
 
@@ -135,17 +135,17 @@ describe('TestSuites', () => {
   });
 
   it('T.5 should delete a specific testSuite', async (done) => {
-    let res = await request(server).get('/testSuite').expect(HttpStatus.OK);
+    let res = await request(server).get('/testSuites').expect(HttpStatus.OK);
 
     let testSuites = res.body;
     expect(testSuites.length).toBe(3);
 
     res = await request(server)
-      .delete('/testSuite/' + testSuites[0].id)
+      .delete('/testSuites/' + testSuites[0].id)
       .expect(HttpStatus.OK);
     expect(res.body.id).toBe(testSuites[0].id);
 
-    res = await request(server).get('/testSuite').expect(HttpStatus.OK);
+    res = await request(server).get('/testSuites').expect(HttpStatus.OK);
 
     testSuites = res.body;
     expect(testSuites.length).toBe(2);
@@ -155,38 +155,38 @@ describe('TestSuites', () => {
 
   // Negative error testing of endpoints
   it('T.6 shouldn\'t create new testSuites', async (done) => {
-    await request(server).post('/testSuite').send(brokentestSuite1).expect(HttpStatus.BAD_REQUEST);
-    await request(server).post('/testSuite').send(brokentestSuite2).expect(HttpStatus.BAD_REQUEST);
+    await request(server).post('/testSuites').send(brokentestSuite1).expect(HttpStatus.BAD_REQUEST);
+    await request(server).post('/testSuites').send(brokentestSuite2).expect(HttpStatus.BAD_REQUEST);
 
     done();
   });
 
   it('T.7 shouldn\'t create duplicate testSuites', async (done) => {
-    await request(server).post('/testSuite').send(testSuite1).expect(HttpStatus.CREATED);
-    await request(server).post('/testSuite').send(testSuite1).expect(HttpStatus.BAD_REQUEST);
+    await request(server).post('/testSuites').send(testSuite1).expect(HttpStatus.CREATED);
+    await request(server).post('/testSuites').send(testSuite1).expect(HttpStatus.BAD_REQUEST);
 
     done();
   });
 
   it('T.8 shouldn\'t find a specific testSuite', async (done) => {
-    await request(server).get('/testSuite/do-i-exist').expect(HttpStatus.BAD_REQUEST);
+    await request(server).get('/testSuites/do-i-exist').expect(HttpStatus.BAD_REQUEST);
     await request(server)
-      .get('/testSuite/' + '139937c5b75b7f8bedee08ad')
+      .get('/testSuites/' + '139937c5b75b7f8bedee08ad')
       .expect(HttpStatus.NOT_FOUND);
 
     done();
   });
 
   it('T.9 shouldn\'t update testSuite', async (done) => {
-    await request(server).put('/testSuite/where-am-i').expect(HttpStatus.BAD_REQUEST);
-
+    await request(server).put('/testSuites/where-am-i').expect(HttpStatus.BAD_REQUEST);
+    
     done();
   });
 
   it('T.10 shouldn\'t delete testSuite', async (done) => {
-    await request(server).del('/testSuite/hide-and-seek').expect(HttpStatus.BAD_REQUEST);
+    await request(server).del('/testSuites/hide-and-seek').expect(HttpStatus.BAD_REQUEST);
     await request(server)
-      .get('/testSuite/' + '424242c5b75b7f8bedee08ad')
+      .get('/testSuites/' + '424242c5b75b7f8bedee08ad')
       .expect(HttpStatus.NOT_FOUND);
 
     done();

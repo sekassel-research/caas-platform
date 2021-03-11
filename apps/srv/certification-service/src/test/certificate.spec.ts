@@ -72,7 +72,7 @@ describe('Certificats', () => {
     service.create(certificate2);
     service.create(certificate3);
 
-    const res = await request(server).get('/certificate').expect(HttpStatus.OK);
+    const res = await request(server).get('/certificates').expect(HttpStatus.OK);
 
     const certificates = res.body;
     expect(certificates.length).toBe(3);
@@ -81,7 +81,7 @@ describe('Certificats', () => {
   });
 
   it('C.2 should get a list of all certificates', async (done) => {
-    const res = await request(server).get('/certificate').expect(HttpStatus.OK);
+    const res = await request(server).get('/certificates').expect(HttpStatus.OK);
 
     const certificates = res.body;
     expect(certificates.length).toBe(3);
@@ -93,13 +93,13 @@ describe('Certificats', () => {
   });
 
   it('C.3 should get a specific certificate', async (done) => {
-    let res = await request(server).get('/certificate').expect(HttpStatus.OK);
+    let res = await request(server).get('/certificates').expect(HttpStatus.OK);
 
     const certificates = res.body;
     expect(certificates.length).toBe(3);
 
     res = await request(server)
-      .get('/certificate/' + certificates[0].id)
+      .get('/certificates/' + certificates[0].id)
       .expect(HttpStatus.OK);
 
     const certificate = res.body;
@@ -109,17 +109,17 @@ describe('Certificats', () => {
   });
 
   it('C.4 should delete a specific certificate', async (done) => {
-    let res = await request(server).get('/certificate').expect(HttpStatus.OK);
+    let res = await request(server).get('/certificates').expect(HttpStatus.OK);
 
     let certificates = res.body;
     expect(certificates.length).toBe(3);
 
     res = await request(server)
-      .delete('/certificate/' + certificates[0].id)
+      .delete('/certificates/' + certificates[0].id)
       .expect(HttpStatus.OK);
     expect(res.body.id).toBe(certificates[0].id);
 
-    res = await request(server).get('/certificate').expect(HttpStatus.OK);
+    res = await request(server).get('/certificates').expect(HttpStatus.OK);
 
     certificates = res.body;
     expect(certificates.length).toBe(2);
@@ -129,26 +129,26 @@ describe('Certificats', () => {
 
   // Negative error testing of endpoints
   it('C.5 shouldn\'t get a specific certificate', async (done) => {
-    let res = await request(server).get('/certificate').expect(HttpStatus.OK);
+    let res = await request(server).get('/certificates').expect(HttpStatus.OK);
 
     const certificates = res.body;
     expect(certificates.length).toBe(2);
 
     res = await request(server)
-      .get('/certificate/' + '427f191e810c19729de860ea')
+      .get('/certificates/' + '427f191e810c19729de860ea')
       .expect(HttpStatus.NOT_FOUND);
 
     done();
   });
 
   it('C.6 shouldn\'t delete a specific certificate', async (done) => {
-    let res = await request(server).get('/certificate').expect(HttpStatus.OK);
+    let res = await request(server).get('/certificates').expect(HttpStatus.OK);
 
     let certificates = res.body;
     expect(certificates.length).toBe(2);
 
     res = await request(server)
-      .delete('/certificate/' + '507f191e810c19729de860ea')
+      .delete('/certificates/' + '507f191e810c19729de860ea')
       .expect(HttpStatus.NOT_FOUND);
 
     expect(certificates.length).toBe(2);
