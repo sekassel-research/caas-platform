@@ -32,6 +32,18 @@ const testSuite3 = {
   dockerImage: 'reg/my-thi-service:1.1.0',
 };
 
+const brokentestSuite1 = {
+  name: 'MyFirstBrokenService',
+  version: '023:!',
+  dockerImage: 'reg/my-fir-service:1.0.0',
+};
+
+const brokentestSuite2 = {
+  name: 'MySecondBrokenService',
+  version: '1.0.5',
+  dockerImage: 'reg//brok-sErvicce::1.3',
+};
+
 describe('TestSuites', () => {
   let app: INestApplication;
   let mongod: MongoMemoryServer;
@@ -65,6 +77,7 @@ describe('TestSuites', () => {
     await mongod.stop();
   }, 60000);
 
+  // Positive base testing of endpoints
   it('T.1 should create new testSuites', async (done) => {
     await request(server).post('/testSuite').send(testSuite1).expect(HttpStatus.CREATED);
     await request(server).post('/testSuite').send(testSuite2).expect(HttpStatus.CREATED);
@@ -136,6 +149,45 @@ describe('TestSuites', () => {
 
     testSuites = res.body;
     expect(testSuites.length).toBe(2);
+
+    done();
+  });
+
+  // Negative error testing of endpoints
+  it('T.6 shouldn\'t create new testSuites', async (done) => {
+    await request(server).post('/testSuite').send(brokentestSuite1).expect(HttpStatus.BAD_REQUEST);
+    await request(server).post('/testSuite').send(brokentestSuite2).expect(HttpStatus.BAD_REQUEST);
+
+    done();
+  });
+
+  it('T.7 shouldn\'t create duplicate testSuites', async (done) => {
+    await request(server).post('/testSuite').send(testSuite1).expect(HttpStatus.CREATED);
+    await request(server).post('/testSuite').send(testSuite1).expect(HttpStatus.BAD_REQUEST);
+
+    done();
+  });
+
+  it('T.8 shouldn\'t find a specific testSuite', async (done) => {
+    await request(server).get('/testSuite/do-i-exist').expect(HttpStatus.BAD_REQUEST);
+    await request(server)
+      .get('/testSuite/' + '139937c5b75b7f8bedee08ad')
+      .expect(HttpStatus.NOT_FOUND);
+
+    done();
+  });
+
+  it('T.9 shouldn\'t update testSuite', async (done) => {
+    await request(server).put('/testSuite/where-am-i').expect(HttpStatus.BAD_REQUEST);
+
+    done();
+  });
+
+  it('T.10 shouldn\'t delete testSuite', async (done) => {
+    await request(server).del('/testSuite/hide-and-seek').expect(HttpStatus.BAD_REQUEST);
+    await request(server)
+      .get('/testSuite/' + '424242c5b75b7f8bedee08ad')
+      .expect(HttpStatus.NOT_FOUND);
 
     done();
   });

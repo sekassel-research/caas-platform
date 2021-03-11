@@ -65,6 +65,7 @@ describe('Certificats', () => {
     await mongodb.stop();
   }, 60000);
 
+  // Positive base testing of endpoints
   it('C.1 should create new certificates', async (done) => {
     const service = app.get(CertificatesService);
     service.create(certificate1);
@@ -121,6 +122,35 @@ describe('Certificats', () => {
     res = await request(server).get('/certificate').expect(HttpStatus.OK);
 
     certificates = res.body;
+    expect(certificates.length).toBe(2);
+
+    done();
+  });
+
+  // Negative error testing of endpoints
+  it('C.5 shouldn\'t get a specific certificate', async (done) => {
+    let res = await request(server).get('/certificate').expect(HttpStatus.OK);
+
+    const certificates = res.body;
+    expect(certificates.length).toBe(2);
+
+    res = await request(server)
+      .get('/certificate/' + '427f191e810c19729de860ea')
+      .expect(HttpStatus.NOT_FOUND);
+
+    done();
+  });
+
+  it('C.6 shouldn\'t delete a specific certificate', async (done) => {
+    let res = await request(server).get('/certificate').expect(HttpStatus.OK);
+
+    let certificates = res.body;
+    expect(certificates.length).toBe(2);
+
+    res = await request(server)
+      .delete('/certificate/' + '507f191e810c19729de860ea')
+      .expect(HttpStatus.NOT_FOUND);
+
     expect(certificates.length).toBe(2);
 
     done();

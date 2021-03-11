@@ -160,21 +160,21 @@ describe('Artifacts', () => {
   });
 
   // Negative error testing of endpoints
-  it("A.6 shouldn't create new artifacts", async (done) => {
+  it('A.6 shouldn\'t create new artifacts', async (done) => {
     await request(server).post('/artifacts').send(brokenArtifact1).expect(HttpStatus.BAD_REQUEST);
     await request(server).post('/artifacts').send(brokenArtifact2).expect(HttpStatus.BAD_REQUEST);
 
     done();
   });
 
-  it("A.7 shouldn't create duplicate artifacts", async (done) => {
+  it('A.7 shouldn\'t create duplicate artifacts', async (done) => {
     await request(server).post('/artifacts').send(artifact1).expect(HttpStatus.CREATED);
     await request(server).post('/artifacts').send(artifact1).expect(HttpStatus.BAD_REQUEST);
 
     done();
   });
 
-  it("A.8 shouldn't find artifact", async (done) => {
+  it('A.8 shouldn\'t find artifact', async (done) => {
     await request(server).get('/artifacts/do-i-exist').expect(HttpStatus.BAD_REQUEST);
     await request(server)
       .get('/artifacts/' + '421337c5b75b7f8bedee08ad')
@@ -183,7 +183,7 @@ describe('Artifacts', () => {
     done();
   });
 
-  it("A.9 shouldn't update artifact", async (done) => {
+  it('A.9 shouldn\'t update artifact', async (done) => {
     await request(server).put('/artifacts/where-am-i').expect(HttpStatus.BAD_REQUEST);
     await request(server)
       .get('/artifacts/' + '133742c5b75b7f8bedee08ad')
@@ -193,7 +193,7 @@ describe('Artifacts', () => {
     done();
   });
 
-  it("A.10 shouldn't delete artifact", async (done) => {
+  it('A.10 shouldn\'t delete artifact', async (done) => {
     await request(server).del('/artifacts/hide-and-seek').expect(HttpStatus.BAD_REQUEST);
     await request(server)
       .get('/artifacts/' + '424242c5b75b7f8bedee08ad')
