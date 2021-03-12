@@ -1,18 +1,4 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Delete,
-  Get,
-  NotFoundException,
-  Param,
-  Post,
-  Put,
-  Query,
-  UseGuards,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 
 import { RoleGuard, Roles } from '@caas/srv/auth';
 import { MongoIdPipe } from '@caas/srv/mongo';
@@ -21,9 +7,8 @@ import { TestSuite } from './testSuite.schema';
 import { TestSuitesService } from './testSuite.service';
 import { CreateTestSuiteDto, UpdateTestsuiteDto } from './dto';
 
-@Controller('testSuite')
+@Controller('testSuites')
 @UseGuards(RoleGuard)
-@UsePipes(new ValidationPipe())
 export class TestSuitesController {
   constructor(private testSuitesService: TestSuitesService) {}
 

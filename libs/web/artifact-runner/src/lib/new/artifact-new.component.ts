@@ -25,11 +25,7 @@ export class ArtifactNewComponent {
   public isSaving = false;
   public errMsgs: string[] = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private artifactService: ArtifactService
-  ) {
+  constructor(private route: ActivatedRoute, private router: Router, private artifactService: ArtifactService) {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required]),
       version: new FormControl('', [Validators.required, Validators.pattern(/\d+\.\d+\.\d+/)]),
@@ -49,7 +45,7 @@ export class ArtifactNewComponent {
     return this.form.get('dockerImage') as FormControl;
   }
 
-  public onCreate({ value, valid }: { value: ArtifactForm, valid: boolean }): void {
+  public onCreate({ value, valid }: { value: ArtifactForm; valid: boolean }): void {
     if (!this.validateForm() || !valid) {
       return;
     }
@@ -62,12 +58,12 @@ export class ArtifactNewComponent {
     };
 
     this.artifactService.create(artifactDto).subscribe(
-      (data) => this.isSaving = false,
+      () => (this.isSaving = false),
       (error) => {
         UIkit.notification(`Error while saving Artifacts: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
         this.isSaving = false;
       },
-      () =>  this.router.navigate(['../'], { relativeTo: this.route })
+      () => this.router.navigate(['../'], { relativeTo: this.route }),
     );
   }
 

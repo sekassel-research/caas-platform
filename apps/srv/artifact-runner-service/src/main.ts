@@ -3,13 +3,13 @@
  * This is only a minimal backend to get started.
  */
 
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 import { Config, ConfigService } from '@caas/srv/config';
 
 import { AppModule } from './app/app.module';
-import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -29,7 +29,7 @@ async function bootstrap() {
       },
       consumer: {
         groupId: `${config.kafka.clientId}-consumer`,
-      }
+      },
     },
   });
 

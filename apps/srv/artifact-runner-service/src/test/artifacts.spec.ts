@@ -33,6 +33,18 @@ const artifact3 = {
   dockerImage: 'reg/my-thi-service:1.1.0',
 };
 
+const brokenArtifact1 = {
+  name: 'MyFirstBrokenService',
+  version: '023:!',
+  dockerImage: 'reg/my-fir-service:1.1.3',
+};
+
+const brokenArtifact2 = {
+  name: 'MySecondBrokenService',
+  version: '1.0.3',
+  dockerImage: 'reg///bRKeeN-sErvicce:::1.1',
+};
+
 describe('Artifacts', () => {
   let app: INestApplication;
   let mongod: MongoMemoryServer;
@@ -147,5 +159,64 @@ describe('Artifacts', () => {
     done();
   });
 
-  // Negative error testing
+  // Negative error testing of endpoints
+  it('A.6 should not create new artifacts', async (done) => {
+    await request(server).post('/artifacts').send(brokenArtifact1).expect(HttpStatus.BAD_REQUEST);
+    await request(server).post('/artifacts').send(brokenArtifact2).expect(HttpStatus.BAD_REQUEST);
+
+    done();
+  });
+
+  it('A.7 should not create duplicate artifacts', async (done) => {
+    await request(server).post('/artifacts').send(artifact1).expect(HttpStatus.CREATED);
+    await request(server).post('/artifacts').send(artifact1).expect(HttpStatus.BAD_REQUEST);
+
+    done();
+  });
+
+  it('A.8 should not find artifact', async (done) => {
+    await request(server).get('/artifacts/do-i-exist').expect(HttpStatus.BAD_REQUEST);
+    await request(server)
+      .get('/artifacts/' + '421337c5b75b7f8bedee08ad')
+      .expect(HttpStatus.NOT_FOUND);
+
+    done();
+  });
+
+  it('A.9 should not update artifact', async (done) => {
+    await request(server).put('/artifacts/where-am-i').expect(HttpStatus.BAD_REQUEST);
+    await request(server)
+      .get('/artifacts/' + '133742c5b75b7f8bedee08ad')
+      .expect(HttpStatus.NOT_FOUND);
+
+    let res = await request(server).get('/artifacts').expect(HttpStatus.OK);
+    const artifacts = res.body;
+    expect(artifacts.length).toBe(3);
+
+    res = await request(server)
+      .put('/artifacts/' + artifacts[0].id)
+      .send({ ...artifact1, name: 'updatedName', version: artifacts[0].version })
+      .expect(HttpStatus.BAD_REQUEST);
+
+    res = await request(server)
+      .put('/artifacts/' + artifacts[0].id)
+      .send({ ...artifact1, name: 'updatedName', version: '1asd!.1.0' })
+      .expect(HttpStatus.BAD_REQUEST);
+
+    res = await request(server)
+      .put('/artifacts/' + artifacts[0].id)
+      .send({ ...artifact1, name: 'updatedName', dockerImage: 'reg///bRK!' })
+      .expect(HttpStatus.BAD_REQUEST);
+
+    done();
+  });
+
+  it('A.10 should not delete artifact', async (done) => {
+    await request(server).del('/artifacts/hide-and-seek').expect(HttpStatus.BAD_REQUEST);
+    await request(server)
+      .get('/artifacts/' + '424242c5b75b7f8bedee08ad')
+      .expect(HttpStatus.NOT_FOUND);
+
+    done();
+  });
 });

@@ -30,21 +30,11 @@ export class ArtifactEditComponent implements OnInit {
 
   private currentArtifact!: Artifact;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private artifactService: ArtifactService
-  ) {
+  constructor(private route: ActivatedRoute, private router: Router, private artifactService: ArtifactService) {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required]),
-      version: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/\d+\.\d+\.\d+/),
-      ]),
-      dockerImage: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/([\w-]+\/)?([\w-]+:\d+\.\d+\.\d+)/),
-      ]),
+      version: new FormControl('', [Validators.required, Validators.pattern(/\d+\.\d+\.\d+/)]),
+      dockerImage: new FormControl('', [Validators.required, Validators.pattern(/([\w-]+\/)?([\w-]+:\d+\.\d+\.\d+)/)]),
       certificate: new FormControl(''),
     });
   }
@@ -66,27 +56,29 @@ export class ArtifactEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.pipe(
-      switchMap((params: Params) => this.artifactService.getOne(params.id)),
-      tap((val) => this.isLoading = false)
-    ).subscribe(
-      (data) => {
-        this.currentArtifact = data;
-        this.form.patchValue({
-          name: data.name,
-          version: data.version,
-          dockerImage: data.dockerImage,
-          certification: data.certificate || '',
-        });
-      },
-      (error) => {
-        UIkit.notification(`Error while loading Artifact: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
-        this.isLoading = false;
-      },
-    );
+    this.route.params
+      .pipe(
+        switchMap((params: Params) => this.artifactService.getOne(params.id)),
+        tap(() => (this.isLoading = false)),
+      )
+      .subscribe(
+        (data) => {
+          this.currentArtifact = data;
+          this.form.patchValue({
+            name: data.name,
+            version: data.version,
+            dockerImage: data.dockerImage,
+            certification: data.certificate || '',
+          });
+        },
+        (error) => {
+          UIkit.notification(`Error while loading Artifact: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+          this.isLoading = false;
+        },
+      );
   }
 
-  public onSave({ value, valid }: { value: ArtifactForm, valid: boolean }): void {
+  public onSave({ value, valid }: { value: ArtifactForm; valid: boolean }): void {
     if (!this.validateForm || !valid || this.isSaving) {
       return;
     }
@@ -98,13 +90,13 @@ export class ArtifactEditComponent implements OnInit {
       dockerImage: value.dockerImage,
     };
 
-    this.artifactService.updateOne(this.currentArtifact.id!, artifactDto).subscribe(
-      (data) => this.isSaving = false,
+    this.artifactService.updateOne(this.currentArtifact.id, artifactDto).subscribe(
+      () => (this.isSaving = false),
       (error) => {
         UIkit.notification(`Error while updating Artifacts: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
         this.isSaving = false;
       },
-      () => this.router.navigate(['../'], { relativeTo: this.route })
+      () => this.router.navigate(['../'], { relativeTo: this.route }),
     );
   }
 
@@ -117,18 +109,17 @@ export class ArtifactEditComponent implements OnInit {
   }
 
   public onDelete(): void {
-    UIkit.modal.confirm(`Are you sure to delete the Artifact: "${this.currentArtifact.name}"?`)
-    .then(() => {
+    UIkit.modal.confirm(`Are you sure to delete the Artifact: "${this.currentArtifact.name}"?`).then(() => {
       this.isLoading = true;
-      this.artifactService.deleteOne(this.currentArtifact.id!).subscribe(
-        (data) => this.isLoading = false,
+      this.artifactService.deleteOne(this.currentArtifact.id).subscribe(
+        () => (this.isLoading = false),
         (error) => {
           UIkit.notification(`Error while updating Artifacts: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
           this.isLoading = false;
         },
-        () => this.router.navigate(['../'], { relativeTo: this.route })
+        () => this.router.navigate(['../'], { relativeTo: this.route }),
       );
-    }, () => {});
+    });
   }
 
   private validateForm(): boolean {

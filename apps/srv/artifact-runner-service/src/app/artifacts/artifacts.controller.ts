@@ -12,8 +12,6 @@ import {
   Query,
   UseFilters,
   UseGuards,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { ClientKafka, Payload } from '@nestjs/microservices';
 
@@ -28,8 +26,6 @@ import { CertificateGrantedEvent } from './events';
 
 @Controller('artifacts')
 @UseGuards(RoleGuard)
-@UseFilters(KafkaExceptionFilter)
-@UsePipes(new ValidationPipe())
 export class ArtifactsController {
   constructor(@Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka, private artifactsService: ArtifactsService) {}
 
@@ -99,8 +95,9 @@ export class ArtifactsController {
   // -----------KAFKA-----------
   /**
    * TEST_IMPLEMENTATION_FOR_TESTING_ONLY
-   * @param event 
+   * @param event
    */
+  @UseFilters(KafkaExceptionFilter)
   @KafkaTopic('certification')
   async onCertificateGranted(@Payload() event: CertificateGrantedEvent): Promise<void> {
     console.log(event);
