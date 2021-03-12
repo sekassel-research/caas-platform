@@ -144,7 +144,7 @@ describe('Certificats', () => {
   it('C.6 should not delete a specific certificate', async (done) => {
     let res = await request(server).get('/certificates').expect(HttpStatus.OK);
 
-    let certificates = res.body;
+    const certificates = res.body;
     expect(certificates.length).toBe(2);
 
     res = await request(server)
