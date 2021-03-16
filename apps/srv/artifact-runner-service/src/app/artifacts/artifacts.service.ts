@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { InjectModel } from '@nestjs/mongoose';
 
@@ -11,6 +11,8 @@ import { CreateArtifactDto, UpdateArtifactDto } from './dto';
 
 @Injectable()
 export class ArtifactsService {
+  private readonly logger = new Logger(ArtifactsService.name);
+
   constructor(
     @InjectModel('artifacts') private readonly artifactsModel: Model<Artifact>,
     @InjectModel('historyArtifacts') private readonly historyModel: Model<HistoryArtifact>,
@@ -69,11 +71,13 @@ export class ArtifactsService {
 
   async pullDockerImage(dockerTag: string) {
     const jobevent = new JobEvent('docker pull', dockerTag, '', '');
+    this.logger.log('Emitted jobexecute-Event.');
     this.kafkaClient.emit<string>('jobexecute', JSON.stringify(jobevent));
   }
 
   async runDockerImage(dockerTag: string, name: string) {
     const jobevent = new JobEvent('docker run', dockerTag, `--name ${name}`, '');
+    this.logger.log('Emitted jobexecute-Event.');
     this.kafkaClient.emit<string>('jobexecute', JSON.stringify(jobevent));
   }
 }
