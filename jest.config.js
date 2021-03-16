@@ -1,7 +1,7 @@
 module.exports = {
   projects: [
     '<rootDir>/apps/web/caas',
-    '<rootDir>/apps/srv/artifact-runner-service',
+    '<rootDir>/apps/srv/artifact-service',
     '<rootDir>/apps/srv/test-suite-service',
     '<rootDir>/apps/srv/certification-service',
     '<rootDir>/apps/srv/job-executor-service',
