@@ -6,7 +6,7 @@ import { MongoIdPipe } from '@caas/srv/mongo';
 import { TestSuite } from './testSuite.schema';
 import { TestSuitesService } from './testSuite.service';
 import { CreateTestSuiteDto, UpdateTestsuiteDto } from './dto';
-import { Constants } from 'tools/util/constants'
+import { Constants } from 'tools/util/constants';
 
 @Controller('testSuites')
 @UseGuards(RoleGuard)

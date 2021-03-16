@@ -8,7 +8,7 @@ import { JobEvent } from '@caas/srv/kafka';
 
 import { Artifact, HistoryArtifact } from './artifacts.schema';
 import { CreateArtifactDto, UpdateArtifactDto } from './dto';
-import { Constants } from 'tools/util/constants'
+import { Constants } from 'tools/util/constants';
 
 @Injectable()
 export class ArtifactsService {

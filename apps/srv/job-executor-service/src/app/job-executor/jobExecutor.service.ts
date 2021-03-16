@@ -2,11 +2,11 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { exec } from 'child_process';
 import { JobEvent, JobState } from '@caas/srv/kafka';
-import { Constants } from 'tools/util/constants'
+import { Constants } from 'tools/util/constants';
 
 @Injectable()
 export class JobExecutorService {
-  constructor(@Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka) { }
+  constructor(@Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka) {}
 
   async executeJob(jobEvent: JobEvent) {
     const jobEventJson = JSON.parse(JSON.stringify(jobEvent));

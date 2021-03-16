@@ -23,7 +23,7 @@ import { Artifact } from './artifacts.schema';
 import { ArtifactsService } from './artifacts.service';
 import { CreateArtifactDto, UpdateArtifactDto } from './dto';
 import { CertificateGrantedEvent } from './events';
-import { Constants } from 'tools/util/constants'
+import { Constants } from 'tools/util/constants';
 
 @Controller('artifacts')
 @UseGuards(RoleGuard)
