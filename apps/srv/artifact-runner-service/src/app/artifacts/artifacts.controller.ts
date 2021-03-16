@@ -104,3 +104,4 @@ export class ArtifactsController {
     console.log(event);
   }
 }
+}
