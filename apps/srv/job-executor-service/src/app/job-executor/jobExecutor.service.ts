@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { exec } from 'child_process';
-import { JobEvent, JobState } from './events/job.event';
+import { JobEvent, JobState } from '@caas/srv/kafka';
 
 @Injectable()
 export class JobExecutorService {
