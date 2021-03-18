@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'artifact-runner-service',
+  displayName: 'artifact-service',
   preset: '../../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -10,5 +10,5 @@ module.exports = {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../coverage/apps/srv/artifact-runner-service',
+  coverageDirectory: '../../../coverage/apps/srv/artifact-service',
 };
