@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { exec } from 'child_process';
 import { JobEvent, JobState } from '@caas/srv/kafka';
@@ -6,6 +6,8 @@ import { Constants } from 'tools/util/constants';
 
 @Injectable()
 export class JobExecutorService {
+  private readonly logger = new Logger(JobExecutorService.name);
+
   constructor(@Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka) {}
 
   async executeJob(jobEvent: JobEvent) {
@@ -22,15 +24,16 @@ export class JobExecutorService {
     });
 
     execute.stderr.on('data', (data) => {
-      console.error(`Job Failed`);
-      console.error(`stderr: ${data}`);
+      this.logger.error(`Job Failed. stderr: ${data}`);
       jobEvent.jobStatus = JobState.ERROR;
       jobEvent.dockerError += data;
+      this.logger.log('Emitted jobfinished-Event.');
       this.kafkaClient.emit<string>(Constants.KAFKA_JOB_FINISHED, JSON.stringify(jobEvent));
     });
 
     execute.on('exit', () => {
       jobEvent.jobStatus = JobState.DONE;
+      this.logger.log('Emitted jobfinished-Event.');
       this.kafkaClient.emit<string>(Constants.KAFKA_JOB_FINISHED, JSON.stringify(jobEvent));
     });
   }

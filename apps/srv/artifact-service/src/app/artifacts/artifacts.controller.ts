@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   Inject,
+  Logger,
   NotFoundException,
   Param,
   Post,
@@ -28,6 +29,8 @@ import { Constants } from 'tools/util/constants';
 @Controller('artifacts')
 @UseGuards(RoleGuard)
 export class ArtifactsController {
+  private readonly logger = new Logger(ArtifactsController.name);
+
   constructor(@Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka, private artifactsService: ArtifactsService) {}
 
   // -----------REST-----------
@@ -101,6 +104,7 @@ export class ArtifactsController {
   @UseFilters(KafkaExceptionFilter)
   @KafkaTopic(Constants.KAFKA_CERTIFICATION)
   async onCertificateGranted(@Payload() event: CertificateGrantedEvent): Promise<void> {
+    this.logger.log('Consumed CertificateGrantedEvent.');
     console.log(event);
   }
 }
