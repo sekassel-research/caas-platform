@@ -13,11 +13,11 @@ To run the application use `npm start`
 The backend is created with NestJS 7
 
 To run a service use `npm run nx serve xxx` or (if `nx` is installed globally) `nx serve xxx`
-For example, to start the `artifact-runner-service` use `nx serve artifact-runner-service`
+For example, to start the `artifact-service` use `nx serve artifact-service`
 
 Available services:
 
-- `artifact-runner-service`
+- `artifact-service`
 - `test-suite-service`
 - `certification-service`
 - `job-executor-service`
@@ -38,4 +38,4 @@ You can also use the command `npm run infra`.
 
 docker build --build-arg PROJECT=caas -f Dockerfile.Web -t caas:1.0.0 .
 
-docker build --build-arg PROJECT=artifact-runner-service -f Dockerfile.Node -t art:1.0.0 .
+docker build --build-arg PROJECT=artifact-service -f Dockerfile.Node -t art:1.0.0 .

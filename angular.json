@@ -178,20 +178,20 @@
         }
       }
     },
-    "artifact-runner-service": {
-      "root": "apps/srv/artifact-runner-service",
-      "sourceRoot": "apps/srv/artifact-runner-service/src",
+    "artifact-service": {
+      "root": "apps/srv/artifact-service",
+      "sourceRoot": "apps/srv/artifact-service/src",
       "projectType": "application",
-      "prefix": "artifact-runner-service",
+      "prefix": "artifact-service",
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/srv/artifact-runner-service",
-            "main": "apps/srv/artifact-runner-service/src/main.ts",
-            "tsConfig": "apps/srv/artifact-runner-service/tsconfig.app.json",
-            "assets": ["apps/srv/artifact-runner-service/src/assets"]
+            "outputPath": "dist/apps/srv/artifact-service",
+            "main": "apps/srv/artifact-service/src/main.ts",
+            "tsConfig": "apps/srv/artifact-service/tsconfig.app.json",
+            "assets": ["apps/srv/artifact-service/src/assets"]
           },
           "configurations": {
             "production": {
@@ -200,8 +200,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/srv/artifact-runner-service/src/environments/environment.ts",
-                  "with": "apps/srv/artifact-runner-service/src/environments/environment.prod.ts"
+                  "replace": "apps/srv/artifact-service/src/environments/environment.ts",
+                  "with": "apps/srv/artifact-service/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -210,20 +210,20 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "artifact-runner-service:build"
+            "buildTarget": "artifact-service:build"
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/srv/artifact-runner-service/**/*.ts"]
+            "lintFilePatterns": ["apps/srv/artifact-service/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/srv/artifact-runner-service"],
+          "outputs": ["coverage/apps/srv/artifact-service"],
           "options": {
-            "jestConfig": "apps/srv/artifact-runner-service/jest.config.js",
+            "jestConfig": "apps/srv/artifact-service/jest.config.js",
             "passWithNoTests": true
           }
         }

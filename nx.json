@@ -39,7 +39,7 @@
     "web-auth": {
       "tags": []
     },
-    "artifact-runner-service": {
+    "artifact-service": {
       "tags": []
     },
     "srv-auth": {
