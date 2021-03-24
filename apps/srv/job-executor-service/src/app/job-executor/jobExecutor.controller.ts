@@ -4,7 +4,7 @@ import { Payload } from '@nestjs/microservices';
 import { KafkaTopic, JobEvent } from '@caas/srv/kafka';
 
 import { JobExecutorService } from './jobExecutor.service';
-import { Constants } from 'tools/util/constants';
+import { environment as Environment } from '../../environments/environment';
 
 @Controller()
 export class JobExecutorController {
@@ -16,7 +16,7 @@ export class JobExecutorController {
   /**
    * TEST_IMPLEMENTATION_FOR_TESTING_ONLY
    */
-  @KafkaTopic(Constants.KAFKA_JOB_EXECUTE)
+  @KafkaTopic(Environment.KAFKA_JOB_EXECUTE)
   async onCertificateGranted(@Payload() jobEvent: JobEvent): Promise<void> {
     this.logger.log('Consumed jobexecute-Event.');
     this.jobExecutorService.executeJob(jobEvent);

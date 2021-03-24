@@ -24,7 +24,7 @@ import { Artifact } from './artifacts.schema';
 import { ArtifactsService } from './artifacts.service';
 import { CreateArtifactDto, UpdateArtifactDto } from './dto';
 import { CertificateGrantedEvent } from './events';
-import { Constants } from 'tools/util/constants';
+import { environment as Environment } from '../../environments/environment';
 
 @Controller('artifacts')
 @UseGuards(RoleGuard)
@@ -40,10 +40,10 @@ export class ArtifactsController {
     if (oldArtifact) {
       throw new BadRequestException(`Artifact with name ${dto.name} already exists.`);
     }
-    if (!dto.version.match(Constants.REGEX_VERSION_FORMAT)) {
+    if (!dto.version.match(Environment.REGEX_VERSION_FORMAT)) {
       throw new BadRequestException('Invalid format for version, use 1.0.0');
     }
-    if (!dto.dockerImage.match(Constants.REGEX_DOCKER_TAG)) {
+    if (!dto.dockerImage.match(Environment.REGEX_DOCKER_TAG)) {
       throw new BadRequestException('Invalid format for docker tags, use mydock:1.0.0 or test/mydock:1.2.1');
     }
 
@@ -72,13 +72,13 @@ export class ArtifactsController {
     if (!artifact) {
       throw new NotFoundException('Could not find artifact with given ID.');
     }
-    if (!dto.version.match(Constants.REGEX_VERSION_FORMAT)) {
+    if (!dto.version.match(Environment.REGEX_VERSION_FORMAT)) {
       throw new BadRequestException('Invalid format for version, use 1.0.0');
     }
     if (dto.version && artifact.version === dto.version) {
       throw new BadRequestException('Version needs to be increased');
     }
-    if (!dto.dockerImage.match(Constants.REGEX_DOCKER_TAG)) {
+    if (!dto.dockerImage.match(Environment.REGEX_DOCKER_TAG)) {
       throw new BadRequestException('Invalid format for docker tags, use mydock:1.0.0 or test/mydock:1.2.1');
     }
 
@@ -102,7 +102,7 @@ export class ArtifactsController {
    * @param event
    */
   @UseFilters(KafkaExceptionFilter)
-  @KafkaTopic(Constants.KAFKA_CERTIFICATION)
+  @KafkaTopic(Environment.KAFKA_CERTIFICATION)
   async onCertificateGranted(@Payload() event: CertificateGrantedEvent): Promise<void> {
     this.logger.log('Consumed CertificateGrantedEvent.');
     console.log(event);
