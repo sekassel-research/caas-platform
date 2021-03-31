@@ -14,12 +14,9 @@ export class CertificateComponent implements OnInit {
     this.loadCertificates();
   }
 
-  private loadCertificates() :void {
+  private loadCertificates(): void {
     // TODO logic
 
     this.isLoading = false;
   }
 }
-
-
-
