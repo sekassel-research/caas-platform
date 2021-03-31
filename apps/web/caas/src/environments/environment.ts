@@ -11,7 +11,7 @@ export const environment = {
   },
   httpConf: {
     artifact: 'http://localhost:3000/api/artifacts',
-    confirmancetest: 'http://localhost:3000/api/tests',
+    confirmancetest: 'http://localhost:3000/api/testSuites',
   },
 };
 
