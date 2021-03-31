@@ -1,71 +1,77 @@
 <header>
-    <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
-        <nav class="uk-navbar-container" uk-navbar>
-            <div class="uk-navbar-left">
-                <a class="uk-navbar-item uk-logo" routerLink="/">CertAsAService</a>
-            </div>
+  <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
+    <nav class="uk-navbar-container" uk-navbar>
+      <div class="uk-navbar-left">
+        <a class="uk-navbar-item uk-logo" routerLink="/">CertAsAService</a>
+      </div>
 
-            <div class="uk-navbar-center">
-                <div *ngIf="authenticated">
-                    <ul class="uk-navbar-nav">
-                        <li *ngIf="hasRole('admin')"><a routerLink="/artifacts" routerLinkActive="uk-active">Artifacts</a></li>
-                        <li *ngIf="hasRole('admin')"><a routerLink="/tests" routerLinkActive="uk-active">Tests</a></li>
-                    </ul>
-                </div>
-            </div>
+      <div class="uk-navbar-center">
+        <div *ngIf="authenticated">
+          <ul class="uk-navbar-nav">
+            <li *ngIf="hasRole('admin')"><a routerLink="/artifacts" routerLinkActive="uk-active">Artifacts</a></li>
+            <li *ngIf="hasRole('admin')"><a routerLink="/tests" routerLinkActive="uk-active">Tests</a></li>
+            <li *ngIf="hasRole('admin')"><a routerLink="/certificate" routerLinkActive="uk-active">Certificates</a></li>
+          </ul>
+        </div>
+      </div>
 
-            <div class="uk-navbar-right">
-                <div class="uk-navbar-item" *ngIf="!authenticated">
-                    <button id="loginBtn" class="uk-button uk-button-default" (click)="keycloakService.login()">Login</button>
-                </div>
-                <div *ngIf="authenticated">
-                    <div class="uk-navbar-item">
-                        <button id="logoutBtn" class="uk-button uk-button-default" (click)="keycloakService.logout()">Logout</button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
+      <div class="uk-navbar-right">
+        <div class="uk-navbar-item" *ngIf="!authenticated">
+          <button id="loginBtn" class="uk-button uk-button-default" (click)="keycloakService.login()">Login</button>
+        </div>
+        <div *ngIf="authenticated">
+          <div class="uk-navbar-item">
+            <button id="logoutBtn" class="uk-button uk-button-default" (click)="keycloakService.logout()">Logout</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
 </header>
 
 <main>
-    <diV uk-height-viewport="offset-bottom: true">
-        <router-outlet></router-outlet>
-    </diV>
+  <diV uk-height-viewport="offset-bottom: true">
+    <router-outlet></router-outlet>
+  </diV>
 
-    <div class="uk-section uk-section-small uk-section-secondary">
-        <div class="uk-grid uk-child-width-expand uk-grid-divider" uk-grid>
-            <div class="uk-margin-medium-left">
-                <p>This platform is part of the Interconnect EU project.</p>
-                <img src="/assets/images/interconnectlogo.svg" class="uk-preserve" uk-svg>
-            </div>
-            <div class="uk-width-1-3">
-                <div class="uk-grid" uk-grid>
-                    <div>
-                        <p>
-                            <a href="https://www.uni-kassel.de/uni/index.php?id=372" class="uk-margin-medium-right">Legal disclaimer</a>
-                            <a href="https://www.uni-kassel.de/uni/datenschutz">Data protection</a>
-                        </p>
-                        <p>
-                            Research Group Software Engineering
-                            <br>
-                            Rooms 1337 -1342
-                            <br>
-                            Wilhelmhshöher Allee 73
-                            <br>
-                            34121 Kassel
-                        </p>
-                    </div>
-                    <div>
-                        <img data-src="/assets/images/selogo.png" width="200" uk-img>
-                    </div>
-                </div>
-            </div>
-            <div class="uk-margin-medium-right">
-                <img src="/assets/images/eu.svg" class="uk-preserve" style="max-height: 36;" uk-svg>
-                <p class="uk-text-small">This project has received funding from the European Union’s Horizon 2020 research and innovation programme under Grant agreement No 857237.</p>
-                <p class="uk-text-small">DISCLAIMER: The sole responsibility for the content lies with the authors. It does not necessarily reflect the opinion of the CNECT or the European Commission (EC). CNECT or the EC are not responsible for any use that may be made of the information contained therein.</p>
-            </div>
+  <div class="uk-section uk-section-small uk-section-secondary">
+    <div class="uk-grid uk-child-width-expand uk-grid-divider" uk-grid>
+      <div class="uk-margin-medium-left">
+        <p>This platform is part of the Interconnect EU project.</p>
+        <img src="/assets/images/interconnectlogo.svg" class="uk-preserve" uk-svg />
+      </div>
+      <div class="uk-width-1-3">
+        <div class="uk-grid" uk-grid>
+          <div>
+            <p>
+              <a href="https://www.uni-kassel.de/uni/index.php?id=372" class="uk-margin-medium-right">Legal disclaimer</a>
+              <a href="https://www.uni-kassel.de/uni/datenschutz">Data protection</a>
+            </p>
+            <p>
+              Research Group Software Engineering
+              <br />
+              Rooms 1337 -1342
+              <br />
+              Wilhelmhshöher Allee 73
+              <br />
+              34121 Kassel
+            </p>
+          </div>
+          <div>
+            <img data-src="/assets/images/selogo.png" width="200" uk-img />
+          </div>
         </div>
+      </div>
+      <div class="uk-margin-medium-right">
+        <img src="/assets/images/eu.svg" class="uk-preserve" style="max-height: 36" uk-svg />
+        <p class="uk-text-small">
+          This project has received funding from the European Union’s Horizon 2020 research and innovation programme under Grant agreement No 857237.
+        </p>
+        <p class="uk-text-small">
+          DISCLAIMER: The sole responsibility for the content lies with the authors. It does not necessarily reflect the opinion of the CNECT or the
+          European Commission (EC). CNECT or the EC are not responsible for any use that may be made of the information contained therein.
+        </p>
+      </div>
     </div>
+  </div>
 </main>

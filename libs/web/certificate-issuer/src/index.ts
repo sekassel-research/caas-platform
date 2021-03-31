@@ -1,1 +1,1 @@
-export * from './lib/web-certificate-issuer.module';
+export * from './lib/certificate-issuer.module';
