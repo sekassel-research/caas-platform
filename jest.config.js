@@ -7,6 +7,7 @@ module.exports = {
     '<rootDir>/apps/srv/job-executor-service',
     '<rootDir>/libs/web/artifact-runner',
     '<rootDir>/libs/web/confirmance-test',
+    '<rootDir>/libs/web/certificate-issuer',
     '<rootDir>/libs/web/auth',
     '<rootDir>/libs/srv/auth',
     '<rootDir>/libs/srv/config',
