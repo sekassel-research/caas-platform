@@ -6,6 +6,7 @@ import { MongoIdPipe } from '@caas/srv/mongo';
 import { TestSuite } from './testSuite.schema';
 import { TestSuitesService } from './testSuite.service';
 import { CreateTestSuiteDto, UpdateTestsuiteDto } from './dto';
+import { environment as Environment } from '../../environments/environment';
 
 @Controller('testSuites')
 @UseGuards(RoleGuard)
@@ -18,10 +19,10 @@ export class TestSuitesController {
     if (oldTestSuite) {
       throw new BadRequestException(`TestSuite with name ${dto.name} already exists.`);
     }
-    if (!dto.version.match(/\d+\.\d+\.\d+/)) {
+    if (!dto.version.match(Environment.REGEX_VERSION_FORMAT)) {
       throw new BadRequestException('Invalid format for version, use 1.0.0');
     }
-    if (!dto.dockerImage.match(/([\w-]+\/)?([\w-]+:\d+\.\d+\.\d+)/)) {
+    if (!dto.dockerImage.match(Environment.REGEX_DOCKER_TAG)) {
       throw new BadRequestException('Invalid format for docker tags, use mydock:1.0.0 or test/mydock:1.2.1');
     }
 
@@ -50,13 +51,13 @@ export class TestSuitesController {
     if (!testSuite) {
       throw new NotFoundException('Could not find testSuite with given ID.');
     }
-    if (!dto.version.match(/\d+\.\d+\.\d+/)) {
+    if (!dto.version.match(Environment.REGEX_VERSION_FORMAT)) {
       throw new BadRequestException('Invalid format for version, use 1.0.0');
     }
     if (dto.version && testSuite.version === dto.version) {
       throw new BadRequestException('Version needs to be increased');
     }
-    if (!dto.dockerImage.match(/([\w-]+\/)?([\w-]+:\d\.\d\.\d)/)) {
+    if (!dto.dockerImage.match(Environment.REGEX_DOCKER_TAG)) {
       throw new BadRequestException('Invalid format for docker tags, use mydock:1.0.0 or test/mydock:1.2.1');
     }
 

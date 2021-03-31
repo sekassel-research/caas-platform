@@ -8,6 +8,7 @@ import { JobEvent } from '@caas/srv/kafka';
 
 import { Artifact, HistoryArtifact } from './artifacts.schema';
 import { CreateArtifactDto, UpdateArtifactDto } from './dto';
+import { environment as Environment } from '../../environments/environment';
 
 @Injectable()
 export class ArtifactsService {
@@ -72,12 +73,12 @@ export class ArtifactsService {
   async pullDockerImage(dockerTag: string) {
     const jobevent = new JobEvent('docker pull', dockerTag, '', '');
     this.logger.log('Emitted jobexecute-Event.');
-    this.kafkaClient.emit<string>('jobexecute', JSON.stringify(jobevent));
+    this.kafkaClient.emit<string>(Environment.KAFKA_JOB_EXECUTE, JSON.stringify(jobevent));
   }
 
   async runDockerImage(dockerTag: string, name: string) {
     const jobevent = new JobEvent('docker run', dockerTag, `--name ${name}`, '');
     this.logger.log('Emitted jobexecute-Event.');
-    this.kafkaClient.emit<string>('jobexecute', JSON.stringify(jobevent));
+    this.kafkaClient.emit<string>(Environment.KAFKA_JOB_EXECUTE, JSON.stringify(jobevent));
   }
 }
