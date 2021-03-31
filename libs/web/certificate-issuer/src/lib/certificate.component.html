@@ -1,4 +1,20 @@
-certificate works!
+<aside class="sidenav">
+  <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+    <li class="uk-nav-header nav-item uk-margin-small-bottom">
+      Your certificates
+      <div class="uk-float-right">
+        <a routerLink="/certificates/new" routerLinkActive="uk-active" uk-tooltip="Add">
+          <span class="uk-margin-small-right" uk-icon="icon: plus"></span>
+        </a>
+      </div>
+    </li>
+    <li *ngIf="isLoading" class="uk-overlay-default uk-position-cover">
+      <div class="uk-position-center">
+        <div uk-spinner="ratio: 2"></div>
+      </div>
+    </li>
+  </ul>
+</aside>
 
 <div class="uk-container uk-position-top-center uk-margin-xlarge-top">
   <router-outlet></router-outlet>

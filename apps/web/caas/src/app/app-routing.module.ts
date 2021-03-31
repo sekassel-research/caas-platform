@@ -30,7 +30,7 @@ const routes: Routes = [
     },
   },
   {
-    path: 'certificate',
+    path: 'certificates',
     loadChildren: () => import('@caas/web/certificate-issuer').then((m) => m.CertificateIssuerModule),
     canActivate: [AuthGuard],
     data: {

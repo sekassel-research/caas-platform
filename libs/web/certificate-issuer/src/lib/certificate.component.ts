@@ -6,7 +6,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./certificate.component.scss'],
 })
 export class CertificateComponent implements OnInit {
+  public isLoading = true;
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadCertificates();
+  }
+
+  private loadCertificates() :void {
+    // TODO logic
+
+    this.isLoading = false;
+  }
 }
+
+
+
