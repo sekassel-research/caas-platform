@@ -1,0 +1,32 @@
+<aside class="sidenav">
+  <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+    <li class="uk-nav-header nav-item">General</li>
+    <li class="nav-item">
+      <a routerLink="/tests" routerLinkActive="uk-active">
+        <span class="uk-margin-small-right" uk-icon="icon: home"></span>
+        Overview
+      </a>
+    </li>
+    <li class="uk-nav-divider"></li>
+    <li class="uk-nav-header nav-item uk-margin-small-bottom">
+      Your tests
+      <div class="uk-float-right">
+        <a routerLink="/tests/new" routerLinkActive="uk-active" uk-tooltip="Add">
+          <span class="uk-margin-small-right" uk-icon="icon: plus"></span>
+        </a>
+      </div>
+    </li>
+    <li *ngIf="isLoading" class="uk-overlay-default uk-position-cover">
+      <div class="uk-position-center">
+        <div uk-spinner="ratio: 2"></div>
+      </div>
+    </li>
+    <li class="nav-item" *ngFor="let test of tests">
+      <a routerLink="/tests/{{ test.id }}" routerLinkActive="uk-active"> {{ test.name }} - {{ test.version }} </a>
+    </li>
+  </ul>
+</aside>
+
+<div class="uk-container uk-position-top-center uk-margin-xlarge-top">
+  <router-outlet></router-outlet>
+</div>

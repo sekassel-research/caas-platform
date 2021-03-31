@@ -1,0 +1,15 @@
+.sidenav {
+  top: 80px;
+  position: fixed;
+  overflow: auto;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-right: 1px #e5e5e5 solid;
+  border-bottom: 1px #e5e5e5 solid;
+  width: 260px;
+}
+
+.nav-item {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
