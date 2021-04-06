@@ -11,13 +11,13 @@ export class ConfigService {
     // create auth config
     const auth: AuthConfig = {};
     auth.algorithms = ['RS256'];
-    auth.issuer = process.env.AUTH_ISSUER || env.auth.issuer || 'https://avocado.uniks.de/auth/realms/InterconnectEU';
+    auth.issuer = process.env.AUTH_ISSUER || env.auth.issuer || 'https://se.uniks.de/auth/realms/InterconnectEU';
     auth.realm = process.env.AUTH_REALM || env.auth.realm || 'InterconnectEU';
-    auth.resource = process.env.AUTH_RESOURCE || env.auth.resource || 'artifact-runner-service';
+    auth.resource = process.env.AUTH_RESOURCE || env.auth.resource || '';
     auth.publicKey =
       process.env.PUBLIC_KEY ||
       env.auth.publicKey ||
-      '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyRyUXMLVQaDfRQrjIJlGs3+KsiOanLTWDhGoQkXO6Q1oumDfulr78NyyK/TC521di5E2qBDXm5V8qhTdxCigArNaDFTc/3HlbQ3NcYDn00Ob3qJmo0eMusLCrrRf0kTJJbZTRNt97DZnn+Ipn54Py30G2lp6gQxeBsiOBrH5fI9eDnyhuBE6hmSXBK9+g3dV+lA1TSfsAGAGPwsV//uw6rXTsCpYEAn+wruP3FwkPVEbpFu5S/dOOE5QJpuaOglDkBO7d0iCgYetMOIhzJEzGfFx127vVrfHN8XhAz6ef79uZYucIdxwKSfjeJOqYtcri0hU8ImoF0R4n26EIz5yiQIDAQAB\n-----END PUBLIC KEY-----';
+      '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAubdShzQB/u2FH4uafpw969VnL5aTBQ13gopiTl3rbsqTGjv/tcQT/oIaGrTMsDvgXQJDihjiUqaEwHJlkSHEQxWkW1ZoSi5S5kospc5sHz2Z41a2cL7godUU5GKdLWXf5/ar2LvRPoU6ElmnY19co9b+uAsbIYGJ+BA+DebxB/qj+6RQrWS6fg1KKIawOIz2OH1idRCXm+Lz8PEOk1cLvj4nLN4OLOPmaSE3Y3rFjfDyB07CgA44jGYAtvO96p3op9D3MQV4bgFUmJIQmjDZRZfZzpaMXXtI+gEge7gBrBFgXvbYsQGuAryutNilCcgphDsIaNzVERwE3799ZVW8FQIDAQAB\n-----END PUBLIC KEY-----';
 
     // create mongo config
     const mongo: MongoConfig = {};
