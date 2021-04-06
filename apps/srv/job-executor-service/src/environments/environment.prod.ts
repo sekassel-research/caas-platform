@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   port: 3000,
   auth: {
-    resource: 'job-executor-service'
+    resource: 'job-executor-service',
   },
   mongo: {},
   kafka: {

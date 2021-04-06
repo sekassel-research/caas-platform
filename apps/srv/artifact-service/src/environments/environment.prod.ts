@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   port: 3000,
   auth: {
-    resource: 'artifact-service'
+    resource: 'artifact-service',
   },
   mongo: {},
   kafka: {},

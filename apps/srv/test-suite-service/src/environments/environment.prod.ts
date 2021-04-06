@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   port: 3000,
   auth: {
-    resource: 'test-suite-service'
+    resource: 'test-suite-service',
   },
   mongo: {},
   kafka: {
