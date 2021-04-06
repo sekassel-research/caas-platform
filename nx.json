@@ -65,6 +65,9 @@
     },
     "web-certificate-issuer": {
       "tags": []
+    },
+    "web-test-environment": {
+      "tags": []
     }
   }
 }

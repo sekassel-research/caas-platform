@@ -487,6 +487,28 @@
           }
         }
       }
+    },
+    "web-test-environment": {
+      "projectType": "library",
+      "root": "libs/web/test-environment",
+      "sourceRoot": "libs/web/test-environment/src",
+      "prefix": "caas",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/web/test-environment/src/**/*.ts", "libs/web/test-environment/src/**/*.html"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/test-environment"],
+          "options": {
+            "jestConfig": "libs/web/test-environment/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
