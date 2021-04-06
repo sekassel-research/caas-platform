@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   authConf: {
-    url: 'https://avocado.uniks.de/auth',
+    url: 'https://se.uniks.de/auth',
     realm: 'InterconnectEU',
     clientId: 'web',
   },

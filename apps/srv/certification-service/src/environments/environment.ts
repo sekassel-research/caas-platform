@@ -1,7 +1,9 @@
 export const environment = {
   production: false,
   port: 3200,
-  auth: {},
+  auth: {
+    resource: 'certification-service',
+  },
   mongo: {},
   kafka: {
     clientId: 'certification-service',

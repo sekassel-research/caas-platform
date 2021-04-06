@@ -1,9 +1,13 @@
 export const environment = {
   production: true,
   port: 3000,
-  auth: {},
+  auth: {
+    resource: 'job-executor-service',
+  },
   mongo: {},
-  kafka: {},
+  kafka: {
+    clientId: 'job-executor-service',
+  },
 
   REGEX_VERSION_FORMAT: /\d+\.\d+\.\d+/,
   REGEX_DOCKER_TAG: /([\w-]+\/)?([\w-]+:\d+\.\d+\.\d+)/,
