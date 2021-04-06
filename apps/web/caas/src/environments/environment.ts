@@ -5,13 +5,13 @@
 export const environment = {
   production: false,
   authConf: {
-    url: 'https://avocado.uniks.de/auth',
+    url: 'https://se.uniks.de/auth',
     realm: 'InterconnectEU',
     clientId: 'web',
   },
   httpConf: {
     artifact: 'http://localhost:3000/api/artifacts',
-    confirmancetest: 'http://localhost:3000/api/testSuites',
+    confirmancetest: 'http://localhost:3100/api/testSuites',
   },
 };
 
