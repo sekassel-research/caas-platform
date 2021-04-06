@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CertificateComponent } from './certificate.component';
 import { CertificateService } from './certificate.service';
 import { CertificateIssuerRoutingModule } from './certificate-issuer-routing.module';
-import { CertificateNewComponent } from './certificate-new/certificate-new.component';
+import { CertificateNewComponent } from './new/certificate-new.component';
 
 @NgModule({
   imports: [CommonModule, CertificateIssuerRoutingModule, ReactiveFormsModule],

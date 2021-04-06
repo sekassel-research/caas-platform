@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CertificateNewComponent } from './certificate-new/certificate-new.component';
+import { CertificateNewComponent } from './new/certificate-new.component';
 
 import { CertificateComponent } from './certificate.component';
 import { CertificateOverviewComponent } from './overview';
