@@ -9,6 +9,7 @@ import { TestEnvironmentOverviewComponent } from './overview';
 import { TestEnvironmentNewComponent } from './new';
 
 import { ArtifactService } from '../../../artifact-runner/src/lib/artifact.service';
+import { CertificateService } from '../../../certificate-issuer/src/lib/certificate.service';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { ArtifactService } from '../../../artifact-runner/src/lib/artifact.servi
   providers: [
     TestEnvironmentService,
     ArtifactService,
+    CertificateService,
   ],
 })
 export class TestEnvironmentModule {}

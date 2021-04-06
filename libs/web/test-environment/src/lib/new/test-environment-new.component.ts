@@ -8,6 +8,9 @@ import { TestEnvironmentService } from '../test-environment.service';
 import { Artifact } from '../../../../artifact-runner/src/lib/artifact.interface';
 import { ArtifactService } from '../../../../artifact-runner/src/lib/artifact.service';
 
+import { Certificate } from '../../../../certificate-issuer/src/lib/certificate.interface';
+import { CertificateService } from '../../../../certificate-issuer/src/lib/certificate.service';
+
 // Workaround to use uikit javascript api
 declare const UIkit: any;
 
@@ -29,19 +32,19 @@ export class TestEnvironmentNewComponent {
   public errMsgs: string[] = [];
 
   public artifacts: Artifact[] = [];
-  public certificates: Artifact[] = [];
+  public certificates: Certificate[] = [];
 
   public isLoading = true;
 
-  constructor(private route: ActivatedRoute, private router: Router, private testEnvironmentService: TestEnvironmentService, private artifactService: ArtifactService) {
+  constructor(private route: ActivatedRoute, private router: Router, private testEnvironmentService: TestEnvironmentService, private artifactService: ArtifactService, private certificateService: CertificateService) {
     this.form = new FormGroup({
       artifact: new FormControl('', [Validators.required]),
       certificate: new FormControl('', [Validators.required]),
     });
-    this.loadArtifacts();
+    this.loadArtifactsAndCertificates();
   }
 
-  private loadArtifacts(): void {
+  private loadArtifactsAndCertificates(): void {
     this.isLoading = true;
     this.artifactService.getAll().subscribe(
       (artifacts: Artifact[]) => {
@@ -55,6 +58,19 @@ export class TestEnvironmentNewComponent {
         this.isLoading = false;
       },
       () => this.isLoading = false
+    );
+    this.certificateService.getAll().subscribe(
+      (certificates: Certificate[]) => {
+        this.certificates = certificates;
+      },
+      (error) => {
+        UIkit.notification(`Error while loading Certificates: ${error.error.message}`, {
+          pos: 'top-right',
+          status: 'danger',
+        });
+        this.isLoading = false;
+      },
+      () => (this.isLoading = false),
     );
   }
 
@@ -77,6 +93,8 @@ export class TestEnvironmentNewComponent {
       certificateID: value.certificate,
       status: "CREATE",
     };
+
+    console.log(environmentDto)
 
     this.testEnvironmentService.create(environmentDto).subscribe(
       () => (this.isSaving = false),
