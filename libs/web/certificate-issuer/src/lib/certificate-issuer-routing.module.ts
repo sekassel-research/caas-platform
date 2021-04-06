@@ -4,6 +4,7 @@ import { CertificateNewComponent } from './new/certificate-new.component';
 
 import { CertificateComponent } from './certificate.component';
 import { CertificateOverviewComponent } from './overview';
+import { CertificateEditComponent } from './edit/certificate-edit.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
     children: [
       { path: 'overview', component: CertificateOverviewComponent },
       { path: 'new', component: CertificateNewComponent },
+      { path: ':id', component: CertificateEditComponent },
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
     ],
   },
