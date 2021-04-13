@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ declare const UIkit: any;
   templateUrl: './certificate.component.html',
   styleUrls: ['./certificate.component.scss'],
 })
-export class CertificateComponent implements OnInit {
+export class CertificateComponent implements OnInit, OnDestroy {
   public certificates: Certificate[] = [];
   public isLoading = true;
   private routerSubscription: Subscription;

@@ -31,7 +31,7 @@ export class CertificateController {
   async updateOne(@Param('id', new MongoIdPipe()) id: string, @Body() dto: UpdateCertificateDto): Promise<Certificate> {
     const certificate = await this.certificatesService.getOne(id);
     if (!certificate) {
-      throw new NotFoundException('Could not find artifact with given ID.');
+      throw new NotFoundException('Could not find certificate with given ID.');
     }
     if (!dto.version.match(Environment.REGEX_VERSION_FORMAT)) {
       throw new BadRequestException('Invalid format for version, use 1.0.0');
