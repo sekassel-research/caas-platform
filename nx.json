@@ -62,6 +62,9 @@
     },
     "job-executor-service": {
       "tags": []
+    },
+    "web-certificate-issuer": {
+      "tags": []
     }
   }
 }

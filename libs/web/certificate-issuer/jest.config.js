@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'web-artifact-runner',
+  displayName: 'web-certificate-issuer',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -11,7 +11,7 @@ module.exports = {
       },
     },
   },
-  coverageDirectory: '../../../coverage/libs/web/artifact-runner',
+  coverageDirectory: '../../../coverage/libs/web/certificate-issuer',
   snapshotSerializers: [
     'jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js',
     'jest-preset-angular/build/AngularSnapshotSerializer.js',

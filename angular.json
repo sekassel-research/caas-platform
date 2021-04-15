@@ -465,6 +465,28 @@
           }
         }
       }
+    },
+    "web-certificate-issuer": {
+      "projectType": "library",
+      "root": "libs/web/certificate-issuer",
+      "sourceRoot": "libs/web/certificate-issuer/src",
+      "prefix": "caas",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/web/certificate-issuer/src/**/*.ts", "libs/web/certificate-issuer/src/**/*.html"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/certificate-issuer"],
+          "options": {
+            "jestConfig": "libs/web/certificate-issuer/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
