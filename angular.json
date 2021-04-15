@@ -487,6 +487,28 @@
           }
         }
       }
+    },
+    "web-api": {
+      "projectType": "library",
+      "root": "libs/web/api",
+      "sourceRoot": "libs/web/api/src",
+      "prefix": "caas",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/web/api/src/**/*.ts", "libs/web/api/src/**/*.html"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/api"],
+          "options": {
+            "jestConfig": "libs/web/api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
@@ -505,10 +527,14 @@
       }
     },
     "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
       "unitTestRunner": "jest",
       "e2eTestRunner": "cypress"
     },
     "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
       "unitTestRunner": "jest"
     },
     "@nrwl/angular:component": {

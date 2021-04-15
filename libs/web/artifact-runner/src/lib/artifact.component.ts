@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 
+import { Artifact, ArtifactService } from '@caas/web/api';
+
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
-import { Artifact } from './artifact.interface';
-import { ArtifactService } from './artifact.service';
 
 // Workaround to use uikit javascript api
 declare const UIkit: any;
@@ -22,18 +21,13 @@ export class ArtifactComponent implements OnInit, OnDestroy {
 
   private routerSubscription: Subscription;
 
-  constructor(
-    private router: Router,
-    private artifactService: ArtifactService
-  ) {
-    this.routerSubscription = this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: Event) => {
-        const e = event as NavigationEnd;
-        if (e.url === '/artifacts' && e.urlAfterRedirects === '/artifacts/overview') {
-          this.loadArtifacts();
-        }
-      });
+  constructor(private router: Router, private artifactService: ArtifactService) {
+    this.routerSubscription = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: Event) => {
+      const e = event as NavigationEnd;
+      if (e.url === '/artifacts' && e.urlAfterRedirects === '/artifacts/overview') {
+        this.loadArtifacts();
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -57,7 +51,7 @@ export class ArtifactComponent implements OnInit, OnDestroy {
         });
         this.isLoading = false;
       },
-      () => this.isLoading = false
+      () => (this.isLoading = false),
     );
   }
 }

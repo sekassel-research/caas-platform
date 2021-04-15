@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { switchMap, tap } from 'rxjs/operators';
+import { Certificate, CertificateService } from '@caas/web/api';
 
-import { Certificate } from '../certificate.interface';
-import { CertificateService } from '../certificate.service';
+import { switchMap, tap } from 'rxjs/operators';
 
 // Workaround to use uikit javascript api
 declare const UIkit: any;

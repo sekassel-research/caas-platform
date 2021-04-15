@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '@caas/web/env';
 import { Observable } from 'rxjs';
+
+import { environment } from '@caas/web/env';
 
 import { Certificate } from './certificate.interface';
 

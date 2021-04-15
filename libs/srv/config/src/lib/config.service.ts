@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { AuthConfig, Config, KafkaConfig, MongoConfig } from './config.interface';
-import { Environment } from './environment.interface';
+import type { Environment } from './environment.interface';
 
 @Injectable()
 export class ConfigService {

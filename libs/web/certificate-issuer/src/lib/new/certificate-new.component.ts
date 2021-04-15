@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Certificate } from '../certificate.interface';
-import { CertificateService } from '../certificate.service';
+import { Certificate, CertificateService } from '@caas/web/api';
 
 declare const UIkit: any;
 

@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Artifact } from '../artifact.interface';
-import { ArtifactService } from '../artifact.service';
+import { Artifact, ArtifactService } from '@caas/web/api';
 
 // Workaround to use uikit javascript api
 declare const UIkit: any;

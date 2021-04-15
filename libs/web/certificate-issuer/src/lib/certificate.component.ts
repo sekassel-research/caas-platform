@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 
+import { Certificate, CertificateService } from '@caas/web/api';
+
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
-import { Certificate } from './certificate.interface';
-import { CertificateService } from './certificate.service';
 
 declare const UIkit: any;
 
