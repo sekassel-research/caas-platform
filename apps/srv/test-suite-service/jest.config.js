@@ -1,9 +1,10 @@
 module.exports = {
   displayName: 'test-suite-service',
   preset: '../../../jest.preset.js',
+  testEnvironment: 'node',
   globals: {
     'ts-jest': {
-      tsConfig: '<rootDir>/tsconfig.spec.json',
+      tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
   transform: {
