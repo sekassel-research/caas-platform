@@ -3,11 +3,10 @@ import { Event, NavigationEnd, Router } from '@angular/router';
 
 import { Artifact, ArtifactService } from '@caas/web/api';
 
+import * as UIKit from 'uikit';
+
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
-// Workaround to use uikit javascript api
-declare const UIkit: any;
 
 @Component({
   selector: 'caas-artifact-runner',
@@ -45,7 +44,7 @@ export class ArtifactComponent implements OnInit, OnDestroy {
         this.artifacts = artifacts;
       },
       (error) => {
-        UIkit.notification(`Error while loading Artifacts: ${error.error.message}`, {
+        UIKit.notification(`Error while loading Artifacts: ${error.error.message}`, {
           pos: 'top-right',
           status: 'danger',
         });

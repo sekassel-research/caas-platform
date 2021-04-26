@@ -4,10 +4,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Artifact, ArtifactService } from '@caas/web/api';
 
-import { switchMap, tap } from 'rxjs/operators';
+import * as UIKit from 'uikit';
 
-// Workaround to use uikit javascript api
-declare const UIkit: any;
+import { switchMap, tap } from 'rxjs/operators';
 
 interface ArtifactForm {
   name: string;
@@ -71,7 +70,7 @@ export class ArtifactEditComponent implements OnInit {
           });
         },
         (error) => {
-          UIkit.notification(`Error while loading Artifact: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+          UIKit.notification(`Error while loading Artifact: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
           this.isLoading = false;
         },
       );
@@ -92,7 +91,7 @@ export class ArtifactEditComponent implements OnInit {
     this.artifactService.updateOne(this.currentArtifact.id, artifactDto).subscribe(
       () => (this.isSaving = false),
       (error) => {
-        UIkit.notification(`Error while updating Artifacts: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+        UIKit.notification(`Error while updating Artifacts: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
         this.isSaving = false;
       },
       () => this.router.navigate(['../'], { relativeTo: this.route }),
@@ -108,12 +107,12 @@ export class ArtifactEditComponent implements OnInit {
   }
 
   public onDelete(): void {
-    UIkit.modal.confirm(`Are you sure to delete the Artifact: "${this.currentArtifact.name}"?`).then(() => {
+    UIKit.modal.confirm(`Are you sure to delete the Artifact: "${this.currentArtifact.name}"?`).then(() => {
       this.isLoading = true;
       this.artifactService.deleteOne(this.currentArtifact.id).subscribe(
         () => (this.isLoading = false),
         (error) => {
-          UIkit.notification(`Error while updating Artifacts: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+          UIKit.notification(`Error while updating Artifacts: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
           this.isLoading = false;
         },
         () => this.router.navigate(['../'], { relativeTo: this.route }),

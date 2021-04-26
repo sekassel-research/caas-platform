@@ -3,10 +3,10 @@ import { Event, NavigationEnd, Router } from '@angular/router';
 
 import { Certificate, CertificateService } from '@caas/web/api';
 
+import * as UIKit from 'uikit';
+
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
-declare const UIkit: any;
 
 @Component({
   selector: 'caas-certificate',
@@ -42,7 +42,7 @@ export class CertificateComponent implements OnInit, OnDestroy {
         this.certificates = certificates;
       },
       (error) => {
-        UIkit.notification(`Error while loading Certificates: ${error.error.message}`, {
+        UIKit.notification(`Error while loading Certificates: ${error.error.message}`, {
           pos: 'top-right',
           status: 'danger',
         });

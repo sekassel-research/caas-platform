@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Certificate, CertificateService } from '@caas/web/api';
+import * as UIKit from 'uikit';
 
-declare const UIkit: any;
+import { Certificate, CertificateService } from '@caas/web/api';
 
 interface CertificateForm {
   name: string;
@@ -58,7 +58,7 @@ export class CertificateNewComponent {
     this.certificateService.create(certificateDto).subscribe(
       () => (this.isSaving = false),
       (error) => {
-        UIkit.notification(`Error while saving Certificates: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+        UIKit.notification(`Error while saving Certificates: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
         this.isSaving = false;
       },
       () => this.router.navigate(['../'], { relativeTo: this.route }),

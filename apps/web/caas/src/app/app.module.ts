@@ -18,7 +18,7 @@ import { HomeComponent } from './home/home.component';
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: (keycloakService: KeycloakService) => async () =>
+      useFactory: (keycloakService: KeycloakService) => () =>
         keycloakService.init({
           config: environment.authConf,
           initOptions: {
@@ -26,10 +26,13 @@ import { HomeComponent } from './home/home.component';
             checkLoginIframe: false,
           },
           enableBearerInterceptor: true,
-          bearerPrefix: 'Bearer', // TODO: Can be removed after updating keycloak on the server
         }),
       multi: true,
       deps: [KeycloakService],
+    },
+    {
+      provide: 'ENV_CONF',
+      useValue: environment,
     },
   ],
   bootstrap: [AppComponent],

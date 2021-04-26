@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-
-import { Certificate, CertificateService } from '@caas/web/api';
-
 import { switchMap, tap } from 'rxjs/operators';
 
-// Workaround to use uikit javascript api
-declare const UIkit: any;
+import * as UIKit from 'uikit';
+
+import { Certificate, CertificateService } from '@caas/web/api';
 
 interface CertificateForm {
   name: string;
@@ -69,7 +67,7 @@ export class CertificateEditComponent implements OnInit {
           });
         },
         (error) => {
-          UIkit.notification(`Error while loading Certificate: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+          UIKit.notification(`Error while loading Certificate: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
           this.isLoading = false;
         },
       );
@@ -90,7 +88,7 @@ export class CertificateEditComponent implements OnInit {
     this.certificateService.updateOne(this.currentCertificate.id, certificateDto).subscribe(
       () => (this.isSaving = false),
       (error) => {
-        UIkit.notification(`Error while updating Certificate: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+        UIKit.notification(`Error while updating Certificate: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
         this.isSaving = false;
       },
       () => this.router.navigate(['../'], { relativeTo: this.route }),
@@ -106,12 +104,12 @@ export class CertificateEditComponent implements OnInit {
   }
 
   public onDelete(): void {
-    UIkit.modal.confirm(`Are you sure to delete the Certificate: "${this.currentCertificate.name}"?`).then(() => {
+    UIKit.modal.confirm(`Are you sure to delete the Certificate: "${this.currentCertificate.name}"?`).then(() => {
       this.isLoading = true;
       this.certificateService.deleteOne(this.currentCertificate.id).subscribe(
         () => (this.isLoading = false),
         (error) => {
-          UIkit.notification(`Error while updating Certificates: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+          UIKit.notification(`Error while updating Certificates: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
           this.isLoading = false;
         },
         () => this.router.navigate(['../'], { relativeTo: this.route }),
