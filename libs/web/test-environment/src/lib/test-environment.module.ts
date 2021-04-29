@@ -11,15 +11,7 @@ import { ArtifactService } from '@caas/web/api';
 import { CertificateService } from '@caas/web/api';
 
 @NgModule({
-  imports: [
-    TestEnvironmentRoutingModule, 
-    CommonModule, 
-    ReactiveFormsModule
-  ],
-  declarations: [
-    TestEnvironmentComponent, 
-    TestEnvironmentOverviewComponent,
-    TestEnvironmentNewComponent,
-  ],
+  imports: [TestEnvironmentRoutingModule, CommonModule, ReactiveFormsModule],
+  declarations: [TestEnvironmentComponent, TestEnvironmentOverviewComponent, TestEnvironmentNewComponent],
 })
 export class TestEnvironmentModule {}

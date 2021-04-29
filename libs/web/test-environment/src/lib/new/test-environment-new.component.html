@@ -22,26 +22,26 @@
       <div class="form-item">
         <label class="uk-form-label" for="test-Artifact">Artifact</label>
         <div class="uk-form-controls">
-          <select 
+          <select
             class="uk-select"
             [class.uk-form-danger]="artifact.invalid && (artifact.dirty || artifact.touched || errMsgs.length > 0)"
             formControlName="artifact"
             id="test-artifact"
           >
-            <option *ngFor="let artifact of artifacts" [value]="artifact.id">{{artifact.name}} - {{artifact.version}}</option>
+            <option *ngFor="let artifact of artifacts" [value]="artifact.id">{{ artifact.name }} - {{ artifact.version }}</option>
           </select>
         </div>
       </div>
       <div class="form-item">
         <label class="uk-form-label" for="test-certificate">Certificate</label>
         <div class="uk-form-controls">
-          <select 
+          <select
             class="uk-select"
             [class.uk-form-danger]="certificate.invalid && (certificate.dirty || certificate.touched || errMsgs.length > 0)"
             formControlName="certificate"
             id="test-certificate"
           >
-            <option *ngFor="let certificate of certificates" [value]="certificate.id">{{certificate.name}} - {{certificate.version}}</option>
+            <option *ngFor="let certificate of certificates" [value]="certificate.id">{{ certificate.name }} - {{ certificate.version }}</option>
           </select>
         </div>
       </div>

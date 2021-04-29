@@ -2,14 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { 
-  TestEnvironment, 
-  TestEnvironmentService, 
-  Artifact, 
-  ArtifactService,
-  Certificate, 
-  CertificateService 
-} from '@caas/web/api';
+import { TestEnvironment, TestEnvironmentService, Artifact, ArtifactService, Certificate, CertificateService } from '@caas/web/api';
 
 import * as UIKit from 'uikit';
 
@@ -35,7 +28,13 @@ export class TestEnvironmentNewComponent {
 
   public isLoading = true;
 
-  constructor(private route: ActivatedRoute, private router: Router, private testEnvironmentService: TestEnvironmentService, private artifactService: ArtifactService, private certificateService: CertificateService) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private testEnvironmentService: TestEnvironmentService,
+    private artifactService: ArtifactService,
+    private certificateService: CertificateService,
+  ) {
     this.form = new FormGroup({
       artifact: new FormControl('', [Validators.required]),
       certificate: new FormControl('', [Validators.required]),
@@ -56,7 +55,7 @@ export class TestEnvironmentNewComponent {
         });
         this.isLoading = false;
       },
-      () => this.isLoading = false
+      () => (this.isLoading = false),
     );
     this.certificateService.getAll().subscribe(
       (certificates: Certificate[]) => {
@@ -90,10 +89,10 @@ export class TestEnvironmentNewComponent {
     const environmentDto: TestEnvironment = {
       artifactID: value.artifact,
       certificateID: value.certificate,
-      status: "CREATE",
+      status: 'CREATE',
     };
 
-    console.log(environmentDto)
+    console.log(environmentDto);
 
     this.testEnvironmentService.create(environmentDto).subscribe(
       () => (this.isSaving = false),
