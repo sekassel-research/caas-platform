@@ -1,0 +1,57 @@
+<div class="uk-card uk-card-default uk-card-hover uk-width-xlarge">
+  <div *ngIf="isLoading || isSaving" class="uk-overlay-default uk-position-cover">
+    <div class="uk-position-center">
+      <div uk-spinner="ratio: 2"></div>
+    </div>
+  </div>
+  <li *ngIf="isLoading" class="uk-overlay-default uk-position-cover">
+    <div class="uk-position-center">
+      <div uk-spinner="ratio: 2"></div>
+    </div>
+  </li>
+  <div class="uk-card-header">
+    <h1 class="uk-card-title">Edit Environment</h1>
+    <a (click)="onDelete()"><span class="uk-float-right red" uk-icon="icon: trash; ratio: 2" uk-tooltip="Delete"></span></a>
+  </div>
+  <form class="uk-form-stacked" [formGroup]="form">
+    <div class="uk-card-body uk-padding-remove">
+      <div class="form-item uk-alert-danger" *ngIf="errMsgs.length > 0">
+        <ul class="uk-list uk-list-disc">
+          <li *ngFor="let msg of errMsgs">{{ msg }}</li>
+        </ul>
+      </div>
+      <div class="form-item">
+        <label class="uk-form-label" for="test-Artifact">Artifact</label>
+        <div class="uk-form-controls">
+          <select 
+            class="uk-select"
+            [class.uk-form-danger]="artifact.invalid && (artifact.dirty || artifact.touched || errMsgs.length > 0)"
+            formControlName="artifact"
+            id="test-artifact"
+          >
+            <option *ngFor="let artifact of artifacts" [value]="artifact.id">{{artifact.name}} - {{artifact.version}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item">
+        <label class="uk-form-label" for="test-certificate">Certificate</label>
+        <div class="uk-form-controls">
+          <select 
+            class="uk-select"
+            [class.uk-form-danger]="certificate.invalid && (certificate.dirty || certificate.touched || errMsgs.length > 0)"
+            formControlName="certificate"
+            id="test-certificate"
+          >
+            <option *ngFor="let certificate of certificates" [value]="certificate.id">{{certificate.name}} - {{certificate.version}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="uk-card-footer uk-padding-remove">
+    <div class="form-item">
+      <button class="uk-button uk-button-primary" (click)="onSave(form)">Save</button>
+      <button class="uk-button uk-button-default uk-float-right" (click)="onReset()">Reset</button>
+    </div>
+  </div>
+</div>

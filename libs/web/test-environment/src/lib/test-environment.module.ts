@@ -6,9 +6,7 @@ import { TestEnvironmentRoutingModule } from './test-environment-routing.module'
 import { TestEnvironmentComponent } from './test-environment.component';
 import { TestEnvironmentOverviewComponent } from './overview';
 import { TestEnvironmentNewComponent } from './new';
-
-import { ArtifactService } from '@caas/web/api';
-import { CertificateService } from '@caas/web/api';
+import { TestEnvironmentEditComponent } from './edit';
 
 @NgModule({
   imports: [
@@ -20,6 +18,7 @@ import { CertificateService } from '@caas/web/api';
     TestEnvironmentComponent, 
     TestEnvironmentOverviewComponent,
     TestEnvironmentNewComponent,
+    TestEnvironmentEditComponent,
   ],
 })
 export class TestEnvironmentModule {}
