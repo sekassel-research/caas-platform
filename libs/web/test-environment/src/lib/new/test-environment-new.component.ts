@@ -5,11 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TestEnvironment } from '../test-environment.interface';
 import { TestEnvironmentService } from '../test-environment.service';
 
-import { Artifact } from '../../../../artifact-runner/src/lib/artifact.interface';
-import { ArtifactService } from '../../../../artifact-runner/src/lib/artifact.service';
+import { Artifact, ArtifactService } from '@caas/web/api';
 
-import { Certificate } from '../../../../certificate-issuer/src/lib/certificate.interface';
-import { CertificateService } from '../../../../certificate-issuer/src/lib/certificate.service';
+import { Certificate, CertificateService } from '@caas/web/api';
 
 // Workaround to use uikit javascript api
 declare const UIkit: any;

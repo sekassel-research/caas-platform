@@ -14,5 +14,7 @@ module.exports = {
     '<rootDir>/libs/srv/mongo',
     '<rootDir>/libs/srv/kafka',
     '<rootDir>/libs/web/test-environment',
+    '<rootDir>/libs/web/api',
+    '<rootDir>/libs/web/api',
   ],
 };

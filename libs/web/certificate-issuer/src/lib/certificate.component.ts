@@ -1,20 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
+
+import { Certificate, CertificateService } from '@caas/web/api';
+
+import * as UIKit from 'uikit';
 
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
-import { Certificate } from './certificate.interface';
-import { CertificateService } from './certificate.service';
-
-declare const UIkit: any;
 
 @Component({
   selector: 'caas-certificate',
   templateUrl: './certificate.component.html',
   styleUrls: ['./certificate.component.scss'],
 })
-export class CertificateComponent implements OnInit {
+export class CertificateComponent implements OnInit, OnDestroy {
   public certificates: Certificate[] = [];
   public isLoading = true;
   private routerSubscription: Subscription;
@@ -43,7 +42,7 @@ export class CertificateComponent implements OnInit {
         this.certificates = certificates;
       },
       (error) => {
-        UIkit.notification(`Error while loading Certificates: ${error.error.message}`, {
+        UIKit.notification(`Error while loading Certificates: ${error.error.message}`, {
           pos: 'top-right',
           status: 'danger',
         });

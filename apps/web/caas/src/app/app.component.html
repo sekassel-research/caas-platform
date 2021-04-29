@@ -6,7 +6,7 @@
       </div>
 
       <div class="uk-navbar-center">
-        <div *ngIf="authenticated">
+        <div *ngIf="authenticated | async">
           <ul class="uk-navbar-nav">
             <li *ngIf="hasRole('admin')"><a routerLink="/artifacts" routerLinkActive="uk-active">Artifacts</a></li>
             <li *ngIf="hasRole('admin')"><a routerLink="/tests" routerLinkActive="uk-active">Tests</a></li>
@@ -17,10 +17,10 @@
       </div>
 
       <div class="uk-navbar-right">
-        <div class="uk-navbar-item" *ngIf="!authenticated">
+        <div class="uk-navbar-item" *ngIf="(authenticated | async) === false">
           <button id="loginBtn" class="uk-button uk-button-default" (click)="keycloakService.login()">Login</button>
         </div>
-        <div *ngIf="authenticated">
+        <div *ngIf="authenticated | async">
           <div class="uk-navbar-item">
             <button id="logoutBtn" class="uk-button uk-button-default" (click)="keycloakService.logout()">Logout</button>
           </div>

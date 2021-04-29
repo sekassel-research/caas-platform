@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
+import { from, Observable } from 'rxjs';
+
 import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'caas-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   public username = '';
-  public authenticated = false;
+  public authenticated: Observable<boolean>;
 
   private roles: string[] = [];
 
@@ -17,13 +19,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.roles = this.keycloakService.getUserRoles(true);
-    try {
-      this.username = this.keycloakService.getUsername();
-      this.authenticated = true;
-    } catch (err) {
-      // User is not logged in
-      this.authenticated = false;
-    }
+    this.authenticated = from(this.keycloakService.isLoggedIn());
   }
 
   public hasRole(role: string): boolean {

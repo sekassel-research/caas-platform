@@ -1,39 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-
-import { Artifact, ArtifactService } from '@caas/web/api';
+import { switchMap, tap } from 'rxjs/operators';
 
 import * as UIKit from 'uikit';
 
-import { switchMap, tap } from 'rxjs/operators';
+import { Certificate, CertificateService } from '@caas/web/api';
 
-interface ArtifactForm {
+interface CertificateForm {
   name: string;
   version: string;
-  dockerImage: string;
+  signature: string;
 }
 
 @Component({
-  selector: 'caas-app-artifact-runner-edit',
-  templateUrl: './artifact-edit.component.html',
-  styleUrls: ['./artifact-edit.component.scss'],
+  selector: 'caas-app-certificate-edit',
+  templateUrl: './certificate-edit.component.html',
+  styleUrls: ['./certificate-edit.component.scss'],
 })
-export class ArtifactEditComponent implements OnInit {
+export class CertificateEditComponent implements OnInit {
   public form: FormGroup;
 
   public isLoading = true;
   public isSaving = false;
   public errMsgs: string[] = [];
 
-  private currentArtifact!: Artifact;
+  private currentCertificate!: Certificate;
 
-  constructor(private route: ActivatedRoute, private router: Router, private artifactService: ArtifactService) {
+  constructor(private route: ActivatedRoute, private router: Router, private certificateService: CertificateService) {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required]),
       version: new FormControl('', [Validators.required, Validators.pattern(/\d+\.\d+\.\d+/)]),
-      dockerImage: new FormControl('', [Validators.required, Validators.pattern(/([\w-]+\/)?([\w-]+:\d+\.\d+\.\d+)/)]),
-      certificate: new FormControl(''),
+      signature: new FormControl('', [Validators.required]),
     });
   }
 
@@ -45,8 +43,8 @@ export class ArtifactEditComponent implements OnInit {
     return this.form.get('version') as FormControl;
   }
 
-  get dockerImage(): FormControl {
-    return this.form.get('dockerImage') as FormControl;
+  get signature(): FormControl {
+    return this.form.get('signature') as FormControl;
   }
 
   get certificate(): FormControl {
@@ -56,42 +54,41 @@ export class ArtifactEditComponent implements OnInit {
   ngOnInit(): void {
     this.route.params
       .pipe(
-        switchMap((params: Params) => this.artifactService.getOne(params.id)),
+        switchMap((params: Params) => this.certificateService.getOne(params.id)),
         tap(() => (this.isLoading = false)),
       )
       .subscribe(
         (data) => {
-          this.currentArtifact = data;
+          this.currentCertificate = data;
           this.form.patchValue({
             name: data.name,
             version: data.version,
-            dockerImage: data.dockerImage,
-            certification: data.certificate || '',
+            signature: data.signature,
           });
         },
         (error) => {
-          UIKit.notification(`Error while loading Artifact: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+          UIKit.notification(`Error while loading Certificate: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
           this.isLoading = false;
         },
       );
   }
 
-  public onSave({ value, valid }: { value: ArtifactForm; valid: boolean }): void {
+  public onSave({ value, valid }: { value: CertificateForm; valid: boolean }): void {
     if (!this.validateForm || !valid || this.isSaving) {
       return;
     }
     this.isSaving = true;
 
-    const artifactDto: Artifact = {
+    const certificateDto: Certificate = {
       name: value.name,
       version: value.version,
-      dockerImage: value.dockerImage,
+      signature: value.signature,
     };
 
-    this.artifactService.updateOne(this.currentArtifact.id, artifactDto).subscribe(
+    this.certificateService.updateOne(this.currentCertificate.id, certificateDto).subscribe(
       () => (this.isSaving = false),
       (error) => {
-        UIKit.notification(`Error while updating Artifacts: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+        UIKit.notification(`Error while updating Certificate: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
         this.isSaving = false;
       },
       () => this.router.navigate(['../'], { relativeTo: this.route }),
@@ -100,19 +97,19 @@ export class ArtifactEditComponent implements OnInit {
 
   public onReset(): void {
     this.form.patchValue({
-      name: this.currentArtifact.name,
-      version: this.currentArtifact.version,
-      dockerImage: this.currentArtifact.dockerImage,
+      name: this.currentCertificate.name,
+      version: this.currentCertificate.version,
+      signature: this.currentCertificate.signature,
     });
   }
 
   public onDelete(): void {
-    UIKit.modal.confirm(`Are you sure to delete the Artifact: "${this.currentArtifact.name}"?`).then(() => {
+    UIKit.modal.confirm(`Are you sure to delete the Certificate: "${this.currentCertificate.name}"?`).then(() => {
       this.isLoading = true;
-      this.artifactService.deleteOne(this.currentArtifact.id).subscribe(
+      this.certificateService.deleteOne(this.currentCertificate.id).subscribe(
         () => (this.isLoading = false),
         (error) => {
-          UIKit.notification(`Error while updating Artifacts: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+          UIKit.notification(`Error while updating Certificates: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
           this.isLoading = false;
         },
         () => this.router.navigate(['../'], { relativeTo: this.route }),
@@ -135,12 +132,9 @@ export class ArtifactEditComponent implements OnInit {
         this.errMsgs.push('Version needs to be in semantic format, e.g. 1.0.0');
       }
     }
-    if (this.dockerImage.invalid && this.dockerImage.errors) {
-      if (this.dockerImage.errors.required) {
-        this.errMsgs.push('Docker Image is required.');
-      }
-      if (this.dockerImage.errors.pattern) {
-        this.errMsgs.push('Docker Image needs to be formatted as reg/name:version');
+    if (this.signature.invalid && this.signature.errors) {
+      if (this.signature.errors.required) {
+        this.errMsgs.push('Signature is required.');
       }
     }
 

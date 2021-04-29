@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Algorithm } from 'jsonwebtoken';
 import { NextFunction } from 'express';
 
-import { Config } from '@caas/srv/config';
+import type { Config } from '@caas/srv/config';
 
 import { ExtendedRequest } from './auth.interface';
 

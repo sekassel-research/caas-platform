@@ -1,11 +1,11 @@
-import { Controller, Delete, Get, NotFoundException, Param, Post, Body, Query, UseGuards, BadRequestException } from '@nestjs/common';
+import { Controller, Delete, Get, NotFoundException, Param, Post, Body, Query, UseGuards, BadRequestException, Put } from '@nestjs/common';
 
 import { RoleGuard, Roles } from '@caas/srv/auth';
 import { MongoIdPipe } from '@caas/srv/mongo';
 
 import { Certificate } from './certificate.schema';
 import { CertificatesService } from './certificate.service';
-import { CreateCertificateDto } from './dto';
+import { CreateCertificateDto, UpdateCertificateDto } from './dto';
 import { environment as Environment } from '../../environments/environment';
 
 @Controller('certificates')
@@ -25,6 +25,22 @@ export class CertificateController {
     }
 
     return this.certificatesService.create(dto);
+  }
+
+  @Put(':id')
+  async updateOne(@Param('id', new MongoIdPipe()) id: string, @Body() dto: UpdateCertificateDto): Promise<Certificate> {
+    const certificate = await this.certificatesService.getOne(id);
+    if (!certificate) {
+      throw new NotFoundException('Could not find certificate with given ID.');
+    }
+    if (!dto.version.match(Environment.REGEX_VERSION_FORMAT)) {
+      throw new BadRequestException('Invalid format for version, use 1.0.0');
+    }
+    if (dto.version && certificate.version === dto.version) {
+      throw new BadRequestException('Version needs to be increased');
+    }
+
+    return this.certificatesService.updateOne(dto, certificate);
   }
 
   @Get()
