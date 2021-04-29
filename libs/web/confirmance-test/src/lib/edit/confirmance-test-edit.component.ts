@@ -4,8 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { switchMap, tap } from 'rxjs/operators';
 
-import { ConfirmanceTest } from '../confirmance-test.interface';
-import { ConfirmanceTestService } from '../confirmance-test.service';
+import { ConfirmanceTest, ConfirmanceTestService } from '@caas/web/api';
 
 // Workaround to use uikit javascript api
 declare const UIkit: any;

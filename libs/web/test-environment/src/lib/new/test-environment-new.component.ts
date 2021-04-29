@@ -2,15 +2,16 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { TestEnvironment } from '../test-environment.interface';
-import { TestEnvironmentService } from '../test-environment.service';
+import { 
+  TestEnvironment, 
+  TestEnvironmentService, 
+  Artifact, 
+  ArtifactService,
+  Certificate, 
+  CertificateService 
+} from '@caas/web/api';
 
-import { Artifact, ArtifactService } from '@caas/web/api';
-
-import { Certificate, CertificateService } from '@caas/web/api';
-
-// Workaround to use uikit javascript api
-declare const UIkit: any;
+import * as UIKit from 'uikit';
 
 interface TestEnvironmentForm {
   artifact: string;
@@ -49,7 +50,7 @@ export class TestEnvironmentNewComponent {
         this.artifacts = artifacts;
       },
       (error) => {
-        UIkit.notification(`Error while loading Artifacts: ${error.error.message}`, {
+        UIKit.notification(`Error while loading Artifacts: ${error.error.message}`, {
           pos: 'top-right',
           status: 'danger',
         });
@@ -62,7 +63,7 @@ export class TestEnvironmentNewComponent {
         this.certificates = certificates;
       },
       (error) => {
-        UIkit.notification(`Error while loading Certificates: ${error.error.message}`, {
+        UIKit.notification(`Error while loading Certificates: ${error.error.message}`, {
           pos: 'top-right',
           status: 'danger',
         });
@@ -97,7 +98,7 @@ export class TestEnvironmentNewComponent {
     this.testEnvironmentService.create(environmentDto).subscribe(
       () => (this.isSaving = false),
       (error) => {
-        UIkit.notification(`Error while saving Test Environment: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+        UIKit.notification(`Error while saving Test Environment: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
         this.isSaving = false;
       },
       () => this.router.navigate(['../'], { relativeTo: this.route }),

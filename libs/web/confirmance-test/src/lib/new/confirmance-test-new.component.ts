@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ConfirmanceTest } from '../confirmance-test.interface';
-import { ConfirmanceTestService } from '../confirmance-test.service';
+import { ConfirmanceTest, ConfirmanceTestService } from '@caas/web/api';
 
 // Workaround to use uikit javascript api
 declare const UIkit: any;

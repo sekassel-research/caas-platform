@@ -4,11 +4,9 @@ import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { TestEnvironment } from './test-environment.interface';
-import { TestEnvironmentService } from './test-environment.service';
+import { TestEnvironment, TestEnvironmentService } from '@caas/web/api';
 
-// Workaround to use uikit javascript api
-declare const UIkit: any;
+import * as UIKit from 'uikit';
 
 @Component({
   selector: 'caas-test-environment',
@@ -46,7 +44,7 @@ export class TestEnvironmentComponent implements OnInit, OnDestroy {
         this.environments = environments;
       },
       (error) => {
-        UIkit.notification(`Error while loading Test Environments: ${error.error.message}`, {
+        UIKit.notification(`Error while loading Test Environments: ${error.error.message}`, {
           pos: 'top-right',
           status: 'danger',
         });
