@@ -1,5 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
+import { MongooseModule } from '@nestjs/mongoose';
 
 import { AuthMiddleware } from '@caas/srv/auth';
 import { ConfigModule, ConfigService } from '@caas/srv/config';
@@ -19,6 +20,14 @@ import { environment } from '../environments/environment';
       }),
     }),
     KafkaModule.forRootAsync(),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.getConfig().mongo.uri,
+        useCreateIndex: true,
+      }),
+      inject: [ConfigService],
+    }),
   ],
   controllers: [TestOrchestratorController],
   providers: [TestOrchestratorService],
