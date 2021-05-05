@@ -29,8 +29,6 @@ import { environment } from '../environments/environment';
       inject: [ConfigService],
     }),
   ],
-  controllers: [TestOrchestratorController],
-  providers: [TestOrchestratorService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

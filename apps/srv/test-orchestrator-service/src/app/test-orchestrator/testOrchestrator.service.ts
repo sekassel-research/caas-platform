@@ -10,7 +10,7 @@ import { TestOrchestrator } from './testOrchestrator.schema';
 @Injectable()
 export class TestOrchestratorService {
   constructor(
-    @InjectModel('artifacts') private readonly testOrchestratorModel: Model<TestOrchestrator>,
+    @InjectModel('testOrchestrators') private readonly testOrchestratorModel: Model<TestOrchestrator>,
     @Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka,
   ) {}
 
