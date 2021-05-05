@@ -6,7 +6,7 @@ import { AuthMiddleware } from '@caas/srv/auth';
 import { ConfigModule, ConfigService } from '@caas/srv/config';
 import { KafkaModule } from '@caas/srv/kafka';
 
-import { TestOrchestratorController, TestOrchestratorModule, TestOrchestratorService } from './test-orchestrator';
+import { TestOrchestratorModule } from './test-orchestrator';
 import { environment } from '../environments/environment';
 
 @Module({
