@@ -94,8 +94,8 @@ export class TestEnvironmentEditComponent {
         (data) => {
           this.currentTestEnvironment = data;
           this.form.patchValue({
-            artifact: this.artifactService.getOne(data.artifactId),
-            certificate: this.certificateService.getOne(data.certificateId),
+            artifact: data.artifactId,
+            certificate: data.certificateId,
             status: data.status,
           });
         },
