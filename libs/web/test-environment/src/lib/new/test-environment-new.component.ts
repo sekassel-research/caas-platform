@@ -87,8 +87,8 @@ export class TestEnvironmentNewComponent {
     this.isSaving = true;
 
     const environmentDto: TestEnvironment = {
-      artifactID: value.artifact,
-      certificateID: value.certificate,
+      artifactId: value.artifact,
+      certificateId: value.certificate,
       status: 'CREATE',
     };
 
