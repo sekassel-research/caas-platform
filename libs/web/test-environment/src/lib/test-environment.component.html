@@ -22,7 +22,7 @@
       </div>
     </li>
     <li class="nav-item" *ngFor="let environment of environments">
-      <a routerLink="/environments/{{ test.id }}" routerLinkActive="uk-active"> {{ environment.artifact }} - {{ environment.status }} </a>
+      <a routerLink="/environments/{{ environment.id }}" routerLinkActive="uk-active"> {{ environment.artifactId }} - {{ environment.certificateId }}- {{ environment.status }} </a>
     </li>
   </ul>
 </aside>
