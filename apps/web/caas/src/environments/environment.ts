@@ -13,7 +13,7 @@ export const environment = {
     artifact: 'http://localhost:3000/api/artifacts',
     confirmancetest: 'http://localhost:3100/api/testSuites',
     certificate: 'http://localhost:3200/api/certificates',
-    environment: 'http://localhost:3300/api/testEnvironment',
+    environment: 'http://localhost:3400/api/test-orchestrator',
   },
 };
 
