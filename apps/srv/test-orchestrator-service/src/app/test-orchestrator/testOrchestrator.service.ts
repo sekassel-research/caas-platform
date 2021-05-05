@@ -9,10 +9,10 @@ import { TestOrchestrator } from './testOrchestrator.schema';
 
 @Injectable()
 export class TestOrchestratorService {
-
   constructor(
     @InjectModel('artifacts') private readonly testOrchestratorModel: Model<TestOrchestrator>,
-    @Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka) { }
+    @Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka,
+  ) {}
 
   async create(dto: CreateTestOrchestratorDto): Promise<TestOrchestrator> {
     return this.testOrchestratorModel.create(dto);
@@ -23,7 +23,7 @@ export class TestOrchestratorService {
   }
 
   async getOne(id?: string, populate?: string): Promise<TestOrchestrator> {
-    populate = populate || ''
+    populate = populate || '';
     return this.testOrchestratorModel.findById(id).populate(populate).exec();
   }
 

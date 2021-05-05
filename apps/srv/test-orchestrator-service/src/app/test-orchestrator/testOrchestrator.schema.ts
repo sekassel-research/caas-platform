@@ -13,7 +13,7 @@ export class TestOrchestrator extends Document {
 
   @Prop({ required: true })
   certificateId: string;
-} 
+}
 
 export const TestOrchestratorSchema = SchemaFactory.createForClass(TestOrchestrator);
 
