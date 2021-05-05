@@ -3,7 +3,7 @@ import { IsOptional, IsString } from 'class-validator';
 export class UpdateTestOrchestratorDto {
   @IsOptional()
   @IsString()
-  readonly name?: string;
+  readonly status?: string;
 
   @IsOptional()
   @IsString()
