@@ -25,6 +25,7 @@ import { environment } from '../environments/environment';
       useFactory: async (configService: ConfigService) => ({
         uri: configService.getConfig().mongo.uri,
         useCreateIndex: true,
+        useFindAndModify: false,
       }),
       inject: [ConfigService],
     }),

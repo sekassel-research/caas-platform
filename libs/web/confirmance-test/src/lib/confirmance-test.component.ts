@@ -4,10 +4,9 @@ import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { ConfirmanceTest, ConfirmanceTestService } from '@caas/web/api';
+import * as UIKit from 'uikit';
 
-// Workaround to use uikit javascript api
-declare const UIkit: any;
+import { ConfirmanceTest, ConfirmanceTestService } from '@caas/web/api';
 
 @Component({
   selector: 'caas-confirmance-test',
@@ -45,7 +44,7 @@ export class ConfirmanceTestComponent implements OnInit, OnDestroy {
         this.tests = tests;
       },
       (error) => {
-        UIkit.notification(`Error while loading ConfirmanceTests: ${error.error.message}`, {
+        UIKit.notification(`Error while loading ConfirmanceTests: ${error.error.message}`, {
           pos: 'top-right',
           status: 'danger',
         });

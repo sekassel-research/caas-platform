@@ -5,7 +5,7 @@ import * as toJson from '@meanie/mongoose-to-json';
 
 @Schema()
 export class TestOrchestrator extends Document {
-  @Prop({ required: true})
+  @Prop({ required: true })
   status: string;
 
   @Prop({ required: true })

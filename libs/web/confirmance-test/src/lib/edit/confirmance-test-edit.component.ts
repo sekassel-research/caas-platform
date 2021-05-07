@@ -4,10 +4,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { switchMap, tap } from 'rxjs/operators';
 
-import { ConfirmanceTest, ConfirmanceTestService } from '@caas/web/api';
+import * as UIKit from 'uikit';
 
-// Workaround to use uikit javascript api
-declare const UIkit: any;
+import { ConfirmanceTest, ConfirmanceTestService } from '@caas/web/api';
 
 interface ConfirmanceTestForm {
   name: string;
@@ -65,7 +64,7 @@ export class ConfirmanceTestEditComponent implements OnInit {
           });
         },
         (error) => {
-          UIkit.notification(`Error while loading ConfirmanceTest: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+          UIKit.notification(`Error while loading ConfirmanceTest: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
           this.isLoading = false;
         },
       );
@@ -86,7 +85,7 @@ export class ConfirmanceTestEditComponent implements OnInit {
     this.confirmanceTestService.updateOne(this.currentConfirmanceTest.id, testDto).subscribe(
       () => (this.isSaving = false),
       (error) => {
-        UIkit.notification(`Error while updating ConfirmanceTest: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+        UIKit.notification(`Error while updating ConfirmanceTest: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
         this.isSaving = false;
       },
       () => this.router.navigate(['../'], { relativeTo: this.route }),
@@ -102,12 +101,12 @@ export class ConfirmanceTestEditComponent implements OnInit {
   }
 
   public onDelete(): void {
-    UIkit.modal.confirm(`Are you sure to delete the ConfirmanceTest: "${this.currentConfirmanceTest.name}"?`).then(() => {
+    UIKit.modal.confirm(`Are you sure to delete the ConfirmanceTest: "${this.currentConfirmanceTest.name}"?`).then(() => {
       this.isLoading = true;
       this.confirmanceTestService.deleteOne(this.currentConfirmanceTest.id).subscribe(
         () => (this.isLoading = false),
         (error) => {
-          UIkit.notification(`Error while updating ConfirmanceTest: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+          UIKit.notification(`Error while updating ConfirmanceTest: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
           this.isLoading = false;
         },
         () => this.router.navigate(['../'], { relativeTo: this.route }),

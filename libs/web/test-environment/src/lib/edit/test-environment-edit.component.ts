@@ -3,14 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { 
-  TestEnvironment, 
-  TestEnvironmentService, 
-  Artifact, 
-  ArtifactService,
-  Certificate, 
-  CertificateService 
-} from '@caas/web/api';
+import { TestEnvironment, TestEnvironmentService, Artifact, ArtifactService, Certificate, CertificateService } from '@caas/web/api';
 
 import * as UIKit from 'uikit';
 
@@ -38,7 +31,13 @@ export class TestEnvironmentEditComponent {
 
   private currentTestEnvironment!: TestEnvironment;
 
-  constructor(private route: ActivatedRoute, private router: Router, private testEnvironmentService: TestEnvironmentService, private artifactService: ArtifactService, private certificateService: CertificateService) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private testEnvironmentService: TestEnvironmentService,
+    private artifactService: ArtifactService,
+    private certificateService: CertificateService,
+  ) {
     this.form = new FormGroup({
       artifact: new FormControl('', [Validators.required]),
       certificate: new FormControl('', [Validators.required]),
@@ -59,7 +58,7 @@ export class TestEnvironmentEditComponent {
         });
         this.isLoading = false;
       },
-      () => this.isLoading = false
+      () => (this.isLoading = false),
     );
     this.certificateService.getAll().subscribe(
       (certificates: Certificate[]) => {
@@ -106,8 +105,6 @@ export class TestEnvironmentEditComponent {
       );
   }
 
-  
-
   public onSave({ value, valid }: { value: TestEnvironmentForm; valid: boolean }): void {
     if (!this.validateForm() || !valid || this.isSaving) {
       return;
@@ -117,7 +114,7 @@ export class TestEnvironmentEditComponent {
     const environmentDto: TestEnvironment = {
       artifactId: value.artifact,
       certificateId: value.certificate,
-      status: "UPDATE",
+      status: 'UPDATE',
     };
 
     this.testEnvironmentService.updateOne(this.currentTestEnvironment.id, environmentDto).subscribe(
@@ -143,7 +140,6 @@ export class TestEnvironmentEditComponent {
       );
     });
   }
-
 
   public onReset(): void {
     this.form.patchValue({

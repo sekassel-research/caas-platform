@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ConfirmanceTest, ConfirmanceTestService } from '@caas/web/api';
+import * as UIKit from 'uikit';
 
-// Workaround to use uikit javascript api
-declare const UIkit: any;
+import { ConfirmanceTest, ConfirmanceTestService } from '@caas/web/api';
 
 interface ConfirmanceTestForm {
   name: string;
@@ -59,7 +58,7 @@ export class ConfirmanceTestNewComponent {
     this.confirmanceTestService.create(testDto).subscribe(
       () => (this.isSaving = false),
       (error) => {
-        UIkit.notification(`Error while saving ConfirmanceTest: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
+        UIKit.notification(`Error while saving ConfirmanceTest: ${error.error.message}`, { pos: 'top-right', status: 'danger' });
         this.isSaving = false;
       },
       () => this.router.navigate(['../'], { relativeTo: this.route }),

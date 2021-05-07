@@ -1,10 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-
-// TODO: This need to be resolved, the env vars should be extracted into a shared module
-// https://github.com/nrwl/nx/issues/2570
-// eslint-disable-next-line
-import { environment } from '@caas/web/env';
+import { Inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -12,25 +7,25 @@ import { ConfirmanceTest } from './confirmance-test.interface';
 
 @Injectable()
 export class ConfirmanceTestService {
-  constructor(private http: HttpClient) {}
+  constructor(@Inject('ENV_CONF') private environment, private http: HttpClient) {}
 
   create(testDto: ConfirmanceTest): Observable<ConfirmanceTest> {
-    return this.http.post<ConfirmanceTest>(environment.httpConf.confirmancetest, testDto);
+    return this.http.post<ConfirmanceTest>(this.environment.httpConf.confirmanceTest, testDto);
   }
 
   getAll(): Observable<ConfirmanceTest[]> {
-    return this.http.get<ConfirmanceTest[]>(environment.httpConf.confirmancetest);
+    return this.http.get<ConfirmanceTest[]>(this.environment.httpConf.confirmanceTest);
   }
 
   getOne(id: string): Observable<ConfirmanceTest> {
-    return this.http.get<ConfirmanceTest>(`${environment.httpConf.confirmancetest}/${id}`);
+    return this.http.get<ConfirmanceTest>(`${this.environment.httpConf.confirmanceTest}/${id}`);
   }
 
   updateOne(id: string, testDto: ConfirmanceTest): Observable<ConfirmanceTest> {
-    return this.http.put<ConfirmanceTest>(`${environment.httpConf.confirmancetest}/${id}`, testDto);
+    return this.http.put<ConfirmanceTest>(`${this.environment.httpConf.confirmanceTest}/${id}`, testDto);
   }
 
   deleteOne(id: string): Observable<ConfirmanceTest> {
-    return this.http.delete<ConfirmanceTest>(`${environment.httpConf.confirmancetest}/${id}`);
+    return this.http.delete<ConfirmanceTest>(`${this.environment.httpConf.confirmanceTest}/${id}`);
   }
 }
