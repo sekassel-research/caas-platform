@@ -34,9 +34,6 @@ export class Artifact extends Document {
 
   @Prop({ type: Types.ObjectId })
   certificate: string;
-
-  @Prop({ type: Types.ObjectId })
-  testSuit: string[];
 }
 
 export const ArtifactSchema = SchemaFactory.createForClass(Artifact);

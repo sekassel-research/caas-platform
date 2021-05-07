@@ -5,7 +5,9 @@ export const environment = {
     resource: 'artifact-service',
   },
   mongo: {},
-  kafka: {},
+  kafka: {
+    clientId: 'artifact-service',
+  },
 
   REGEX_VERSION_FORMAT: /\d+\.\d+\.\d+/,
   REGEX_DOCKER_TAG: /([\w-]+\/)?([\w-]+:\d+\.\d+\.\d+)/,

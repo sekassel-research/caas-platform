@@ -1,32 +1,79 @@
 {
   "npmScope": "caas",
-  "affected": { "defaultBase": "master" },
+  "affected": {
+    "defaultBase": "master"
+  },
   "implicitDependencies": {
     "angular.json": "*",
-    "package.json": { "dependencies": "*", "devDependencies": "*" },
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
     "nx.json": "*"
   },
   "tasksRunnerOptions": {
-    "default": { "runner": "@nrwl/workspace/tasks-runners/default", "options": { "cacheableOperations": ["build", "lint", "test", "e2e"] } }
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
   },
   "projects": {
-    "caas": { "tags": [] },
-    "caas-e2e": { "tags": [], "implicitDependencies": ["caas"] },
-    "web-artifact-runner": { "tags": [] },
-    "web-confirmance-test": { "tags": [] },
-    "web-auth": { "tags": [] },
-    "artifact-service": { "tags": [] },
-    "srv-auth": { "tags": [] },
-    "srv-config": { "tags": [] },
-    "srv-mongo": { "tags": [] },
-    "test-suite-service": { "tags": [] },
-    "certification-service": { "tags": [] },
-    "srv-kafka": { "tags": [] },
-    "job-executor-service": { "tags": [] },
-    "web-certificate-issuer": { "tags": [] },
-    "web-api": { "tags": [] }
+    "caas": {
+      "tags": []
+    },
+    "caas-e2e": {
+      "tags": [],
+      "implicitDependencies": ["caas"]
+    },
+    "web-artifact-runner": {
+      "tags": []
+    },
+    "web-confirmance-test": {
+      "tags": []
+    },
+    "web-auth": {
+      "tags": []
+    },
+    "artifact-service": {
+      "tags": []
+    },
+    "srv-auth": {
+      "tags": []
+    },
+    "srv-config": {
+      "tags": []
+    },
+    "srv-mongo": {
+      "tags": []
+    },
+    "test-suite-service": {
+      "tags": []
+    },
+    "certification-service": {
+      "tags": []
+    },
+    "srv-kafka": {
+      "tags": []
+    },
+    "job-executor-service": {
+      "tags": []
+    },
+    "web-certificate-issuer": {
+      "tags": []
+    },
+    "web-api": {
+      "tags": []
+    },
+    "web-test-environment": {
+      "tags": []
+    },
+    "test-orchestrator-service": {
+      "tags": []
+    }
   }
 }

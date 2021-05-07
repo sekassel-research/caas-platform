@@ -509,6 +509,79 @@
           }
         }
       }
+    },
+    "web-test-environment": {
+      "projectType": "library",
+      "root": "libs/web/test-environment",
+      "sourceRoot": "libs/web/test-environment/src",
+      "prefix": "caas",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/web/test-environment/src/**/*.ts", "libs/web/test-environment/src/**/*.html"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web/test-environment"],
+          "options": {
+            "jestConfig": "libs/web/test-environment/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "test-orchestrator-service": {
+      "root": "apps/srv/test-orchestrator-service",
+      "sourceRoot": "apps/srv/test-orchestrator-service/src",
+      "projectType": "application",
+      "prefix": "test-orchestrator-service",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/srv/test-orchestrator-service",
+            "main": "apps/srv/test-orchestrator-service/src/main.ts",
+            "tsConfig": "apps/srv/test-orchestrator-service/tsconfig.app.json",
+            "assets": ["apps/srv/test-orchestrator-service/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/srv/test-orchestrator-service/src/environments/environment.ts",
+                  "with": "apps/srv/test-orchestrator-service/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "test-orchestrator-service:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/srv/test-orchestrator-service/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/srv/test-orchestrator-service"],
+          "options": {
+            "jestConfig": "apps/srv/test-orchestrator-service/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

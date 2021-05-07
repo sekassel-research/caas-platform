@@ -38,6 +38,14 @@ const routes: Routes = [
     },
   },
   {
+    path: 'environments',
+    loadChildren: () => import('@caas/web/test-environment').then((m) => m.TestEnvironmentModule),
+    canActivate: [AuthGuard],
+    data: {
+      roles: ['admin'],
+    },
+  },
+  {
     path: '**',
     redirectTo: '/',
   },

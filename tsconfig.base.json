@@ -24,7 +24,8 @@
       "@caas/srv/auth": ["libs/srv/auth/src/index.ts"],
       "@caas/srv/config": ["libs/srv/config/src/index.ts"],
       "@caas/srv/mongo": ["libs/srv/mongo/src/index.ts"],
-      "@caas/srv/kafka": ["libs/srv/kafka/src/index.ts"]
+      "@caas/srv/kafka": ["libs/srv/kafka/src/index.ts"],
+      "@caas/web/test-environment": ["libs/web/test-environment/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

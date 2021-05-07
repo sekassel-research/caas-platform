@@ -1,4 +1,4 @@
-import { IsArray, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class UpdateArtifactDto {
   @IsOptional()
@@ -16,8 +16,4 @@ export class UpdateArtifactDto {
   @IsOptional()
   @IsString()
   readonly certificate: string;
-
-  @IsOptional()
-  @IsArray()
-  readonly testSuit: string[];
 }
