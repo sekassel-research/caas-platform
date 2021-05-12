@@ -1,11 +1,10 @@
-import { Controller, Logger, UseFilters } from '@nestjs/common';
+import { Controller, Logger } from '@nestjs/common';
 import { Payload } from '@nestjs/microservices';
 
-import { KafkaTopic, JobEvent, KafkaExceptionFilter } from '@caas/srv/kafka';
+import { KafkaTopic, JobEvent } from '@caas/srv/kafka';
 
 import { JobExecutorService } from './jobExecutor.service';
 import { environment as Environment } from '../../environments/environment';
-import { CertificateGrantedEvent } from '../../../../artifact-service/src/app/artifacts/events';
 
 @Controller()
 export class JobExecutorController {
