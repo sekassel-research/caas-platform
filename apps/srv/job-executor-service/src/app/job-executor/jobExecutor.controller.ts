@@ -1,10 +1,11 @@
-import { Controller, Logger } from '@nestjs/common';
+import { Controller, Logger, UseFilters } from '@nestjs/common';
 import { Payload } from '@nestjs/microservices';
 
-import { KafkaTopic, JobEvent } from '@caas/srv/kafka';
+import { KafkaTopic, JobEvent, KafkaExceptionFilter } from '@caas/srv/kafka';
 
 import { JobExecutorService } from './jobExecutor.service';
 import { environment as Environment } from '../../environments/environment';
+import { CertificateGrantedEvent } from '../../../../artifact-service/src/app/artifacts/events';
 
 @Controller()
 export class JobExecutorController {
@@ -20,5 +21,10 @@ export class JobExecutorController {
   async onCertificateGranted(@Payload() jobEvent: JobEvent): Promise<void> {
     this.logger.log('Consumed jobexecute-Event.');
     this.jobExecutorService.executeJob(jobEvent);
+  }
+
+  @KafkaTopic(Environment.KAFKA_START_PIPELINE)
+  async onPipelineStarted(): Promise<void> {
+    this.logger.log('Consumed startpipeline-Event.');
   }
 }

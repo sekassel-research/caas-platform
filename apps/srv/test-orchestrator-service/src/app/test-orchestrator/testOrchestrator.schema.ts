@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 import * as toJson from '@meanie/mongoose-to-json';
 
@@ -8,11 +8,11 @@ export class TestOrchestrator extends Document {
   @Prop({ required: true })
   status: string;
 
-  @Prop({ required: true })
-  artifactId: string;
+  @Prop({ type: Types.ObjectId })
+  artifact: string;
 
-  @Prop({ required: true })
-  certificateId: string;
+  @Prop({ type: Types.ObjectId })
+  certificate: string;
 }
 
 export const TestOrchestratorSchema = SchemaFactory.createForClass(TestOrchestrator);

@@ -25,6 +25,7 @@
       <a routerLink="/environments/{{ environment.id }}" routerLinkActive="uk-active">
         {{ environment.artifactId }} - {{ environment.certificateId }}- {{ environment.status }}
       </a>
+      <a (click)="onStart(environment)"><span class="uk-float-right green" uk-icon="icon: play; ratio: 2" uk-tooltip="Start"></span></a>
     </li>
   </ul>
 </aside>

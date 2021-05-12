@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, NotFoundException, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { ClientKafka } from '@nestjs/microservices';
 
 import { RoleGuard, Roles } from '@caas/srv/auth';
 import { MongoIdPipe } from '@caas/srv/mongo';
@@ -6,11 +7,12 @@ import { MongoIdPipe } from '@caas/srv/mongo';
 import { TestOrchestratorService } from './testOrchestrator.service';
 import { CreateTestOrchestratorDto, UpdateTestOrchestratorDto } from './dto';
 import { TestOrchestrator } from './testOrchestrator.schema';
+import { environment as Environment } from '../../environments/environment';
 
 @Controller('test-orchestrator')
 @UseGuards(RoleGuard)
 export class TestOrchestratorController {
-  constructor(private readonly testOrchestratorService: TestOrchestratorService) {}
+  constructor(@Inject('KAFKA_SERVICE') private kafkaClient: ClientKafka, private testOrchestratorService: TestOrchestratorService) {}
 
   // -----------REST-----------
   @Post()
@@ -57,5 +59,15 @@ export class TestOrchestratorController {
     }
     await this.testOrchestratorService.deleteOne(testOrchestrator);
     return testOrchestrator;
+  }
+
+  @Post('start/:id')
+  async start(@Body() dto: UpdateTestOrchestratorDto): Promise<void> {
+    this.executePipeline(dto);
+  }
+
+  // -----------KAFKA-----------
+  executePipeline(dto: UpdateTestOrchestratorDto) {
+    this.kafkaClient.emit<string>(Environment.KAFKA_START_PIPELINE, JSON.stringify(dto));
   }
 }

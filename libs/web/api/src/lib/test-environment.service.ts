@@ -28,4 +28,9 @@ export class TestEnvironmentService {
   deleteOne(id: string): Observable<TestEnvironment> {
     return this.http.delete<TestEnvironment>(`${this.environment.httpConf.environment}/${id}`);
   }
+
+  start(id: string, testDto: TestEnvironment): Observable<TestEnvironment> {
+    console.log(testDto);
+    return this.http.post<TestEnvironment>(`${this.environment.httpConf.environment}/start/${id}`, testDto);
+  }
 }

@@ -53,4 +53,8 @@ export class TestEnvironmentComponent implements OnInit, OnDestroy {
       () => (this.isLoading = false),
     );
   }
+
+  onStart(environment: TestEnvironment) {
+    this.testEnvironmentService.start(environment.id, environment).subscribe();
+  }
 }

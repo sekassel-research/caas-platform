@@ -8,4 +8,6 @@ export const environment = {
   kafka: {
     clientId: 'test-orchestrator-service',
   },
+
+  KAFKA_START_PIPELINE: 'startpipeline',
 };
