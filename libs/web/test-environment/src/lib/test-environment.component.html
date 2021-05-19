@@ -22,10 +22,12 @@
       </div>
     </li>
     <li class="nav-item" *ngFor="let environment of environments">
-      <a routerLink="/environments/{{ environment.id }}" routerLinkActive="uk-active">
-        {{ environment.artifactId }} - {{ environment.certificateId }}- {{ environment.status }}
-      </a>
-      <a (click)="onStart(environment)"><span class="uk-float-right green" uk-icon="icon: play; ratio: 2" uk-tooltip="Start"></span></a>
+      <div class="uk-flex uk-flex-middle">
+        <a routerLink="/environments/{{ environment.id }}" routerLinkActive="uk-active">
+          {{ environment.artifactId }} - {{ environment.certificateId }}- {{ environment.status }}
+        </a>
+        <a (click)="onStart(environment)" class="green" uk-icon="icon: play; ratio: 4" uk-tooltip="Start"></a>
+      </div>
     </li>
   </ul>
 </aside>
