@@ -88,8 +88,10 @@ export class TestEnvironmentNewComponent {
 
     const environmentDto: TestEnvironment = {
       artifactId: value.artifact,
+      artifactName: "",
       certificateId: value.certificate,
-      status: 'CREATE',
+      certificateName: "",
+      status: 'CREATE'
     };
 
     console.log(environmentDto);

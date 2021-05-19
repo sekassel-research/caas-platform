@@ -113,8 +113,10 @@ export class TestEnvironmentEditComponent {
 
     const environmentDto: TestEnvironment = {
       artifactId: value.artifact,
+      artifactName: "",
       certificateId: value.certificate,
-      status: 'UPDATE',
+      certificateName: "",
+      status: 'UPDATE'
     };
 
     this.testEnvironmentService.updateOne(this.currentTestEnvironment.id, environmentDto).subscribe(

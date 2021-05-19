@@ -9,10 +9,10 @@ export class TestOrchestrator extends Document {
   status: string;
 
   @Prop({ type: Types.ObjectId })
-  artifact: string;
+  artifactId: string;
 
   @Prop({ type: Types.ObjectId })
-  certificate: string;
+  certificateId: string;
 }
 
 export const TestOrchestratorSchema = SchemaFactory.createForClass(TestOrchestrator);
