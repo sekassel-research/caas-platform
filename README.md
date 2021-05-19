@@ -16,11 +16,13 @@ To run a service use `npm run nx serve xxx` or (if `nx` is installed globally) `
 For example, to start the `artifact-service` use `nx serve artifact-service`
 
 Available services:
-
-- `artifact-service`
-- `test-suite-service`
-- `certification-service`
-- `job-executor-service`
+Service | Local Ports
+------- | ---------------
+artifact-service | 3000
+test-suite-service | 3100
+certification-service | 3200
+job-executor-service | 3300
+test-orchestrator-service | 3400
 
 Events produces by services:
 Service | Incoming Events | Outgoing Events
