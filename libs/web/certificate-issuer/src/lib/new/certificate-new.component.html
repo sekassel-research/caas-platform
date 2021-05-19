@@ -4,6 +4,11 @@
       <div uk-spinner="ratio: 2"></div>
     </div>
   </div>
+  <li *ngIf="isLoading" class="uk-overlay-default uk-position-cover">
+    <div class="uk-position-center">
+      <div uk-spinner="ratio: 2"></div>
+    </div>
+  </li>
   <div class="uk-card-header">
     <h1 class="uk-card-title">Create a new Certificate</h1>
   </div>
@@ -51,6 +56,20 @@
             type="text"
             placeholder="CoolSignature"
           />
+        </div>
+      </div>
+      <div class="form-item">
+        <label class="uk-form-label" for="test-confirmanceTest">Tests</label>
+        <div class="uk-form-controls">
+          <select
+            class="uk-select"
+            multiple
+            [class.uk-form-danger]="confirmanceTest.invalid && (confirmanceTest.dirty || confirmanceTest.touched || errMsgs.length > 0)"
+            formControlName="confirmanceTest"
+            id="test-confirmanceTest"
+          >
+            <option *ngFor="let confirmanceTest of masterConfirmanceTests" [value]="confirmanceTest.id">{{ confirmanceTest.name }} - {{ confirmanceTest.version }}</option>
+          </select>
         </div>
       </div>
     </div>

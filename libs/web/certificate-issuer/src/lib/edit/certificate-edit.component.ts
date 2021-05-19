@@ -5,12 +5,13 @@ import { switchMap, tap } from 'rxjs/operators';
 
 import * as UIKit from 'uikit';
 
-import { Certificate, CertificateService } from '@caas/web/api';
+import {Certificate, CertificateService, ConfirmanceTest, ConfirmanceTestService} from '@caas/web/api';
 
 interface CertificateForm {
   name: string;
   version: string;
   signature: string;
+  confirmanceTest: string[];
 }
 
 @Component({
@@ -27,12 +28,34 @@ export class CertificateEditComponent implements OnInit {
 
   private currentCertificate!: Certificate;
 
-  constructor(private route: ActivatedRoute, private router: Router, private certificateService: CertificateService) {
+  public masterConfirmanceTests: ConfirmanceTest[] = [];
+
+  // eslint-disable-next-line max-len
+  constructor(private route: ActivatedRoute, private router: Router, private certificateService: CertificateService, private confirmanceTestService: ConfirmanceTestService) {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required]),
       version: new FormControl('', [Validators.required, Validators.pattern(/\d+\.\d+\.\d+/)]),
       signature: new FormControl('', [Validators.required]),
+      confirmanceTest: new FormControl('', [Validators.required]),
     });
+    this.loadConfirmanceTests();
+  }
+
+  private loadConfirmanceTests(): void {
+    this.isLoading = true;
+    this.confirmanceTestService.getAll().subscribe(
+      (confirmanceTests: ConfirmanceTest[]) => {
+        this.masterConfirmanceTests = confirmanceTests;
+      },
+      (error) => {
+        UIKit.notification(`Error while loading ConfirmanceTests: ${error.error.message}`, {
+          pos: 'top-right',
+          status: 'danger',
+        });
+        this.isLoading = false;
+      },
+      () => (this.isLoading = false),
+    );
   }
 
   get name(): FormControl {
@@ -51,6 +74,10 @@ export class CertificateEditComponent implements OnInit {
     return this.form.get('certificate') as FormControl;
   }
 
+  get confirmanceTest(): FormControl {
+    return this.form.get('confirmanceTest') as FormControl;
+  }
+
   ngOnInit(): void {
     this.route.params
       .pipe(
@@ -60,10 +87,12 @@ export class CertificateEditComponent implements OnInit {
       .subscribe(
         (data) => {
           this.currentCertificate = data;
+          console.log(data)
           this.form.patchValue({
             name: data.name,
             version: data.version,
             signature: data.signature,
+            confirmanceTest: data.confirmanceTests
           });
         },
         (error) => {
@@ -83,6 +112,7 @@ export class CertificateEditComponent implements OnInit {
       name: value.name,
       version: value.version,
       signature: value.signature,
+      confirmanceTests: value.confirmanceTest,
     };
 
     this.certificateService.updateOne(this.currentCertificate.id, certificateDto).subscribe(
@@ -100,6 +130,7 @@ export class CertificateEditComponent implements OnInit {
       name: this.currentCertificate.name,
       version: this.currentCertificate.version,
       signature: this.currentCertificate.signature,
+      confirmanceTest: this.currentCertificate.confirmanceTests,
     });
   }
 

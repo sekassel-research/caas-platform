@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import {Document, Types} from 'mongoose';
 
 import * as toJson from '@meanie/mongoose-to-json';
 
@@ -13,6 +13,9 @@ export class Certificate extends Document {
 
   @Prop({ required: true })
   signature: string;
+
+  @Prop({ type: [Types.ObjectId], required: true })
+  confirmanceTests: string[];
 }
 
 export const CertificateSchema = SchemaFactory.createForClass(Certificate);

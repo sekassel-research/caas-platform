@@ -4,12 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import * as UIKit from 'uikit';
 
-import { Certificate, CertificateService } from '@caas/web/api';
+import {Certificate, CertificateService, ConfirmanceTest, ConfirmanceTestService} from '@caas/web/api';
 
 interface CertificateForm {
   name: string;
   version: string;
   signature: string;
+  confirmanceTest: string[];
 }
 
 @Component({
@@ -23,12 +24,35 @@ export class CertificateNewComponent {
   public isSaving = false;
   public errMsgs: string[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private certificateService: CertificateService) {
+  public masterConfirmanceTests: ConfirmanceTest[] = [];
+
+  public isLoading = true;
+  // eslint-disable-next-line max-len
+  constructor(private route: ActivatedRoute, private router: Router, private certificateService: CertificateService, private confirmanceTestService: ConfirmanceTestService) {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required]),
       version: new FormControl('', [Validators.required, Validators.pattern(/\d+\.\d+\.\d+/)]),
       signature: new FormControl('', [Validators.required]),
+      confirmanceTest: new FormControl('', [Validators.required]),
     });
+    this.loadConfirmanceTests();
+  }
+
+  private loadConfirmanceTests(): void {
+    this.isLoading = true;
+    this.confirmanceTestService.getAll().subscribe(
+      (confirmanceTests: ConfirmanceTest[]) => {
+        this.masterConfirmanceTests = confirmanceTests;
+      },
+      (error) => {
+        UIKit.notification(`Error while loading ConfirmanceTests: ${error.error.message}`, {
+          pos: 'top-right',
+          status: 'danger',
+        });
+        this.isLoading = false;
+      },
+      () => (this.isLoading = false),
+    );
   }
 
   get name(): FormControl {
@@ -43,6 +67,10 @@ export class CertificateNewComponent {
     return this.form.get('signature') as FormControl;
   }
 
+  get confirmanceTest(): FormControl {
+    return this.form.get('confirmanceTest') as FormControl;
+  }
+
   public onCreate({ value, valid }: { value: CertificateForm; valid: boolean }): void {
     if (!this.validateForm() || !valid) {
       return;
@@ -53,7 +81,10 @@ export class CertificateNewComponent {
       name: value.name,
       version: value.version,
       signature: value.signature,
+      confirmanceTests: value.confirmanceTest,
     };
+
+    console.log(certificateDto);
 
     this.certificateService.create(certificateDto).subscribe(
       () => (this.isSaving = false),
@@ -70,6 +101,7 @@ export class CertificateNewComponent {
       name: '',
       version: '',
       signature: '',
+      confirmanceTest: [],
     });
   }
 
@@ -93,7 +125,11 @@ export class CertificateNewComponent {
         this.errMsgs.push('Signatur is required.');
       }
     }
-
+    if (this.confirmanceTest.invalid && this.confirmanceTest.errors) {
+      if (this.confirmanceTest.errors.required) {
+        this.errMsgs.push('ConfirmanceTests is required.');
+      }
+    }
     return this.errMsgs.length === 0;
   }
 }

@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import {IsOptional, IsString} from 'class-validator';
 
 export class UpdateCertificateDto {
   @IsOptional()
@@ -12,4 +12,7 @@ export class UpdateCertificateDto {
   @IsOptional()
   @IsString()
   readonly signature?: string;
+
+  @IsOptional()
+  readonly confirmanceTests?: string[];
 }
