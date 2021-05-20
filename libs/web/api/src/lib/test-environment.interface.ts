@@ -6,3 +6,10 @@ export interface TestEnvironment {
   certificateName: string;
   readonly status: string;
 }
+
+export interface TestEnvironmentDto {
+  readonly id?: string;
+  readonly artifactId: string;
+  readonly certificateId: string;
+  readonly status: string;
+}

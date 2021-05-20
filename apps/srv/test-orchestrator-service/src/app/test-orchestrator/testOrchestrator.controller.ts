@@ -23,6 +23,11 @@ export class TestOrchestratorController {
     return this.testOrchestratorService.create(dto);
   }
 
+  @Post('start/:id')
+  async startTestEnvironment(@Body() dto: UpdateTestOrchestratorDto): Promise<void> {
+    this.executePipeline(dto);
+  }
+
   @Get()
   @Roles('r')
   async getAll(): Promise<TestOrchestrator[]> {
@@ -59,11 +64,6 @@ export class TestOrchestratorController {
     }
     await this.testOrchestratorService.deleteOne(testOrchestrator);
     return testOrchestrator;
-  }
-
-  @Post('start/:id')
-  async start(@Body() dto: UpdateTestOrchestratorDto): Promise<void> {
-    this.executePipeline(dto);
   }
 
   // -----------KAFKA-----------

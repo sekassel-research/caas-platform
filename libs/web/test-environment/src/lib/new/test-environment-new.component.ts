@@ -2,7 +2,15 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { TestEnvironment, TestEnvironmentService, Artifact, ArtifactService, Certificate, CertificateService } from '@caas/web/api';
+import {
+  TestEnvironment,
+  TestEnvironmentService,
+  Artifact,
+  ArtifactService,
+  Certificate,
+  CertificateService,
+  TestEnvironmentDto,
+} from '@caas/web/api';
 
 import * as UIKit from 'uikit';
 
@@ -86,12 +94,10 @@ export class TestEnvironmentNewComponent {
     }
     this.isSaving = true;
 
-    const environmentDto: TestEnvironment = {
+    const environmentDto: TestEnvironmentDto = {
       artifactId: value.artifact,
-      artifactName: "",
       certificateId: value.certificate,
-      certificateName: "",
-      status: 'CREATE'
+      status: 'CREATE',
     };
 
     console.log(environmentDto);

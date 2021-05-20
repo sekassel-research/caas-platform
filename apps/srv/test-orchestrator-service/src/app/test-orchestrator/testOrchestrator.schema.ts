@@ -8,10 +8,10 @@ export class TestOrchestrator extends Document {
   @Prop({ required: true })
   status: string;
 
-  @Prop({ type: Types.ObjectId })
+  @Prop({ required: true, type: Types.ObjectId })
   artifactId: string;
 
-  @Prop({ type: Types.ObjectId })
+  @Prop({ required: true, type: Types.ObjectId })
   certificateId: string;
 }
 

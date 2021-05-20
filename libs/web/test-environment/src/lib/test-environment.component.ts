@@ -4,14 +4,7 @@ import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import {
-  Artifact,
-  ArtifactService,
-  Certificate,
-  CertificateService,
-  TestEnvironment,
-  TestEnvironmentService
-} from '@caas/web/api';
+import { Artifact, ArtifactService, Certificate, CertificateService, TestEnvironment, TestEnvironmentService } from '@caas/web/api';
 
 import * as UIKit from 'uikit';
 
@@ -29,10 +22,12 @@ export class TestEnvironmentComponent implements OnInit, OnDestroy {
 
   private routerSubscription: Subscription;
 
-  constructor(private router: Router,
-              private testEnvironmentService: TestEnvironmentService,
-              private artifactService: ArtifactService,
-              private certificateService: CertificateService,) {
+  constructor(
+    private router: Router,
+    private testEnvironmentService: TestEnvironmentService,
+    private artifactService: ArtifactService,
+    private certificateService: CertificateService,
+  ) {
     this.routerSubscription = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: Event) => {
       const e = event as NavigationEnd;
       if (e.url === '/environments' && e.urlAfterRedirects === '/environments/overview') {
@@ -96,15 +91,15 @@ export class TestEnvironmentComponent implements OnInit, OnDestroy {
       },
       () => {
         this.environments.forEach((e) => {
-          e.artifactName = this.artifacts.find(x => x.id == e.artifactId).name;
-          e.certificateName = this.certificates.find(x => x.id == e.certificateId).name;
-        })
-        this.isLoading = false
+          e.artifactName = this.artifacts.find((x) => x.id == e.artifactId).name;
+          e.certificateName = this.certificates.find((x) => x.id == e.certificateId).name;
+        });
+        this.isLoading = false;
       },
     );
   }
 
   onStart(environment: TestEnvironment) {
-    this.testEnvironmentService.start(environment.id, environment).subscribe();
+    this.testEnvironmentService.startTestEnvironment(environment.id, environment).subscribe();
   }
 }
