@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 
-import { Subscription } from 'rxjs';
+import { concat, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { Artifact, ArtifactService, Certificate, CertificateService, TestEnvironment, TestEnvironmentService } from '@caas/web/api';
@@ -31,65 +31,38 @@ export class TestEnvironmentComponent implements OnInit, OnDestroy {
     this.routerSubscription = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: Event) => {
       const e = event as NavigationEnd;
       if (e.url === '/environments' && e.urlAfterRedirects === '/environments/overview') {
-        this.loadTestEnvironments();
+        this.loadElements();
       }
     });
   }
 
   ngOnInit(): void {
-    this.loadTestEnvironments();
+    this.loadElements();
   }
 
   ngOnDestroy(): void {
     this.routerSubscription.unsubscribe();
   }
 
-  private loadArtifactsAndCertificates(): void {
+  private loadElements(): void {
     this.isLoading = true;
-    this.artifactService.getAll().subscribe(
-      (artifacts: Artifact[]) => {
-        this.artifacts = artifacts;
-      },
-      (error) => {
-        UIKit.notification(`Error while loading Artifacts: ${error.error.message}`, {
-          pos: 'top-right',
-          status: 'danger',
-        });
-        this.isLoading = false;
-      },
-      () => (this.isLoading = false),
-    );
-    this.certificateService.getAll().subscribe(
-      (certificates: Certificate[]) => {
-        this.certificates = certificates;
-      },
-      (error) => {
-        UIKit.notification(`Error while loading Certificates: ${error.error.message}`, {
-          pos: 'top-right',
-          status: 'danger',
-        });
-        this.isLoading = false;
-      },
-      () => (this.isLoading = false),
-    );
-  }
 
-  private loadTestEnvironments(): void {
-    this.isLoading = true;
-    this.loadArtifactsAndCertificates();
-
-    this.testEnvironmentService.getAll().subscribe(
-      (environments: TestEnvironment[]) => {
-        this.environments = environments;
+    const list = [];
+    concat(this.artifactService.getAll(), this.certificateService.getAll(), this.testEnvironmentService.getAll()).subscribe(
+      (val) => {
+        list.push(val);
       },
       (error) => {
-        UIKit.notification(`Error while loading Test Environments: ${error.error.message}`, {
+        UIKit.notification(`Error while loading Elements: ${error.error.message}`, {
           pos: 'top-right',
           status: 'danger',
         });
         this.isLoading = false;
       },
       () => {
+        this.artifacts = list[0];
+        this.certificates = list[1];
+        this.environments = list[2];
         this.environments.forEach((e) => {
           e.artifactName = this.artifacts.find((x) => x.id == e.artifactId).name;
           e.certificateName = this.certificates.find((x) => x.id == e.certificateId).name;
