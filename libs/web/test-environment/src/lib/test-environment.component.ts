@@ -53,7 +53,19 @@ export class TestEnvironmentComponent implements OnInit, OnDestroy {
         list.push(val);
       },
       (error) => {
-        UIKit.notification(`Error while loading Elements: ${error.error.message}`, {
+        let name = 'undefined';
+        switch (list.length) {
+          case 0:
+            name = 'artifacts';
+            break;
+          case 1:
+            name = 'certificates';
+            break;
+          case 2:
+            name = 'test-environments';
+            break;
+        }
+        UIKit.notification(`Error while loading ${name}: ${error.error.message}`, {
           pos: 'top-right',
           status: 'danger',
         });
