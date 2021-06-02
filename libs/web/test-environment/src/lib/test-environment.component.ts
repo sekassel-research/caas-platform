@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 
-import { concat, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import * as UIKit from 'uikit';
+
+import { forkJoin, Observable, of, Subscription } from 'rxjs';
+import { catchError, filter, mapTo, switchMap, tap } from 'rxjs/operators';
 
 import { Artifact, ArtifactService, Certificate, CertificateService, TestEnvironment, TestEnvironmentService } from '@caas/web/api';
-
-import * as UIKit from 'uikit';
 
 @Component({
   selector: 'caas-test-environment',
@@ -15,8 +15,6 @@ import * as UIKit from 'uikit';
 })
 export class TestEnvironmentComponent implements OnInit, OnDestroy {
   public environments: TestEnvironment[] = [];
-  private artifacts: Artifact[] = [];
-  private certificates: Certificate[] = [];
 
   public isLoading = true;
 
@@ -47,41 +45,46 @@ export class TestEnvironmentComponent implements OnInit, OnDestroy {
   private loadElements(): void {
     this.isLoading = true;
 
-    const list = [];
-    concat(this.artifactService.getAll(), this.certificateService.getAll(), this.testEnvironmentService.getAll()).subscribe(
-      (val) => {
-        list.push(val);
-      },
-      (error) => {
-        let name = 'undefined';
-        switch (list.length) {
-          case 0:
-            name = 'artifacts';
-            break;
-          case 1:
-            name = 'certificates';
-            break;
-          case 2:
-            name = 'test-environments';
-            break;
-        }
-        UIKit.notification(`Error while loading ${name}: ${error.error.message}`, {
-          pos: 'top-right',
-          status: 'danger',
-        });
-        this.isLoading = false;
-      },
-      () => {
-        this.artifacts = list[0];
-        this.certificates = list[1];
-        this.environments = list[2];
-        this.environments.forEach((e) => {
-          e.artifactName = this.artifacts.find((x) => x.id == e.artifactId).name;
-          e.certificateName = this.certificates.find((x) => x.id == e.certificateId).name;
-        });
-        this.isLoading = false;
-      },
-    );
+    this.testEnvironmentService
+      .getAll()
+      .pipe(switchMap((environments) => forkJoin(environments.map((environment) => this.resolveEnvironment(environment)))))
+      .subscribe(
+        (environments) => {
+          this.environments = environments;
+        },
+        (error) => {
+          this.displayErrorMessage(error, 'TestEnvironment');
+        },
+        () => {
+          this.isLoading = false;
+        },
+      );
+  }
+
+  private resolveEnvironment(environment: TestEnvironment): Observable<TestEnvironment> {
+    return forkJoin([
+      this.artifactService.getOne(environment.artifactId).pipe(
+        tap((artifact) => (environment.artifactName = artifact.name)),
+        catchError((error) => {
+          this.displayErrorMessage(error, 'Artifact');
+          return of(undefined);
+        }),
+      ),
+      this.certificateService.getOne(environment.certificateId).pipe(
+        tap((certificate) => (environment.certificateName = certificate.name)),
+        catchError((error) => {
+          this.displayErrorMessage(error, 'Certificate');
+          return of(undefined);
+        }),
+      ),
+    ]).pipe(mapTo(environment));
+  }
+
+  displayErrorMessage(error: any, message: string) {
+    UIKit.notification(`Error while loading ${message}: ${error.error.message}`, {
+      pos: 'top-right',
+      status: 'danger',
+    });
   }
 
   onStart(environment: TestEnvironment) {
