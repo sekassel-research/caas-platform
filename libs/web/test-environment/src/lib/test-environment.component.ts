@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Event, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 import * as UIKit from 'uikit';
 
-import { forkJoin, Observable, of, Subscription } from 'rxjs';
-import { catchError, filter, mapTo, switchMap, tap } from 'rxjs/operators';
+import { EMPTY, forkJoin, Observable, of, Subscription } from 'rxjs';
+import { catchError, map, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
 
 import { Artifact, ArtifactService, Certificate, CertificateService, TestEnvironment, TestEnvironmentService } from '@caas/web/api';
 
@@ -25,29 +25,22 @@ export class TestEnvironmentComponent implements OnInit, OnDestroy {
     private testEnvironmentService: TestEnvironmentService,
     private artifactService: ArtifactService,
     private certificateService: CertificateService,
-  ) {
-    this.routerSubscription = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: Event) => {
-      const e = event as NavigationEnd;
-      if (e.url === '/environments' && e.urlAfterRedirects === '/environments/overview') {
-        this.loadElements();
-      }
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.loadElements();
-  }
-
-  ngOnDestroy(): void {
-    this.routerSubscription.unsubscribe();
-  }
-
-  private loadElements(): void {
-    this.isLoading = true;
-
-    this.testEnvironmentService
-      .getAll()
-      .pipe(switchMap((environments) => forkJoin(environments.map((environment) => this.resolveEnvironment(environment)))))
+    this.routerSubscription = this.router.events
+      .pipe(
+        map((event) => event instanceof NavigationEnd && event.url === '/environments' && event.urlAfterRedirects === '/environments/overview'),
+        startWith(true),
+        switchMap((shouldLoad) => {
+          if (shouldLoad) {
+            this.isLoading = true;
+            return this.loadElements();
+          }
+          return EMPTY;
+        }),
+        tap(() => (this.isLoading = false)),
+      )
       .subscribe(
         (environments) => {
           this.environments = environments;
@@ -55,10 +48,17 @@ export class TestEnvironmentComponent implements OnInit, OnDestroy {
         (error) => {
           this.displayErrorMessage(error, 'TestEnvironment');
         },
-        () => {
-          this.isLoading = false;
-        },
       );
+  }
+
+  ngOnDestroy(): void {
+    this.routerSubscription.unsubscribe();
+  }
+
+  private loadElements(): Observable<TestEnvironment[]> {
+    return this.testEnvironmentService
+      .getAll()
+      .pipe(switchMap((environments) => forkJoin(environments.map((environment) => this.resolveEnvironment(environment)))));
   }
 
   private resolveEnvironment(environment: TestEnvironment): Observable<TestEnvironment> {
