@@ -16,7 +16,7 @@ import { ArtifactService, CertificateService, TestEnvironment, TestEnvironmentSe
 export class TestEnvironmentComponent implements OnInit, OnDestroy {
   public environments: TestEnvironment[] = [];
 
-  public isLoading = true;
+  public isLoading = false;
 
   private routerSubscription: Subscription;
 
@@ -25,30 +25,42 @@ export class TestEnvironmentComponent implements OnInit, OnDestroy {
     private testEnvironmentService: TestEnvironmentService,
     private artifactService: ArtifactService,
     private certificateService: CertificateService,
-  ) {}
+  ) {
+    this.routerSubscription = this.router.events
+    .pipe(
+      map((event) => event instanceof NavigationEnd && event.url === '/environments' && event.urlAfterRedirects === '/environments/overview'),
+      startWith(true),
+      switchMap((shouldLoad) => {
+        if (shouldLoad) {
+          this.isLoading = true;
+          return this.loadElements();
+        }
+        this.isLoading = false;
+        return EMPTY;
+      }),
+      tap(() => (this.isLoading = false)),
+    )
+    .subscribe(
+      (environments) => {
+        this.environments = environments;
+      },
+      (error) => {
+        this.displayErrorMessage(error, 'TestEnvironment');
+      }
+    );
+  }
 
   ngOnInit(): void {
-    this.routerSubscription = this.router.events
-      .pipe(
-        map((event) => event instanceof NavigationEnd && event.url === '/environments' && event.urlAfterRedirects === '/environments/overview'),
-        startWith(true),
-        switchMap((shouldLoad) => {
-          if (shouldLoad) {
-            this.isLoading = true;
-            return this.loadElements();
-          }
-          return EMPTY;
-        }),
-        tap(() => (this.isLoading = false)),
-      )
-      .subscribe(
-        (environments) => {
-          this.environments = environments;
-        },
-        (error) => {
-          this.displayErrorMessage(error, 'TestEnvironment');
-        },
-      );
+    this.isLoading = true;
+    this.loadElements().subscribe(
+      (environments) => {
+        this.environments = environments;
+      },
+      (error) => {
+        this.displayErrorMessage(error, 'TestEnvironment');
+      }, 
+      () => (this.isLoading = false),
+    );
   }
 
   ngOnDestroy(): void {
