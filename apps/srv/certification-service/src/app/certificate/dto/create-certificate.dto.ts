@@ -1,5 +1,4 @@
-import {IsArray, IsNotEmpty, IsString} from 'class-validator';
-import {Type} from "class-transformer";
+import {IsNotEmpty, IsString} from 'class-validator';
 
 export class CreateCertificateDto {
   @IsNotEmpty()
@@ -15,7 +14,6 @@ export class CreateCertificateDto {
   readonly signature: string;
 
   @IsNotEmpty()
-  @IsArray()
-  @Type(() => String)
+  @IsString({ each: true })
   readonly confirmanceTests: string[];
 }

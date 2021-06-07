@@ -30,8 +30,12 @@ export class CertificateEditComponent implements OnInit {
 
   public masterConfirmanceTests: ConfirmanceTest[] = [];
 
-  // eslint-disable-next-line max-len
-  constructor(private route: ActivatedRoute, private router: Router, private certificateService: CertificateService, private confirmanceTestService: ConfirmanceTestService) {
+  constructor(
+    private route: ActivatedRoute, 
+    private router: Router, 
+    private certificateService: CertificateService, 
+    private confirmanceTestService: ConfirmanceTestService
+  ) {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required]),
       version: new FormControl('', [Validators.required, Validators.pattern(/\d+\.\d+\.\d+/)]),

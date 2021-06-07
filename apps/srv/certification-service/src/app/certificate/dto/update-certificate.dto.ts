@@ -14,5 +14,6 @@ export class UpdateCertificateDto {
   readonly signature?: string;
 
   @IsOptional()
+  @IsString({ each: true })
   readonly confirmanceTests?: string[];
 }
