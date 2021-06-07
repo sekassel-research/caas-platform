@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import {IsNotEmpty, IsString} from 'class-validator';
 
 export class CreateCertificateDto {
   @IsNotEmpty()
@@ -12,4 +12,8 @@ export class CreateCertificateDto {
   @IsNotEmpty()
   @IsString()
   readonly signature: string;
+
+  @IsNotEmpty()
+  @IsString({ each: true })
+  readonly confirmanceTests: string[];
 }

@@ -54,6 +54,20 @@
           />
         </div>
       </div>
+      <div class="form-item">
+        <label class="uk-form-label" for="certificate-confirmanceTest">Tests</label>
+        <div class="uk-form-controls">
+          <select
+            class="uk-select"
+            multiple
+            [class.uk-form-danger]="confirmanceTest.invalid && (confirmanceTest.dirty || confirmanceTest.touched || errMsgs.length > 0)"
+            formControlName="confirmanceTest"
+            id="certificate-confirmanceTest"
+          >
+            <option *ngFor="let confirmanceTest of masterConfirmanceTests" [value]="confirmanceTest.id">{{ confirmanceTest.name }} - {{ confirmanceTest.version }}</option>
+          </select>
+        </div>
+      </div>
     </div>
   </form>
   <div class="uk-card-footer uk-padding-remove">

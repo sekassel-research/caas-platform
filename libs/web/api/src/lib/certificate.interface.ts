@@ -3,4 +3,5 @@ export interface Certificate {
   readonly name: string;
   readonly version: string;
   readonly signature: string;
+  readonly confirmanceTests: string[];
 }
