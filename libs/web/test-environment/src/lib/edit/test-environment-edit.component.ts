@@ -3,7 +3,15 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { switchMap, tap } from 'rxjs/operators';
 
-import { TestEnvironment, TestEnvironmentService, Artifact, ArtifactService, Certificate, CertificateService } from '@caas/web/api';
+import {
+  TestEnvironment,
+  TestEnvironmentService,
+  Artifact,
+  ArtifactService,
+  Certificate,
+  CertificateService,
+  TestEnvironmentDto,
+} from '@caas/web/api';
 
 import * as UIKit from 'uikit';
 
@@ -111,7 +119,7 @@ export class TestEnvironmentEditComponent {
     }
     this.isSaving = true;
 
-    const environmentDto: TestEnvironment = {
+    const environmentDto: TestEnvironmentDto = {
       artifactId: value.artifact,
       certificateId: value.certificate,
       status: 'UPDATE',

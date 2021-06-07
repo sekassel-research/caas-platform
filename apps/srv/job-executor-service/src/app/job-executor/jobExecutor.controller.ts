@@ -21,4 +21,9 @@ export class JobExecutorController {
     this.logger.log('Consumed jobexecute-Event.');
     this.jobExecutorService.executeJob(jobEvent);
   }
+
+  @KafkaTopic(Environment.KAFKA_START_PIPELINE)
+  async onPipelineStarted(): Promise<void> {
+    this.logger.log('Consumed startpipeline-Event.');
+  }
 }

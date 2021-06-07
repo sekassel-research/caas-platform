@@ -15,4 +15,5 @@ export const environment = {
   KAFKA_JOB_FINISHED: 'jobfinished',
   KAFKA_JOB_EXECUTE: 'jobexecute',
   KAFKA_CERTIFICATION: 'certification',
+  KAFKA_START_PIPELINE: 'startpipeline',
 };
