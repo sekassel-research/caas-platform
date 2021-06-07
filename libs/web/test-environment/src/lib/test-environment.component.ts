@@ -6,7 +6,7 @@ import * as UIKit from 'uikit';
 import { EMPTY, forkJoin, Observable, of, Subscription } from 'rxjs';
 import { catchError, map, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
 
-import { Artifact, ArtifactService, Certificate, CertificateService, TestEnvironment, TestEnvironmentService } from '@caas/web/api';
+import { ArtifactService, CertificateService, TestEnvironment, TestEnvironmentService } from '@caas/web/api';
 
 @Component({
   selector: 'caas-test-environment',
