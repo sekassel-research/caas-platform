@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Event, NavigationEnd, Router } from '@angular/router';
-
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
-
-import { TestEnvironment, TestEnvironmentService } from '@caas/web/api';
+import { NavigationEnd, Router } from '@angular/router';
 
 import * as UIKit from 'uikit';
+
+import { EMPTY, forkJoin, Observable, of, Subscription } from 'rxjs';
+import { catchError, map, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
+
+import { ArtifactService, CertificateService, TestEnvironment, TestEnvironmentService } from '@caas/web/api';
 
 @Component({
   selector: 'caas-test-environment',
@@ -20,37 +20,74 @@ export class TestEnvironmentComponent implements OnInit, OnDestroy {
 
   private routerSubscription: Subscription;
 
-  constructor(private router: Router, private testEnvironmentService: TestEnvironmentService) {
-    this.routerSubscription = this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: Event) => {
-      const e = event as NavigationEnd;
-      if (e.url === '/environments' && e.urlAfterRedirects === '/environments/overview') {
-        this.loadTestEnvironments();
-      }
-    });
-  }
+  constructor(
+    private router: Router,
+    private testEnvironmentService: TestEnvironmentService,
+    private artifactService: ArtifactService,
+    private certificateService: CertificateService,
+  ) {}
 
   ngOnInit(): void {
-    this.loadTestEnvironments();
+    this.routerSubscription = this.router.events
+      .pipe(
+        map((event) => event instanceof NavigationEnd && event.url === '/environments' && event.urlAfterRedirects === '/environments/overview'),
+        startWith(true),
+        switchMap((shouldLoad) => {
+          if (shouldLoad) {
+            this.isLoading = true;
+            return this.loadElements();
+          }
+          return EMPTY;
+        }),
+        tap(() => (this.isLoading = false)),
+      )
+      .subscribe(
+        (environments) => {
+          this.environments = environments;
+        },
+        (error) => {
+          this.displayErrorMessage(error, 'TestEnvironment');
+        },
+      );
   }
 
   ngOnDestroy(): void {
     this.routerSubscription.unsubscribe();
   }
 
-  private loadTestEnvironments(): void {
-    this.isLoading = true;
-    this.testEnvironmentService.getAll().subscribe(
-      (environments: TestEnvironment[]) => {
-        this.environments = environments;
-      },
-      (error) => {
-        UIKit.notification(`Error while loading Test Environments: ${error.error.message}`, {
-          pos: 'top-right',
-          status: 'danger',
-        });
-        this.isLoading = false;
-      },
-      () => (this.isLoading = false),
-    );
+  private loadElements(): Observable<TestEnvironment[]> {
+    return this.testEnvironmentService
+      .getAll()
+      .pipe(switchMap((environments) => forkJoin(environments.map((environment) => this.resolveEnvironment(environment)))));
+  }
+
+  private resolveEnvironment(environment: TestEnvironment): Observable<TestEnvironment> {
+    return forkJoin([
+      this.artifactService.getOne(environment.artifactId).pipe(
+        tap((artifact) => (environment.artifactName = artifact.name)),
+        catchError((error) => {
+          this.displayErrorMessage(error, 'Artifact');
+          return of(undefined);
+        }),
+      ),
+      this.certificateService.getOne(environment.certificateId).pipe(
+        tap((certificate) => (environment.certificateName = certificate.name)),
+        catchError((error) => {
+          this.displayErrorMessage(error, 'Certificate');
+          return of(undefined);
+        }),
+      ),
+    ]).pipe(mapTo(environment));
+  }
+
+  displayErrorMessage(error: any, message: string) {
+    UIKit.notification(`Error while loading ${message}: ${error.error.message}`, {
+      pos: 'top-right',
+      status: 'danger',
+    });
+  }
+
+  onStart(environment: TestEnvironment) {
+    this.testEnvironmentService.startTestEnvironment(environment.id, environment).subscribe();
   }
 }
